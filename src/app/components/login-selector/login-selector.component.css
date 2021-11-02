@@ -1,0 +1,13 @@
+.card{
+    min-height: 300px;
+}
+
+.card:hover { 
+    background: #c4c4c4; 
+    opacity: 1;
+    margin-top: 0px;
+}  
+
+.card-img-top{
+    min-height: 170px;
+}

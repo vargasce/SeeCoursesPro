@@ -1,0 +1,8 @@
+<div class="container">
+    <input  type="file" class="form-control mt-3" placeholder="Imagen"  (change)="fileChangeEventFoto($event)">
+    <button type="submit" (click)="subirImagen()">Subir imagen</button>
+</div>
+
+<div class="card-body">
+    <img src="{{bajarImagen()}}"  class="card-img-top"alt="">
+</div>

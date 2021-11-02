@@ -1,0 +1,49 @@
+.card{
+    margin-top: 100px;
+}
+
+tr:hover{
+    background: rgba(190, 190, 190, 0.459);
+    opacity: 1;
+    margin-top: 0px;
+}
+
+.noHover:hover{
+    background: rgba(255, 255, 255, 0);
+}
+
+.modal{
+    background-color: rgba(0, 0, 0, 0.5);
+    position:fixed;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;  
+    align-items: center;
+  }
+
+.modal-content{
+    margin-top: 20%; 
+}
+
+.btn-dark{
+    width: 100%;
+}
+.modal-header{
+   background-color: #212529;
+   color: white;
+}
+#tabla{
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.card:hover{
+    background: transparent;
+}
+
+.btn-dark{
+    max-width: 150px;
+    margin-left: 89%;
+}

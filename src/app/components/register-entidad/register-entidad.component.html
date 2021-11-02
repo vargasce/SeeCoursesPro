@@ -1,0 +1,92 @@
+<div class="container pt-4 mt-5">
+    <div class="row">
+        <div class="col-lg-6 offset-lg-3">
+            <div class="card">
+                <div class="card-body">
+                    <h1 style="line-height: 1.2; font-size: 1.75rem; font-weight: 500;" class="text-center">Ingresar datos de Usuario
+                    </h1>
+                    <h3 class="text-danger text-center mt-3" *ngIf="submitted && registrarUsuario.invalid">TODOS LOS CAMPOS SON OBLIGATORIOS</h3>
+                    <form name ="registrarUsuarioDataForm"  #registrarUsuarioDataForm="ngForm"  class="mt-4" [formGroup]="registrarUsuario" (ngSubmit)="addEntidad()">
+                        <input #usuarioForm name="usuario"  [(ngModel)]="usuarioModel.usuario" type="text" class="form-control mt-3" placeholder="Usuario" formControlName="usuario">                          
+                        <input id="pass" #passForm name="pass"  [(ngModel)]="usuarioModel.pass" type="password" class="form-control mt-3" placeholder="Constraseña" formControlName="pass">  
+                        <input id="confirm_pass" type="password" class="form-control mt-3" placeholder="Confirmar Constraseña" (keyup)="confirmarContrasena()">                              
+                        <h4 class="text-danger mt-3" *ngIf="!validarPass">Las contraseñas no son iguales</h4>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="container pt-4 mt-5">
+    <div class="row">
+        <div class="col-lg-6 offset-lg-3">
+            <div class="card">
+                <div class="card-body">
+                    <h1 style="line-height: 1.2; font-size: 1.75rem; font-weight: 500;" class="text-center">Ingresar datos de Entidad
+                    </h1>
+                    <h3 class="text-danger text-center mt-3" *ngIf="submitted && registrarEntidad.invalid">TODOS LOS CAMPOS SON OBLIGATORIOS</h3>
+                    <form name ="registrarEntidadDataForm"  #registrarEntidadDataForm="ngForm"  class="mt-4" [formGroup]="registrarEntidad" (ngSubmit)="addEntidad()">
+
+                        <div class="row" style="margin-bottom:3px;">
+                            <div class="col">
+                                <input #passForm name="nombre"  [(ngModel)]="entidadModel.nombre" type="text" class="form-control mt-3" placeholder="Nombre" formControlName="nombre">
+                            </div>
+                            <div class="col">
+                                <input #cuitlForm name="cuit"  [(ngModel)]="entidadModel.cuit" type="text" class="form-control mt-3" placeholder="Cuit" formControlName="cuit">
+                            </div>
+                        </div>
+                        
+                        <input #pass_extremoForm name="direccion"  [(ngModel)]="entidadModel.direccion" type="text" class="form-control mt-3" placeholder="Direccion" formControlName="direccion">
+
+                        <div class="row" style="margin-bottom:3px;">
+                            <div class="col">
+                                <select  #id_paisForm name="id_pais"  [(ngModel)]="entidadModel.id_pais" class="form-select mt-3" formControlName="id_pais">
+                                    <option value="0" disabled selected>Pais</option>
+                                    <option value="{{pais.id}}" *ngFor ="let pais of paises;">{{pais.descripcion}}</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <select  #id_paisForm name="id_provincia"  [(ngModel)]="entidadModel.id_provincia" class="form-select mt-3" formControlName="id_provincia">
+                                    <option value="0" disabled selected>Pais</option>
+                                    <option value="{{prov.id}}" *ngFor ="let prov of provincias;">{{prov.descripcion}}</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <input #ciudadForm name="ciudad"  [(ngModel)]="entidadModel.ciudad" type="text" class="form-control mt-3" placeholder="Ciudad" formControlName="ciudad">
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin-bottom:5px;">
+                            <div class="col">
+                                <input #usuarioForm name="telefono"  [(ngModel)]="entidadModel.telefono" type="text" class="form-control mt-3" placeholder="Telefono" formControlName="telefono">
+                            </div>
+                            <div class="col">
+                                <input #emailForm name="email"  [(ngModel)]="entidadModel.email" type="text" class="form-control mt-3" placeholder="Email" formControlName="email">
+                            </div>
+                        </div>
+                        
+                        <input #descripcionForm name="descripcion"  [(ngModel)]="entidadModel.descripcion" type="text" class="form-control mt-3" placeholder="Descripción" formControlName="descripcion">
+                        
+                        <input #webForm name="web"  [(ngModel)]="entidadModel.web" type="text" class="form-control mt-3" placeholder="Web" formControlName="web">
+                          
+                        <input #imagenForm name="imagen"   type="file" class="form-control mt-3" placeholder="Imagen" formControlName="imagen" (change)="fileChangeEventFoto($event)">
+                       
+                        <input #directorForm name="director"  [(ngModel)]="entidadModel.director" type="text" class="form-control mt-3" placeholder="Director" formControlName="director">
+
+
+                        <div class="mt-3 text-center">
+                            <button type="text" class="btn btn-secundary mr-3" 
+                                routerLinkActive="active" routerLink="/login"> Volver </button>
+                            <button type="sumbit" class="btn btn-dark"> Resgistrarse </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

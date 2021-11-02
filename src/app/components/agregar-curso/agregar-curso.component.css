@@ -1,0 +1,7 @@
+.card:hover{
+    background: transparent;
+}
+.previewImagen{
+    max-width: 300px;
+    max-height: 250px;
+}

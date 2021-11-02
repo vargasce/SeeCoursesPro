@@ -1,0 +1,7 @@
+.card:hover{
+    background: transparent;
+}
+
+.card {
+    min-height: 100px;
+}

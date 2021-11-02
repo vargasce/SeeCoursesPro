@@ -1,0 +1,52 @@
+.notificaciones{
+    position: absolute; 
+    min-width: 350px;
+    min-height: 500px; 
+    background-color:#ffffff; 
+    z-index:9999;
+    border-top:1px solid rgba(110, 110, 110, 0.226);
+    border-left: 1px solid rgba(110, 110, 110, 0.226);
+    border-right: 1px solid rgba(110, 110, 110, 0.226);
+    border-bottom: 1px solid rgba(110, 110, 110, 0.226);
+    border-radius: 10px;
+    cursor:pointer;
+}
+
+.notificacionNoVista{
+    background-color: #ffe5e5;
+    min-height: 60px;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.192);
+}
+
+.notificacionVista{
+    background-color: #ffffff; 
+    min-height: 60px;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.192);
+}
+.notificacionVista:hover { 
+    background: rgba(190, 190, 190, 0.459);
+    opacity: 1;
+    margin-top: 0px;
+}  
+.notificacionNoVista:hover { 
+    background: rgba(190, 190, 190, 0.459);
+    opacity: 1;
+    margin-top: 0px;
+} 
+
+h2,h1{
+    line-height: 2;
+}
+
+.asterisco{
+    float: right; 
+    margin-right: 10px; 
+    color: red;
+}
+
+.eliminar{
+        float: right; 
+        margin-right: 10px; 
+        color: grey;
+        line-height: 3px;
+}

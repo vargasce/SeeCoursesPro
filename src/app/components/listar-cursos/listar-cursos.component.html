@@ -1,0 +1,264 @@
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-body">
+            <span class="h3">Cursos Vigentes
+                <div class="container">
+                    <button class="btn btn-dark" routerLink="/entidad/agregarCurso">Agregar Curso</button>
+                </div>
+            </span>
+            <h1 class="mt-3"  *ngIf="cursos.length==0">No hay cursos para mostrar</h1>                
+            <table *ngIf ="cursos.length > 0" class="table table-striped mt-2 tablaLab">
+                <thead>
+                    <tr class="noHover">
+                        <th>Nombre</th>
+                        <th>Titulo</th>
+                        <th>Descripcion</th>
+                        <th>Observacion</th>
+                        <th>Fecha del Curso</th>
+                        <th>Hora del Curso</th>
+                        <th>Fecha de Alta</th>
+                        <th>Link</th>
+                        <th>Instructor</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr id="{{curso.id}}" *ngFor="let curso of cursos">
+                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.nombre}} </td>
+                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.titulo}} </td>
+                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.descripcion}} </td>
+                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.observacion}} </td>
+                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.fecha_itinerario}} </td>
+                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.hora_itinerario}} </td>
+                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.fecha_alta}} </td>
+                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.link}} </td>
+                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.instructor}} </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-body">
+            <span class="h3">Cursos Pendientes</span>
+            <h1 class="mt-3"  *ngIf="cursosPendientes.length==0">No hay cursos para mostrar</h1>                
+            <table *ngIf ="cursosPendientes.length > 0" class="table table-striped mt-2 tablaLab">
+                <thead>
+                    <tr class="noHover">
+                        <th>Nombre</th>
+                        <th>Titulo</th>
+                        <th>Descripcion</th>
+                        <th>Observacion</th>
+                        <th>Fecha del Curso</th>
+                        <th>Hora del Curso</th>
+                        <th>Fecha de Alta</th>
+                        <th>Link</th>
+                        <th>Instructor</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr  id="{{curso.id}}" *ngFor="let curso of cursosPendientes">
+                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.nombre}} </td>
+                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.titulo}} </td>
+                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.descripcion}} </td>
+                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.observacion}} </td>
+                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.fecha_itinerario}} </td>
+                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.hora_itinerario}} </td>
+                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.fecha_alta}} </td>
+                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.link}} </td>
+                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.instructor}} </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-body">
+            <span class="h3">Cursos Rechazados</span>
+            <h1 class="mt-3"  *ngIf="cursosRechazados.length==0">No hay cursos para mostrar</h1>                
+            <table *ngIf ="cursosRechazados.length > 0" class="table table-striped mt-2 tablaLab">
+                <thead>
+                    <tr class="noHover">
+                        <th>Nombre</th>
+                        <th>Titulo</th>
+                        <th>Descripcion</th>
+                        <th>Observacion</th>
+                        <th>Fecha del Curso</th>
+                        <th>Hora del Curso</th>
+                        <th>Fecha de Alta</th>
+                        <th>Link</th>
+                        <th>Instructor</th>                       
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr  id="{{curso.id}}" *ngFor="let curso of cursosRechazados">
+                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.nombre}} </td>
+                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.titulo}} </td>
+                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.descripcion}} </td>
+                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.observacion}} </td>
+                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.fecha_itinerario}} </td>
+                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.hora_itinerario}} </td>
+                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.fecha_alta}} </td>
+                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.link}} </td>
+                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.instructor}} </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5">
+  <div class="card">
+      <div class="card-body">
+          <span class="h3">Cursos Finalizados</span>
+          <h1 class="mt-3"  *ngIf="cursosFinalizados.length==0">No hay cursos para mostrar</h1>                
+          <table *ngIf ="cursosFinalizados.length > 0" class="table table-striped mt-2 tablaLab">
+              <thead>
+                  <tr class="noHover">
+                      <th>Nombre</th>
+                      <th>Titulo</th>
+                      <th>Descripcion</th>
+                      <th>Observacion</th>
+                      <th>Fecha del Curso</th>
+                      <th>Hora del Curso</th>
+                      <th>Fecha de Alta</th>
+                      <th>Link</th>
+                      <th>Instructor</th>                      
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr  id="{{curso.id}}" *ngFor="let curso of cursosFinalizados">
+                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.nombre}} </td>
+                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.titulo}} </td>
+                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.descripcion}} </td>
+                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.observacion}} </td>
+                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.fecha_itinerario}} </td>
+                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.hora_itinerario}} </td>
+                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.fecha_alta}} </td>
+                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.link}} </td>
+                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.instructor}} </td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+  </div>
+</div>
+
+<div *ngFor= "let curso of cursos ">
+    <div  id="{{curso.id}}" class="modal" role="dialog" [ngStyle]="{'display':displayStyle[curso.id]}" style="font-size: 16px;">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title mt-3">{{curso.descripcion}}</h1>
+          </div>
+          <div class="modal-body">
+            <p> <b>Nombre: </b>{{curso.nombre}}</p>
+            <p> <b>Titulo: </b>{{curso.titulo}}</p>
+            <p> <b>Descripcion: </b>{{curso.descripcion}}</p>
+            <p> <b>Observacion: </b>{{curso.observacion}}</p>
+            <p> <b>Fecha del Curso: </b>{{curso.fecha_itinerario}}</p>
+            <p> <b>Hora del Curso: </b>{{curso.hora_itinerario}}</p>
+            <p> <b>Fecha de alta: </b>{{curso.fecha_alta}}</p>
+            <p> <b>Link: </b>{{curso.link}}</p>
+            <img src="{{getStringImg(curso.imagen)}}"  class="card-img-top"alt="">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" (click)="[closePopup(curso.id)]">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngFor= "let curso of cursosFinalizados ">
+    <div  id="{{curso.id}}" class="modal" role="dialog" [ngStyle]="{'display':displayStyle[curso.id]}" style="font-size: 16px;">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title mt-3">{{curso.descripcion}}</h1>
+          </div>
+          <div class="modal-body">
+            <p> <b>Nombre: </b>{{curso.nombre}}</p>
+            <p> <b>Titulo: </b>{{curso.titulo}}</p>
+            <p> <b>Descripcion: </b>{{curso.descripcion}}</p>
+            <p> <b>Observacion: </b>{{curso.observacion}}</p>
+            <p> <b>Fecha del Curso: </b>{{curso.fecha_itinerario}}</p>
+            <p> <b>Hora del Curso: </b>{{curso.hora_itinerario}}</p>
+            <p> <b>Fecha de alta: </b>{{curso.fecha_alta}}</p>
+            <p> <b>Link: </b>{{curso.link}}</p>
+            <p> <b>Instructor: </b>{{curso.instructor}}</p>
+            <img src="{{getStringImg(curso.imagen)}}"  class="card-img-top"alt="">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" (click)="[closePopup(curso.id)]">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div *ngFor= "let curso of cursosPendientes ">
+    <div  id="{{curso.id}}" class="modal" role="dialog" [ngStyle]="{'display':displayStyle[curso.id]}" style="font-size: 16px;">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title mt-3">{{curso.descripcion}}</h1>
+          </div>
+          <div class="modal-body">
+            <p> <b>Nombre: </b>{{curso.nombre}}</p>
+            <p> <b>Titulo: </b>{{curso.titulo}}</p>
+            <p> <b>Descripcion: </b>{{curso.descripcion}}</p>
+            <p> <b>Observacion: </b>{{curso.observacion}}</p>
+            <p> <b>Fecha del Curso: </b>{{curso.fecha_itinerario}}</p>
+            <p> <b>Hora del Curso: </b>{{curso.hora_itinerario}}</p>
+            <p> <b>Fecha de alta: </b>{{curso.fecha_alta}}</p>
+            <p> <b>Link: </b>{{curso.link}}</p>
+            <p> <b>Instructor: </b>{{curso.instructor}}</p>
+            <img src="{{getStringImg(curso.imagen)}}"  class="card-img-top"alt="">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" (click)="[closePopup(curso.id)]">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngFor= "let curso of cursosRechazados ">
+    <div  id="{{curso.id}}" class="modal" role="dialog" [ngStyle]="{'display':displayStyle[curso.id]}" style="font-size: 16px;">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title mt-3">{{curso.descripcion}}</h1>
+          </div>
+          <div class="modal-body">
+            <p> <b>Nombre: </b>{{curso.nombre}}</p>
+            <p> <b>Titulo: </b>{{curso.titulo}}</p>
+            <p> <b>Descripcion: </b>{{curso.descripcion}}</p>
+            <p> <b>Observacion: </b>{{curso.observacion}}</p>
+            <p> <b>Fecha del Curso: </b>{{curso.fecha_itinerario}}</p>
+            <p> <b>Hora del Curso: </b>{{curso.hora_itinerario}}</p>
+            <p> <b>Fecha de alta: </b>{{curso.fecha_alta}}</p>
+            <p> <b>Link: </b>{{curso.link}}</p>
+            <p> <b>Instructor: </b>{{curso.instructor}}</p>
+            <img src="{{getStringImg(curso.imagen)}}"  class="card-img-top"alt="">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" (click)="[closePopup(curso.id)]">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

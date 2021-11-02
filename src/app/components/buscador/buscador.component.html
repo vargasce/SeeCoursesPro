@@ -1,0 +1,11 @@
+
+    <div class="container mt-5">
+        <input #termino type="text" (keyup)="buscar(termino.value)" class="form-control " placeholder="Buscar Cursos...">
+    </div>
+
+
+<div class="container">
+    <app-tarjetas [items]= "cursos"></app-tarjetas> 
+</div>
+
+
