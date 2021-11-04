@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AdministradorModel } from 'src/app/core/models/administrador/administrador.model';
@@ -16,6 +16,7 @@ import { EnvioNotificaciones } from 'src/app/core/custom/envio-notificaciones';
 import { NotificacionModel } from 'src/app/core/models/notificacion/notificacion.model';
 import { UploadFileService } from 'src/app/core/service/uploadFile/uploadFile.service';
 import { EmailService } from 'src/app/core/service/email/email.service';
+import { Imagenes } from 'src/app/core/global/imagenes/imagenes';
 
 
 @Component({
@@ -24,6 +25,9 @@ import { EmailService } from 'src/app/core/service/email/email.service';
   styleUrls: ['./register-entidad.component.css']
 })
 export class RegisterEntidadComponent implements OnInit {
+
+  @ViewChild('selectorDeImagenEntidad') selectorDeImagenEntidad:ElementRef | undefined;
+  @ViewChild('selectorDeImagenPorDefecto') selectorDeImagenPorDefecto:ElementRef | undefined;
 
   paises: any[]=[];
   provincias: any[]=[];
@@ -37,7 +41,13 @@ export class RegisterEntidadComponent implements OnInit {
   today = this.fecha.currentDate();
   validarPass=true;
   imagenFile: Array<File>=[];
-
+  imagenDefault :any[]=[];
+  imagenPropia:boolean =false;
+  imagenPorDefecto:boolean = false;
+  imagenModel:Array<File> =[];
+  img_foto:string="";
+  img: Imagenes;
+  imagenExist:boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -51,7 +61,8 @@ export class RegisterEntidadComponent implements OnInit {
     private _uploadFileService : UploadFileService,
     private toastr: ToastrService,
     private _envioNotificacionService: EnvioNotificaciones,
-    private _emailService: EmailService
+    private _emailService: EmailService,
+    public renderer:Renderer2
     ) {
 
     this.registrarEntidad = this.fb.group({
@@ -63,24 +74,33 @@ export class RegisterEntidadComponent implements OnInit {
       nombre:['',Validators.required],
       direccion:['',Validators.required],
       telefono:['',Validators.required],
-      imagen:['',Validators.required],
       cuit:['',Validators.required],
       ciudad:['',Validators.required],
       director:['',Validators.required],
 
-    })
+    });
+    this.imagenDefault=[
+      {id:'0',descripcion:'imagen default 0'},
+      {id:'1',descripcion:'imagen default 1'},
+      {id:'2',descripcion:'imagen default 3'},
+  ];
 
     this.registrarUsuario = this.fb.group({
       usuario:['',Validators.required],
       pass:['',Validators.required],
     })
-    this.entidadModel = new EntidadModel(0,0,1,1,"","","",false,"","","",[],"","","");
+    this.entidadModel = new EntidadModel(0,0,1,1,"","","",false,"","","","","","","");
     this.usuarioModel = new UsuarioModel(0,"","","",true);
+    this.img  = new Imagenes(this._uploadFileService);
    }
 
   ngOnInit(): void {
     //this.getPaises();
     //this.getProvincias();
+  }
+
+  ngAfterViewInit(): void{
+    this.eventChange();
   }
 
   addEntidad() {
@@ -99,13 +119,12 @@ export class RegisterEntidadComponent implements OnInit {
   async registrarComoEntidad(){
     let data = {
       'data' : {
-        'file' :this.entidadModel.imagen,
+        'file' :this.imagenModel,
         'id'   : 0,
         'tabla': "entidad"
       }
     }
     this.loading=true;
-    console.log(this.usuarioModel);
     localStorage.clear();
 
     this._usuarioService.registrarUsuario(this.usuarioModel).subscribe(Response=>{
@@ -130,13 +149,22 @@ export class RegisterEntidadComponent implements OnInit {
               positionClass:'toast-bottom-right'
             });
             data.data.id =Response.ResultSet.id;
-            this._uploadFileService.makeFileRequest(data,"image").then(Result=>{
+            /*this._uploadFileService.makeFileRequest(data,"image").then(Result=>{
 
             }).catch(
               error=>{
                 
               }
-            )
+            )*/
+            if(!this.imagenPorDefecto){
+              this._uploadFileService.makeFileRequest(data,"image").then(Result=>{}).catch(
+                error=>{
+                  this.toastr.error("Ocurrio un guardar la imagen","Ocurrio un error",{
+                    positionClass:'toast-bottom-right'
+                  });
+                }
+              )
+            }
             this.router.navigate(['/login']);
           } catch (error) {
             this.toastr.error("Ocurrio un error al registrar la Entidad","Ocurrio un error",{
@@ -183,9 +211,9 @@ export class RegisterEntidadComponent implements OnInit {
     })
   }
 
-  fileChangeEventFoto(fileInput : any){
+ /*  fileChangeEventFoto(fileInput : any){
     this.entidadModel.imagen = <Array<File>> fileInput.target.files;
-  }
+  }*/
 
   saveImagen(id_entidad:number){
     let send = {
@@ -193,5 +221,55 @@ export class RegisterEntidadComponent implements OnInit {
       'table': 'entidad',
       'id'   :  id_entidad
     };
+  }
+
+ fileChangeEventFoto(fileInput : any){
+    this.imagenModel= <Array<File>> fileInput.target.files;
+    this.previsualizer(this.imagenModel[0]);
+  }
+
+  eventChange(){
+    this.renderer.listen(this.selectorDeImagenEntidad?.nativeElement,'change',event =>{
+      if(event.target.value==1){
+        this.imagenPropia=true;
+        this.imagenPorDefecto=false;
+      }else{
+        this.imagenPropia=false;
+        this.imagenPorDefecto=true;
+      }
+    });
+  }
+
+  onChangeSelect(event:any){
+    console.log(event.target.value)
+    this.imagenExist=true;
+    switch (event.target.value){
+      case "0":
+        this.entidadModel.imagen= "imagen1.jpg";
+        break;
+      case "1":
+        this.entidadModel.imagen= "imagen2.jpg";
+        break;
+      case "2":
+        this.entidadModel.imagen= "imagen3.jpg";
+        break;
+
+    }
+  }
+
+  /** PREVISUALIZAR IMAGEN.
+	* @Observations : Previsualiza la imgen seleccionada por el usuario,
+	* renderiza la imagen en tiempo real.
+	*/
+	public previsualizer( file : File ){
+		let reader = new FileReader;
+		reader.onload = (e: any) => {
+			this.img_foto = e.target.result;
+		};
+		reader.readAsDataURL(file);
+	}
+
+  public getStringImg(imagen:string):string{
+    return this.img.bajarImagen(imagen)
   }
 }

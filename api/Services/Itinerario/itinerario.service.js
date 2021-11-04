@@ -316,14 +316,22 @@ const itinerarioService = {
       }
 
       let objItinerario = new itinerarioModel();
+			let sqlString = objItinerario.getSqlAvailable( data );
+
+			try{
+				let result = await con.QueryAwait( sqlString );
+				resolve( result );
+			}catch( err ){
+				throw new IntinerarioError( 'Error in Itinerario', `Error get query getAvailabilityDate() : ${err} `);
+			}
 
     });
   }
 	
-	// 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
-	
-	
+	//Por ahora dejo esto por aca.
+	// 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
 
 };
 
 module.exports = itinerarioService;
+

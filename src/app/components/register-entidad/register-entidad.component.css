@@ -5,3 +5,8 @@
 .card {
     min-height: 100px;
 }
+
+.previewImagen{
+    max-width: 300px;
+    max-height: 250px;
+}

@@ -39,6 +39,7 @@ export class AgregarCursoComponent implements OnInit {
   imagenModel:Array<File> =[];
   img_foto:string="";
   img: Imagenes;
+  imagenExist:boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -172,10 +173,7 @@ export class AgregarCursoComponent implements OnInit {
     this.location.back();
   }
 
-  fileChangeEventFoto(fileInput : any){
-    this.imagenModel= <Array<File>> fileInput.target.files;
-    this.previsualizer(this.imagenModel[0]);
-  }
+
 
   saveImagen(id_entidad:number){
     let send = {
@@ -186,6 +184,10 @@ export class AgregarCursoComponent implements OnInit {
   }
 
 
+  fileChangeEventFoto(fileInput : any){
+    this.imagenModel= <Array<File>> fileInput.target.files;
+    this.previsualizer(this.imagenModel[0]);
+  }
 
   eventChange(){
     this.renderer.listen(this.selectorDeImagen?.nativeElement,'change',event =>{
@@ -201,6 +203,7 @@ export class AgregarCursoComponent implements OnInit {
 
   onChangeSelect(event:any){
     console.log(event.target.value) 
+    this.imagenExist=true;
     switch (event.target.value){
       case "0":
         this.itinerarioModel.imagen= "imagen1.jpg"; 

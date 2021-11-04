@@ -23,7 +23,7 @@
     "msexcel-builder": "^0.0.2",
     "mysql": "^2.18.1",
     "nodemailer": "^6.7.0",
-    "nodemon": "^2.0.7",
+    "nodemon": "^2.0.14",
     "pg": "^8.7.1",
     "responselike": "^1.0.2",
     "supertest": "^6.1.3",

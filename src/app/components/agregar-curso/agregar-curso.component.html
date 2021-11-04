@@ -49,7 +49,7 @@
                             <img class="previewImagen mt-3" src="{{img_foto}}">
                         </div>
 
-                        <div  *ngIf="!img_foto && imagenPorDefecto">
+                        <div  *ngIf="!img_foto && imagenPorDefecto && imagenExist">
                             <img class="previewImagen mt-3" src="{{getStringImg(itinerarioModel.imagen)}}">
                         </div>
 

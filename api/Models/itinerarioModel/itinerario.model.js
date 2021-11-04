@@ -203,19 +203,20 @@ class ItinerarioModel{
         SELECT id, id_entidad, nombre, titulo, descripcion, observacion, fecha_itinerario, hora_itinerario, fecha_alta, imagen, link, instructor, validado, finalizado, rechazado, viewed, hora_itinerario_fin
           FROM public.itinerario	
           WHERE 
-              hora_itinerario > '13:00:00' 
+              hora_itinerario > '${data.hora_inicio}'
               and
-              hora_itinerario_fin < '15:30:00'
+							hora_itinerario_fin < '${data.hora_fin}'
               and 
-              fecha_itinerario = '2021-10-02'
+              fecha_itinerario = '${data.fecha}'
 		  ;`;
-				
-				
+
     }
-				
+
     return sql;
   }
 
 };
 
 module.exports = ItinerarioModel;
+
+
