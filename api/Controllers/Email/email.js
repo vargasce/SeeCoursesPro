@@ -1,4 +1,5 @@
 'use strict'
+
 const _emailService = require('../../Services/Email/email.service');
 
 const controller = {
