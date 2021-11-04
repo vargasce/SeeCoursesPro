@@ -46,13 +46,13 @@
                         <div class="row" style="margin-bottom:3px;">
                             <div class="col">
                                 <select  #id_paisForm name="id_pais"  [(ngModel)]="entidadModel.id_pais" class="form-select mt-3" formControlName="id_pais">
-                                    <option value="0" disabled selected>Pais</option>
+                                    <option value="0" selected>Pais</option>
                                     <option value="{{pais.id}}" *ngFor ="let pais of paises;">{{pais.descripcion}}</option>
                                 </select>
                             </div>
                             <div class="col">
-                                <select  #id_paisForm name="id_provincia"  [(ngModel)]="entidadModel.id_provincia" class="form-select mt-3" formControlName="id_provincia">
-                                    <option value="0" disabled selected>Pais</option>
+                                <select id="provincias" #id_paisForm name="id_provincia"  [(ngModel)]="entidadModel.id_provincia" class="form-select mt-3" formControlName="id_provincia">
+                                    <option value="0" disabled selected>Provincias</option>
                                     <option value="{{prov.id}}" *ngFor ="let prov of provincias;">{{prov.descripcion}}</option>
                                 </select>
                             </div>
@@ -75,6 +75,8 @@
                         <input #webForm name="web"  [(ngModel)]="entidadModel.web" type="text" class="form-control mt-3" placeholder="Web" formControlName="web">
                           
                         <!--<input #imagenForm name="imagen"   type="file" class="form-control mt-3" placeholder="Imagen" formControlName="imagen" (change)="fileChangeEventFoto($event)"> -->
+
+                        <input #directorForm name="director"  [(ngModel)]="entidadModel.director" type="text" class="form-control mt-3" placeholder="Director" formControlName="director">
 
                         <select #selectorDeImagenEntidad class="form-select mt-3">
                             <option value="0" disabled selected>Subir imagen </option>
@@ -100,9 +102,6 @@
                         <div  *ngIf="!img_foto && imagenPorDefecto && imagenExist">
                             <img class="previewImagen mt-3" src="{{getStringImg(entidadModel.imagen)}}">
                         </div>
-                       
-                        <input #directorForm name="director"  [(ngModel)]="entidadModel.director" type="text" class="form-control mt-3" placeholder="Director" formControlName="director">
-
 
                         <div class="mt-3 text-center">
                             <button type="text" class="btn btn-secundary mr-3" 

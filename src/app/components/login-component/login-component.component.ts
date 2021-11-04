@@ -36,6 +36,7 @@ export class LoginComponentComponent implements OnInit {
     this._LoginService.login(this.logearUsuario.value.user,this.logearUsuario.value.password,tipo).subscribe(
       response => {
         if( response.error == "" ){
+          console.log(response.Resultset);
           localStorage.setItem('token',response.Resultset.token);//token
           localStorage.setItem('user',this.logearUsuario.value.user);//user
           localStorage.setItem('nombre_entidad',response.Resultset.user.nombre_entidad); //nombre 

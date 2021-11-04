@@ -96,7 +96,7 @@ const itinerarioService = {
           reject( `Error al obtener datos : ${error}` );
         }
       });
-    })
+    });
   },
 
   /** ADD NUEVO ITINERARIO.

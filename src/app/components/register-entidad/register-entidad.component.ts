@@ -28,6 +28,7 @@ export class RegisterEntidadComponent implements OnInit {
 
   @ViewChild('selectorDeImagenEntidad') selectorDeImagenEntidad:ElementRef | undefined;
   @ViewChild('selectorDeImagenPorDefecto') selectorDeImagenPorDefecto:ElementRef | undefined;
+  @ViewChild('id_paisForm') id_paisForm:ElementRef | undefined;
 
   paises: any[]=[];
   provincias: any[]=[];
@@ -89,14 +90,14 @@ export class RegisterEntidadComponent implements OnInit {
       usuario:['',Validators.required],
       pass:['',Validators.required],
     })
-    this.entidadModel = new EntidadModel(0,0,1,1,"","","",false,"","","","","","","");
+    this.entidadModel = new EntidadModel(0,0,0,0,"","","",false,"","","","","","","");
     this.usuarioModel = new UsuarioModel(0,"","","",true);
     this.img  = new Imagenes(this._uploadFileService);
    }
 
   ngOnInit(): void {
-    //this.getPaises();
-    //this.getProvincias();
+    this.getPaises();
+    (<HTMLInputElement>document.getElementById('provincias')).disabled=true;
   }
 
   ngAfterViewInit(): void{
@@ -149,13 +150,7 @@ export class RegisterEntidadComponent implements OnInit {
               positionClass:'toast-bottom-right'
             });
             data.data.id =Response.ResultSet.id;
-            /*this._uploadFileService.makeFileRequest(data,"image").then(Result=>{
 
-            }).catch(
-              error=>{
-                
-              }
-            )*/
             if(!this.imagenPorDefecto){
               this._uploadFileService.makeFileRequest(data,"image").then(Result=>{}).catch(
                 error=>{
@@ -202,19 +197,28 @@ export class RegisterEntidadComponent implements OnInit {
 
   getPaises(){
     this._paisesService.getPaises().subscribe(Response=>{
-      console.log(Response)
+      this.paises = [];
+      Response.Resultset.forEach((element:any) => {
+        this.paises.push({ // guardo la lista de laboratorios en el array laboratorios
+          ...element
+        })
+      });
+      this.entidadModel.id_pais=0;
     })
   }
 
-  getProvincias(){
-    this._provinciasService.getProvincias().subscribe(Response=>{
-      console.log(Response)
+  getProvincias(id_provincia:number){
+    this._provinciasService.getProvincias(id_provincia).subscribe(Response=>{
+      this.provincias = [];
+      Response.Resultset.forEach((element:any) => {
+        this.provincias.push({ // guardo la lista de laboratorios en el array laboratorios
+          ...element
+        })
+      });
+      console.table( this.provincias );
     })
   }
 
- /*  fileChangeEventFoto(fileInput : any){
-    this.entidadModel.imagen = <Array<File>> fileInput.target.files;
-  }*/
 
 
  fileChangeEventFoto(fileInput : any){
@@ -232,6 +236,13 @@ export class RegisterEntidadComponent implements OnInit {
         this.imagenPorDefecto=true;
       }
     });
+
+    this.renderer.listen(this.id_paisForm?.nativeElement,'change',event =>{
+      (<HTMLInputElement>document.getElementById('provincias')).disabled=false;
+      this.getProvincias(Number(this.entidadModel.id_pais));
+
+    });
+
   }
 
   onChangeSelect(event:any){

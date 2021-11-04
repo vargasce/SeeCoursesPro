@@ -7,7 +7,7 @@ import { environment } from '../../../../environments/environment';
 })
 export class ProvinciasService {
 
-    private controller : string = 'provincias';
+    private controller : string = 'provincia';
 
     constructor (
         private http: HttpClient
@@ -15,10 +15,13 @@ export class ProvinciasService {
 
     }
 
-    getProvincias(){
+    getProvincias(id:number){
         let headers = { headers : environment.headers };
         let send ={
             'action' : "list-provincias",
+            'data'   : {
+                'id_pais': id
+            }
         }
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }

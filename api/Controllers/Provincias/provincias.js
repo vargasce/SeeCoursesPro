@@ -109,8 +109,8 @@ module.exports = controller;
  */
 const listSqlstr = ( id_pais  ) =>{
   let sql = `SELECT prov.id, pais.id as id_pais, pais.descripcion AS desc_pais, prov.descripcion
-             FROM provincias AS prov
-             INNER JOIN desarrollo.paises AS pais ON prov.id_pais = ${id_pais};`;
+             FROM provincia AS prov
+             INNER JOIN pais AS pais ON prov.id_pais = ${id_pais};`;
 
     return sql;
 }
@@ -123,7 +123,7 @@ const listSqlstr = ( id_pais  ) =>{
  */
 const addSqlStr = ( data ) =>{
 
-  let sql = `INSERT INTO ${schema}.provincias (
+  let sql = `INSERT INTO ${schema}.provincia (
     id_pais,
     descripcion
     )
@@ -142,7 +142,7 @@ const addSqlStr = ( data ) =>{
  * @return sql : String => String con la consulta a enviar a la base de datos.
  */
 const updateSqlStr = ( data ) =>{
-  let sql = `UPDATE ${schema}.provincias SET id_pais = ${data.id_pais}, descripcion = '${data.descripcion}' WHERE id = ${data.id} ;`;
+  let sql = `UPDATE ${schema}.provincia SET id_pais = ${data.id_pais}, descripcion = '${data.descripcion}' WHERE id = ${data.id} ;`;
   return sql;
 }
 
@@ -153,6 +153,6 @@ const updateSqlStr = ( data ) =>{
  * @return sql : String => String con la consulta a enviar a la base de datos.
  */
 const deleteSqlStr = ( id ) =>{
-  let sql = `DELETE FROM ${schema}.provincias WHERE id = ${id} ;`;
+  let sql = `DELETE FROM provincia WHERE id = ${id} ;`;
   return sql;
 }

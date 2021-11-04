@@ -25,7 +25,7 @@ const loginService = {
       let sql = `SELECT usro.id, usro.usuario, enti.id AS id_entidad, enti.nombre AS nombre_entidad, enti.email AS email 
                  FROM ${tabla} AS usro
                  INNER JOIN entidad AS enti
-                 ON usro.id = enti.id
+                 ON usro.id = enti.id_usuario
                  WHERE usuario = '${data.usuario}' AND pass = '${md5(data.pass)}' AND activo = true ;`;
 
       con.select( sql, ( error, result ) =>{

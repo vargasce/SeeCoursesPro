@@ -7,7 +7,7 @@ import { environment } from '../../../../environments/environment';
 })
 export class PaisService {
 
-    private controller : string = 'paises';
+    private controller : string = 'pais';
 
     constructor (
         private http: HttpClient

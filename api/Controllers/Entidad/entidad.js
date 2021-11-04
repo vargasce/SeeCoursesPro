@@ -49,6 +49,17 @@ const controller = {
 
       break;
 
+      case 'updateEntidad' :
+
+        try{
+          let resultAdd = await _entidadService.UpdateEntidad( req );
+          return res.status(200).send({ 'error' : '', 'ResultSet' : resultAdd });
+        }catch( err ){
+          return res.status(500).send({ 'error' : `Error : ${ err.getMessage() }` });
+        }
+
+      break;
+
       default :
         return res.status(500).send({ 'error': `Accion no definida.` });
     }

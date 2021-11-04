@@ -23,7 +23,7 @@ const controller = {
           let result_list = await con.QueryAwait( sql_list );
           return res.status(200).send({ 'error' : '', 'Resultset' : result_list.rows });
         }catch( err ){
-          return res.status(500).send({ 'error' : `Eror al listar paises, paises.js : ${error}` });
+          return res.status(500).send({ 'error' : `Eror al listar paises, paises.js : ${err}` });
         }
 
       break;
@@ -100,7 +100,7 @@ module.exports = controller;
  */
 const listSqlstr = () =>{
   let sql = '';
-  sql = `SELECT * FROM paises ;`;
+  sql = `SELECT * FROM pais ;`;
   return sql;
 }
 
@@ -112,7 +112,7 @@ const listSqlstr = () =>{
  */
 const addSqlStr = ( data ) =>{
 
-  let sql = `INSERT INTO ${schema}.paises (
+  let sql = `INSERT INTO pais (
     descripcion
     )
     VALUES(
@@ -129,7 +129,7 @@ const addSqlStr = ( data ) =>{
  * @return sql : String => String con la consulta a enviar a la base de datos.
  */
 const updateSqlStr = ( data ) =>{
-  let sql = `UPDATE ${schema}.paises SET descripcion = '${data.descripcion}' WHERE id = ${data.id} ;`;
+  let sql = `UPDATE ${schema}.pais SET descripcion = '${data.descripcion}' WHERE id = ${data.id} ;`;
   return sql;
 }
 
@@ -140,6 +140,6 @@ const updateSqlStr = ( data ) =>{
  * @return sql : String => String con la consulta a enviar a la base de datos.
  */
 const deleteSqlStr = ( id ) =>{
-  let sql = `DELETE FROM ${schema}.paises WHERE id = ${id} ;`;
+  let sql = `DELETE FROM pais WHERE id = ${id} ;`;
   return sql;
 }
