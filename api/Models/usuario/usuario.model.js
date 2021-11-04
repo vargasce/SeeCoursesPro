@@ -27,7 +27,7 @@ class usuario {
   setActivo( activo ){ this.activo = activo; }
 
   /** GET SQL STRING INSERT
-   * @Observations : Retorna string sql para realizar un insert en la base de datos.
+   * @Observations : Retorna string sql para realizar un insert en la base .
    * @returns { string } => string con la consulta.
    */
   getSqlString(){
