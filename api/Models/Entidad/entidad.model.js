@@ -15,6 +15,7 @@ class Entidad{
       this.web = data.web;
       this.email = data.email;
       this.verificado = data.verificado;
+			this.imagen = data.imagen;
       this.nombre = data.nombre;
       this.direccion = data.direccion;
       this.telefono = data.telefono;
@@ -75,6 +76,7 @@ class Entidad{
         nombre,
         direccion,
         telefono,
+				imagen,
         cuit,
         ciudad,
         director
@@ -90,6 +92,7 @@ class Entidad{
         '${this.getNombre()}',
         '${this.getDireccion()}',
         '${this.getTelefono()}',
+				'${this.getImagen()}',
         '${this.getCuit()}',
         '${this.getCiudad()}',
         '${this.getDirector()}'

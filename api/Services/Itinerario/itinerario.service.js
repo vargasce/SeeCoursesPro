@@ -295,7 +295,7 @@ const itinerarioService = {
 
       }catch( err ){
         await con.QueryAwait('ROLLBACK');
-        throw new ItinerarioError('Error in Itinerario',`Error get query itinerario by entidad : ${err}`);
+        throw new itinerarioError('Error in Itinerario',`Error get query itinerario by entidad : ${err}`);
       }
 
     });
@@ -322,7 +322,7 @@ const itinerarioService = {
 				let result = await con.QueryAwait( sqlString );
 				resolve( result );
 			}catch( err ){
-				throw new IntinerarioError( 'Error in Itinerario', `Error get query getAvailabilityDate() : ${err} `);
+				throw new intinerarioError( 'Error in Itinerario', `Error get query getAvailabilityDate() : ${err} `);
 			}
 
     });

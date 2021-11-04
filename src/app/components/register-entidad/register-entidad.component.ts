@@ -189,6 +189,7 @@ export class RegisterEntidadComponent implements OnInit {
         }
       })
     })
+    console.log(this.entidadModel);
   }
 
   confirmarContrasena(){
@@ -215,13 +216,6 @@ export class RegisterEntidadComponent implements OnInit {
     this.entidadModel.imagen = <Array<File>> fileInput.target.files;
   }*/
 
-  saveImagen(id_entidad:number){
-    let send = {
-      'file' : this.imagenFile,
-      'table': 'entidad',
-      'id'   :  id_entidad
-    };
-  }
 
  fileChangeEventFoto(fileInput : any){
     this.imagenModel= <Array<File>> fileInput.target.files;
@@ -241,7 +235,6 @@ export class RegisterEntidadComponent implements OnInit {
   }
 
   onChangeSelect(event:any){
-    console.log(event.target.value)
     this.imagenExist=true;
     switch (event.target.value){
       case "0":

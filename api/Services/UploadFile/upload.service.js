@@ -73,6 +73,7 @@ const splitFileObject = ( files ) =>{
 
   try{    
 
+		console.table(files);
     let platafom = os.platform();
     let filePath = files.image.path;
     let fileSplit = filePath.split('\\');

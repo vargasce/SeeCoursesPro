@@ -112,16 +112,15 @@ export class AgregarCursoComponent implements OnInit {
         OBS     : ""
       }
     };
-    console.log(emailObject);
     let id_curso: number;
     this.loading=true
     this.itinerarioModel.id_entidad = Number(localStorage.getItem("id_entidad"));
     this._itinerarioService.guardarItinerario(this.itinerarioModel).subscribe(async Response =>{
+      console.log(Response);
       if(Response.error == ""){ // el response me tiene que devolver el id del curso que se creo, asi lo uso en el service de abajo
         try {
 
-          let result = await this._envioNotificacionService.newCurso(Number(environment.id_entidad),Response.ResultSet.id, this.itinerarioModel.observacion,this.itinerarioModel.nombre);  
-          
+          let result = await this._envioNotificacionService.newCurso(Number(localStorage.getItem("id_entidad")),Response.ResultSet.id, this.itinerarioModel.observacion,this.itinerarioModel.nombre);
           if( result ){
             this.toastr.success("La solicitud de curso fue registrada con exito!","Solicitud de Curso Registrada",{
               positionClass:'toast-bottom-right'
@@ -139,7 +138,7 @@ export class AgregarCursoComponent implements OnInit {
             this.toastr.error("Ocurrio un error al enviar el email al administrador","Ocurrio un error",{
               positionClass:'toast-bottom-right'
             });            
-          }          
+          }
 
           if(!this.imagenPorDefecto){
             this._uploadFileService.makeFileRequest(data,"image").then(Result=>{}).catch(

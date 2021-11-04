@@ -62,7 +62,6 @@ const controller = {
       case 'updatePendingNotificacion':
 
         try{
-          //send( req.sendEmail );
           let resultUpdatePending = await _notificacionService.updatePendingAwait( req );
           return res.status(200).send({ 'error' : '', 'ResultSet' : resultUpdatePending });
         }catch( err ){
@@ -73,7 +72,6 @@ const controller = {
       case 'updateRejectedNotificacion':
 
         try{
-          //send( req.sendEmail );
           let resultUpdatePending = await _notificacionService.updateRejected( req );
           return res.status(200).send({ 'error' : '', 'ResultSet' : resultUpdatePending });
         }catch( err ){
