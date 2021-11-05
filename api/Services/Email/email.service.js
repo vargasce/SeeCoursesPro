@@ -5,6 +5,7 @@ const envProperties = require("../../env.vars.json");
 const fn = require('../../Custom/function_custom/custom');
 const fs = require('fs');
 //const node_env = process.env.NODE_ENV || 'developmen';
+//Luego de descomentar arriba, comentar abajo, es solo para test
 const node_env = 'developmen';
 const props = envProperties[node_env];
 const nodeEmail = require('nodemailer');

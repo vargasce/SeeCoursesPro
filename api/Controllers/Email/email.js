@@ -1,5 +1,5 @@
 'use strict'
-
+//SEND EMAIL
 const _emailService = require('../../Services/Email/email.service');
 
 const controller = {
