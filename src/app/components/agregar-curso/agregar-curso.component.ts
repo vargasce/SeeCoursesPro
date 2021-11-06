@@ -40,6 +40,8 @@ export class AgregarCursoComponent implements OnInit {
   img_foto:string="";
   img: Imagenes;
   imagenExist:boolean = false;
+  validarImagen:boolean = true;
+  today:string= this.fechas.currentDateConGuionMedio();
 
   constructor(
     private fb: FormBuilder,
@@ -84,11 +86,15 @@ export class AgregarCursoComponent implements OnInit {
   }
   
   addEditCurso() {
+    console.log((<HTMLInputElement>document.getElementById('fecha')).value);
     this.submitted = true;
-    if (this.agregarCurso.invalid) {
-      return;
-    }
+    this.validarCargaImagen();
+    if (!this.agregarCurso.invalid && this.validarImagen) {
       this.addCurso();
+    }else{
+      return
+    }
+      
   }
 
   addCurso(){
@@ -231,6 +237,29 @@ export class AgregarCursoComponent implements OnInit {
 
   public getStringImg(imagen:string):string{
     return this.img.bajarImagen(imagen)
+  }
+
+  validarCargaImagen(){
+
+    if((this.imagenPorDefecto == false) && (this.imagenPropia == false)){
+      this.validarImagen=false;
+    }else{
+      if(this.imagenPorDefecto){
+        if(this.itinerarioModel.imagen == ""){
+          this.validarImagen= false;
+        }else{
+          this.validarImagen=true;
+        }
+      }else{
+        if(this.imagenPropia){
+          if(this.imagenModel.length == 0){
+            this.validarImagen= false;
+          }else{
+            this.validarImagen=true;
+          }
+        }
+      }
+    }
   }
     
 }

@@ -8,7 +8,9 @@ const routes: Routes = [
   { path : 'entidad', loadChildren : () => import('./entidad/entidad.module').then( reference => reference.EntidadModule)},
   { path : 'login', loadChildren : () => import('./seleccion-de-login/seleccion-de-login.module').then( reference => reference.SleccionDeLoginModule)},
   { path : 'registrarEntidad', loadChildren : () => import('./registrar-entidad/registrar-entidad.module').then( reference => reference.RegistrarEntidadModule)},
-  { path : 'registrarAdmin', loadChildren : () => import('./registrar-admin/registrar-admin.module').then( reference => reference.RegistrarAdminModule)}
+  { path : 'registrarAdmin', loadChildren : () => import('./registrar-admin/registrar-admin.module').then( reference => reference.RegistrarAdminModule)},
+  { path : 'paises', loadChildren : () => import('./paises/paises.module').then( reference => reference.PaisesModule)},
+  { path : 'provincias', loadChildren : () => import('./provincias/provincias.module').then( reference => reference.ProvinciasModule)}
 ];
  
 @NgModule({

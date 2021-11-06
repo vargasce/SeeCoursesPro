@@ -5,6 +5,8 @@ const con = require('../../DB-connect/connectDB');
 //const node_env = process.env.NODE_ENV || 'developmen';
 //const props = envProperties[node_env];
 //const schema = props.DB.SCHEMA;
+
+
 const fn = require('../../Custom/function_custom/custom');
 
 const controller = {
@@ -15,7 +17,7 @@ const controller = {
 
     switch( action ){
 
-      case 'list-provincias' :
+      case 'list-provinciasById' :
         
         let id_pais = req.body.data.id_pais;
         
@@ -25,7 +27,20 @@ const controller = {
           return res.status(500).send({ 'error' : `${err}` });
         }
 
-        let sql_list = listSqlstr( id_pais );
+        let sql_list_ById = listSqlstrById( id_pais );
+
+        try{
+          let result_listById = await con.QueryAwait( sql_list_ById );
+          return res.status(200).send({ 'error' : '', 'Resultset' : result_listById.rows });
+        }catch( err ){
+          return res.status(500).send({ 'error' : `Error al obtener lista de provincias por ID: ${err}` });
+        }
+
+      break;
+
+      case 'list-provincias' :
+
+        let sql_list = listSqlList();
 
         try{
           let result_list = await con.QueryAwait( sql_list );
@@ -107,7 +122,7 @@ module.exports = controller;
  * @param paginador : Object => Objecto con la paginacion actual.
  * @return sql : String => String con la consulta a enviar a la base de datos.
  */
-const listSqlstr = ( id_pais  ) =>{
+const listSqlstrById = ( id_pais  ) =>{
   let sql = `SELECT prov.id, pais.id as id_pais, pais.descripcion AS desc_pais, prov.descripcion
              FROM provincia AS prov
              INNER JOIN pais AS pais ON prov.id_pais = ${id_pais};`;
@@ -154,5 +169,13 @@ const updateSqlStr = ( data ) =>{
  */
 const deleteSqlStr = ( id ) =>{
   let sql = `DELETE FROM provincia WHERE id = ${id} ;`;
+  return sql;
+}
+
+const listSqlList = () =>{
+  let sql = `SELECT prov.id AS id_provincia, prov.descripcion AS descr_provincia, pa.id AS id_pais, pa.descripcion AS descr_pais
+             FROM provincia as prov 
+             INNER JOIN pais as pa 
+             ON prov.id_pais = pa.id ;`;
   return sql;
 }

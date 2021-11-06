@@ -24,7 +24,6 @@ export class AdministradorService {
                 id:null
             }
         }
-        console.log("corriendo notificaciones service")
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }
 
@@ -37,7 +36,6 @@ export class AdministradorService {
                 'es_curso': es_curso
             }
         }
-        console.log("corriendo aprobarNotificacion service")
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }
 
@@ -60,7 +58,6 @@ export class AdministradorService {
             'action' : "updateVistoNotificacion",
             'data'   : id
         }
-        console.log("corriendo updateVistoNotificacion service");
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }
 

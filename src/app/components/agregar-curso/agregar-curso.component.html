@@ -7,6 +7,7 @@
                         <div *ngIf ="loading"class="spinner-border float-right" role="status"></div>
                     </h1>
                     <h3 class="text-danger text-center mt-3" *ngIf="submitted && agregarCurso.invalid">TODOS LOS CAMPOS SON OBLIGATORIOS</h3>
+                    <h3 class="text-danger text-center mt-3" *ngIf="!validarImagen">Debe seleccionar al menos una imagen</h3> 
                     <form name ="agregarCursoDataForm"  #agregarCursoDataForm="ngForm"  class="mt-4" [formGroup]="agregarCurso" (ngSubmit)="addEditCurso()">
                         <div class="row" style="margin-bottom:5px;">
                             <div class="col">
@@ -20,8 +21,8 @@
                         <input #observacionForm name="observacion"  [(ngModel)]="itinerarioModel.observacion" type="text" class="form-control mt-3" placeholder="Observacion" formControlName="observacion">
                         <div class="row" style="margin-bottom:5px;">
                             <div class="col">
-                                <input #fecha_itinerarioForm name="fecha_itinerario"  [(ngModel)]="itinerarioModel.fecha_itinerario" type="text" class="form-control mt-3" placeholder="Fecha del Curso" 
-                                onfocus="(this.type='date')" onblur="(this.type='text')" formControlName="fecha_itinerario" style="margin-bottom:5px;">  
+                                <input id ="fecha" #fecha_itinerarioForm name="fecha_itinerario"  [(ngModel)]="itinerarioModel.fecha_itinerario" type="text" class="form-control mt-3" placeholder="Fecha del Curso" 
+                                onfocus="(this.type='date')" onblur="(this.type='text')" formControlName="fecha_itinerario" style="margin-bottom:5px;" min="{{today}}">  
                             </div>
                             <div class="col">
                                 <input #hora_itinerarioForm name="hora_itinerario"  [(ngModel)]="itinerarioModel.hora_itinerario" type="time" class="form-control mt-3" placeholder="Hora del Curso" formControlName="hora_itinerario" style="margin-bottom:5px;">

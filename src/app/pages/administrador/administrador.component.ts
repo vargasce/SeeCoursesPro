@@ -5,6 +5,7 @@ import { Imagenes } from 'src/app/core/global/imagenes/imagenes';
 import { NotificacionModel } from 'src/app/core/models/notificacion/notificacion.model';
 import { AdministradorService } from 'src/app/core/service/administrador/administrador.service';
 import { EmailService } from 'src/app/core/service/email/email.service';
+import { PaisService } from 'src/app/core/service/paises/paises.service';
 import { UploadFileService } from 'src/app/core/service/uploadFile/uploadFile.service';
 
 @Component({
@@ -25,6 +26,7 @@ export class AdministradorComponent implements OnInit {
     private _uploadFileService : UploadFileService,
     private _emailService : EmailService,
     private toastr: ToastrService,
+    private _paisService:PaisService
     )
     { 
       this.img  = new Imagenes(this._uploadFileService);
@@ -33,7 +35,16 @@ export class AdministradorComponent implements OnInit {
 
   ngOnInit(): void {
     this.getNotificaciones();
+    //this.getPaisPorId("1");
   }
+
+  getPaisPorId(id:string):string{
+    this._paisService.getPaisesById(1).subscribe(Response=>{
+      console.log(Response);
+    })
+    return "bolivia"
+  }
+
 
   getNotificaciones(){
     this.notificaciones=[];

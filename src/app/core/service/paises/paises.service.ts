@@ -21,5 +21,23 @@ export class PaisService {
             'action' : "list-paises",
         }
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
+    } 
+    
+    getPaisesById(id:number){
+        let headers = { headers : environment.headers };
+        let send ={
+            'action' : "get-paises",
+            'data'   : id
+        }
+        return this.http.post<any>( environment.apiURL + this.controller , send, headers );
+    }
+
+    eliminarPais(id:number){
+        let headers = { headers : environment.headers };
+        let send ={
+            'action' : "delete-paises",
+            'data'   : id
+        }
+        return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }
 }

@@ -14,6 +14,8 @@ import { SeleccionDeLoginComponent } from './seleccion-de-login/seleccion-de-log
 import { AddCursoComponent } from './add-curso/add-curso.component';
 import { RegistrarEntidadComponent } from './registrar-entidad/registrar-entidad.component';
 import { RegistrarAdminComponent } from './registrar-admin/registrar-admin.component';
+import { PaisesComponent } from './paises/paises.component';
+import { ProvinciasComponent } from './provincias/provincias.component';
 //import { ComponentsModule } from '../components/components.module';
 
 //IMPORTS YOUR PAGES MAIN FOR SYSTEM 
@@ -29,6 +31,8 @@ import { RegistrarAdminComponent } from './registrar-admin/registrar-admin.compo
         AddCursoComponent,
         RegistrarEntidadComponent,
         RegistrarAdminComponent,
+        PaisesComponent,
+        ProvinciasComponent,
 
     ],
     imports : [

@@ -19,6 +19,7 @@ import { EmailService } from 'src/app/core/service/email/email.service';
 import { Imagenes } from 'src/app/core/global/imagenes/imagenes';
 
 
+
 @Component({
   selector: 'app-register-entidad',
   templateUrl: './register-entidad.component.html',
@@ -49,6 +50,11 @@ export class RegisterEntidadComponent implements OnInit {
   img_foto:string="";
   img: Imagenes;
   imagenExist:boolean = false;
+  cuitValido:boolean = true;
+  mailValido:boolean = true;
+  validarPais:boolean = true;
+  validarProv:boolean = true;
+  validarImagen:boolean = true;
 
   constructor(
     private fb: FormBuilder,
@@ -106,16 +112,20 @@ export class RegisterEntidadComponent implements OnInit {
 
   addEntidad() {
     this.submitted = true;
-    console.log(this.usuarioModel);
-    console.log(this.entidadModel);
-    if (!this.registrarEntidad.invalid && !this.registrarUsuario.invalid && this.validarPass) {
-      this.registrarComoEntidad();
-    }else{
-      return
+    this.cuitValido = this.isCuitValid();
+    this.mailValido = this.isMailValid();
+    this.validarPaises();
+    this.validarProvincias();
+    this.validarCargaImagen();
+    if (this.cuitValido && this.mailValido &&this.validarProv && this.validarPais && this.validarImagen){
+      if (!this.registrarEntidad.invalid && !this.registrarUsuario.invalid && this.validarPass) {
+        this.registrarComoEntidad();
+      } else {
+        return
+      }
     }
-
-
   }
+
 
   async registrarComoEntidad(){
     let data = {
@@ -208,7 +218,7 @@ export class RegisterEntidadComponent implements OnInit {
   }
 
   getProvincias(id_provincia:number){
-    this._provinciasService.getProvincias(id_provincia).subscribe(Response=>{
+    this._provinciasService.getProvinciasByIdPais(id_provincia).subscribe(Response=>{
       this.provincias = [];
       Response.Resultset.forEach((element:any) => {
         this.provincias.push({ // guardo la lista de laboratorios en el array laboratorios
@@ -261,6 +271,45 @@ export class RegisterEntidadComponent implements OnInit {
     }
   }
 
+  validarCargaImagen(){
+
+    if((this.imagenPorDefecto == false) && (this.imagenPropia == false)){
+      this.validarImagen=false;
+    }else{
+      if(this.imagenPorDefecto){
+        if(this.entidadModel.imagen == ""){
+          this.validarImagen= false;
+        }else{
+          this.validarImagen=true;
+        }
+      }else{
+        if(this.imagenPropia){
+          if(this.imagenModel.length == 0){
+            this.validarImagen= false;
+          }else{
+            this.validarImagen=true;
+          }
+        }
+      }
+    }
+  }
+
+  validarPaises(){
+    if(this.entidadModel.id_pais==0){
+      this.validarPais = false;
+    }else{
+      this.validarPais = true;
+    }
+  }
+
+  validarProvincias(){
+    if(this.entidadModel.id_provincia==0){
+      this.validarProv = false;
+    }else{
+      this.validarProv = true;
+    }
+  }
+
   /** PREVISUALIZAR IMAGEN.
 	* @Observations : Previsualiza la imgen seleccionada por el usuario,
 	* renderiza la imagen en tiempo real.
@@ -275,5 +324,20 @@ export class RegisterEntidadComponent implements OnInit {
 
   public getStringImg(imagen:string):string{
     return this.img.bajarImagen(imagen)
+  }
+
+
+  isCuitValid():boolean {
+    let cuit= (<HTMLInputElement>document.getElementById('cuit')).value;
+    const regexCuit = /^(20|23|27|30|33)([0-9]{9}|-[0-9]{8}-[0-9]{1})$/g;
+    this.cuitValido=regexCuit.test(cuit);
+    return  this.cuitValido
+  }
+  
+  isMailValid():boolean {
+    let mail= (<HTMLInputElement>document.getElementById('mail')).value;
+    const regexp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+    this.mailValido=regexp.test(mail);
+    return  this.mailValido
   }
 }

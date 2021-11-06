@@ -16,6 +16,8 @@ import { ListarCursosComponent } from './listar-cursos/listar-cursos.component';
 import { RegisterAdminComponent } from './register-admin/register-admin.component';
 import { RegisterEntidadComponent } from './register-entidad/register-entidad.component';
 import { ImgTestComponent } from './img-test/img-test.component';
+import { AbmPaisesComponent } from './abm-paises/abm-paises.component';
+import { AbmProvinciasComponent } from './abm-provincias/abm-provincias.component';
 
 
 
@@ -33,6 +35,8 @@ import { ImgTestComponent } from './img-test/img-test.component';
         RegisterAdminComponent,
         RegisterEntidadComponent,
         ImgTestComponent,
+        AbmPaisesComponent,
+        AbmProvinciasComponent,
         
 
        
@@ -55,7 +59,9 @@ import { ImgTestComponent } from './img-test/img-test.component';
         AgregarCursoComponent,
         RegisterAdminComponent,
         RegisterEntidadComponent,
-        ImgTestComponent
+        ImgTestComponent,
+        AbmPaisesComponent,
+        AbmProvinciasComponent
 
     ],
     schemas: [ CUSTOM_ELEMENTS_SCHEMA ]

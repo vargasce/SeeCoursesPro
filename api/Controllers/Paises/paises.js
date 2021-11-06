@@ -5,7 +5,7 @@ const envProperties = require("../../env.vars.json");
 const node_env = process.env.NODE_ENV || 'developmen';
 const props = envProperties[node_env];
 const schema = props.DB.SCHEMA;
-const funciones = require('../../Custom/function_custom/custom');
+const fn = require('../../Custom/function_custom/custom');
 
 const controller = {
 
@@ -24,6 +24,27 @@ const controller = {
           return res.status(200).send({ 'error' : '', 'Resultset' : result_list.rows });
         }catch( err ){
           return res.status(500).send({ 'error' : `Eror al listar paises, paises.js : ${err}` });
+        }
+
+      break;
+
+      case 'list-paisesById' :
+        
+        let id_pais = req.body.data.id;
+
+        try{
+          fn.validateType( 'number', id_pais );
+        }catch( err ){
+          return res.status(200).send({ 'error' : `${err}`});
+        }
+
+        let sql_list_ById = getSqlStringByIb( id_pais );
+
+        try{
+          let result_list_ById = await con.QueryAwait( sql_list_ById );
+          return res.status(200).send({ 'error' : '', 'ResultSet' : result_list_ById.rows });
+        }catch( err ){
+          return res.status(500).send({ 'error' : `Error en obtener paises : ${err}`});
         }
 
       break;
@@ -141,5 +162,16 @@ const updateSqlStr = ( data ) =>{
  */
 const deleteSqlStr = ( id ) =>{
   let sql = `DELETE FROM pais WHERE id = ${id} ;`;
+  return sql;
+}
+
+
+/**   GET PAISES BY ID
+ * @Observations : Sql string obtener paises por id.
+ * @param id : String => id del registro.
+ * @return sql : String => String con la consulta a enviar a la base de datos.
+ */
+const getSqlStringByIb = ( id ) =>{
+  let sql = `SELECT * FROM pais WHERE id = ${id} ;`;
   return sql;
 }

@@ -30,6 +30,9 @@
                     <h1 style="line-height: 1.2; font-size: 1.75rem; font-weight: 500;" class="text-center">Ingresar datos de Entidad
                     </h1>
                     <h3 class="text-danger text-center mt-3" *ngIf="submitted && registrarEntidad.invalid">TODOS LOS CAMPOS SON OBLIGATORIOS</h3>
+                    <h3 class="text-danger text-center mt-3" *ngIf="!validarPais">Debe seleccionar al menos un pais</h3>
+                    <h3 class="text-danger text-center mt-3" *ngIf="!validarProv">Debe seleccionar al menos una provincia</h3>
+                    <h3 class="text-danger text-center mt-3" *ngIf="!validarImagen">Debe seleccionar al menos una imagen</h3> 
                     <form name ="registrarEntidadDataForm"  #registrarEntidadDataForm="ngForm"  class="mt-4" [formGroup]="registrarEntidad" (ngSubmit)="addEntidad()">
 
                         <div class="row" style="margin-bottom:3px;">
@@ -37,7 +40,8 @@
                                 <input #passForm name="nombre"  [(ngModel)]="entidadModel.nombre" type="text" class="form-control mt-3" placeholder="Nombre" formControlName="nombre">
                             </div>
                             <div class="col">
-                                <input #cuitlForm name="cuit"  [(ngModel)]="entidadModel.cuit" type="text" class="form-control mt-3" placeholder="Cuit" formControlName="cuit">
+                                <input id="cuit"#cuitlForm name="cuit"  [(ngModel)]="entidadModel.cuit" type="text" class="form-control mt-3" placeholder="Cuit" formControlName="cuit">
+                                <h5 class="text-danger text-center mt-0" *ngIf="!cuitValido">Ingrese un cuit valido</h5>
                             </div>
                         </div>
                         
@@ -65,8 +69,9 @@
                             <div class="col">
                                 <input #usuarioForm name="telefono"  [(ngModel)]="entidadModel.telefono" type="text" class="form-control mt-3" placeholder="Telefono" formControlName="telefono">
                             </div>
-                            <div class="col">
-                                <input #emailForm name="email"  [(ngModel)]="entidadModel.email" type="text" class="form-control mt-3" placeholder="Email" formControlName="email">
+                            <div class="col">   
+                                <input id="mail" #emailForm name="email"  [(ngModel)]="entidadModel.email" type="text" class="form-control mt-3" placeholder="Email" formControlName="email">
+                                <h5 class="text-danger text-center mt-0" *ngIf="!mailValido">Ingrese un Email valido</h5>
                             </div>
                         </div>
                         
