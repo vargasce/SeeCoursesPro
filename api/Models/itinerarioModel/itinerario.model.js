@@ -20,6 +20,7 @@ class ItinerarioModel{
       this.validado = data.validado;
       this.finalizado = data.finalizado;
       this.rechazado = data.rechazado;
+      this.hora_itinerario_fin = data.hora_itinerario_fin;
     }
   }
 
@@ -31,6 +32,7 @@ class ItinerarioModel{
   getObservacion (){ return this.observacion; }
   getFechaItinerario (){ return this.fecha_itinerario; }
   getHoraItinerario (){ return this.hora_itinerario; }
+  getHoraItinerarioFin(){ return this.hora_itinerario_fin; }
   getFechaAlta (){ return this.fecha_alta; }
   getImagen (){ return this.imagen; }
   getLink (){ return this.link; }
@@ -48,6 +50,7 @@ class ItinerarioModel{
   setObservacion ( observacion ){ this.observacion = observacion; }
   setFechaItinerario ( fecha_itinerario ){ this.fecha_itinerario = fecha_itinerario; }
   setHoraItinerario ( hora_itinerario ){ this.hora_itinerario = hora_itinerario; }
+  setHoraItinerarioFin( hora_itinerario_fin ){ this.hora_itinerario_fin = hora_itinerario_fin; }
   setFechaAlta ( fecha_alta ){ this.fecha_alta = fecha_alta; }
   setImagen ( imagen ){ this.imagen = imagen; }
   setLink ( link ){ this.link = link; }
@@ -77,7 +80,8 @@ class ItinerarioModel{
         viewed,
         validado,
         finalizado,
-        rechazado
+        rechazado,
+        hora_itinerario_fin
     )
     VALUES(
         ${this.getIdEntidad()},
@@ -94,7 +98,8 @@ class ItinerarioModel{
         ${this.getViewed()},
         ${this.getValidado()},
         ${this.getFinalizado()},
-        ${this.getRechazado()}
+        ${this.getRechazado()},
+        '${this.getHoraItinerarioFin()}'
     ) RETURNING id ;
     `;
 
@@ -202,17 +207,10 @@ class ItinerarioModel{
       sql = `
         SELECT id, id_entidad, nombre, titulo, descripcion, observacion, fecha_itinerario, hora_itinerario, fecha_alta, imagen, link, instructor, validado, finalizado, rechazado, viewed, hora_itinerario_fin
           FROM public.itinerario	
-          WHERE 
-              hora_itinerario > '${data.hora_inicio}'
-              and
-							hora_itinerario_fin < '${data.hora_fin}'
-              and 
-              fecha_itinerario = '${data.fecha}'
+          WHERE fecha_itinerario = '${data.fecha}'
 		  ;`;
 
     }
-
-    //2021-01-01
 
     return sql;
   }

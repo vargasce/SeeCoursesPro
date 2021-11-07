@@ -20,6 +20,7 @@
     "jsonwebtoken": "^8.5.1",
     "make-dir": "^3.1.0",
     "md5": "^2.3.0",
+    "moment": "^2.29.1",
     "momentjs": "^2.0.0",
     "msexcel-builder": "^0.0.2",
     "mysql": "^2.18.1",

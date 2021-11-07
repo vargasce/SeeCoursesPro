@@ -1,8 +1,10 @@
 'use strict'
+
+//const moment = require('moment');
+
 /** METODOS PARA MENEJO DE FECHAS.
  * @Observations : La idea es centralizar todos los datos de fechas,
  * asi mantaner instacias y usos generales de los mismos.
- *
  */
 
 /** OBTENER FECHA ACTUAL EN STRING
@@ -41,6 +43,16 @@ const getDateCurrent = () => {
 	return new Date();
 }
 
+/** OBTENER FECHA ACTUAL POR FECHA.  
+ * @Observations : Retorna fecha actual, instancia Date.
+ * @param { strin } => Fecha actual.
+ * @returns fecha : Date.
+ */ 
+const getDateCurrentComplete = ( fecha ) => {
+	return new Date( fecha );
+}
+
+
 /** OBTENER HORA Y MINUTOS ACTUAL.
  * @Observations : Retorna hora y minutos actual en formato
  * de string.
@@ -54,10 +66,38 @@ const getHourMinuteCurrent = () => {
 	return `${hour}:${minute}:${seconds}`;
 }
 
+/** VALIDATE RANGE TIME
+ * @Observations : Se retorna TRUE/FALSE si existe solapamiento de fecheas.
+ * @param { string } hora 		  => Fecha de trabajo.
+ * @param { string } hInitBase    => Hora inicio base.
+ * @param { string } hEndBase 	  => Hora fin base.
+ * @param { string } hInitCompare => Hora inicio comparar.
+ * @param { string } hEndCompare  => Hora fin compare.
+ * @returns { boolean } => TRUE or FALSE. 
+ */
+const belongsRangeTime = ( fecha, hInitBase, hEndBase, hInitCompare, hEndCompare ) =>{
+	let fehcaBaseI = getDateCurrentComplete( `${fecha} ${hInitBase}`);
+	let fehcaBaseE = getDateCurrentComplete( `${fecha} ${hEndBase}`);
+	let fehcaCompareI = getDateCurrentComplete( `${fecha} ${hInitCompare}`);
+	let fehcaCompareE = getDateCurrentComplete( `${fecha} ${hEndCompare}`);
+
+	// 12:00 13:00 => 11:30 12:30
+	if( fehcaCompareI.getTime() > fehcaBaseI.getTime() && fehcaCompareI.getTime() < fehcaBaseE.getTime() ){
+		return false;
+	}
+
+	if( fehcaCompareE.getTime() > fehcaBaseI.getTime() && fehcaCompareE.getTime() < fehcaBaseE.getTime() ){
+		return false;
+	}
+
+	return true;
+}
+
 module.exports = {
 	getDateCurrentString : getDateCurrentString,
 	getDateCurrent : getDateCurrent,
 	getHourMinuteCurrent : getHourMinuteCurrent,
-	getDateCurrentStringCustom : getDateCurrentStringCustom
+	getDateCurrentStringCustom : getDateCurrentStringCustom,
+	belongsRangeTime : belongsRangeTime
 }
 

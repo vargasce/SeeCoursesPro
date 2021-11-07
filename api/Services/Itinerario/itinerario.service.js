@@ -4,6 +4,7 @@ const con = require('../../DB-connect/connectDB');
 const itinerarioModel = require('../../Models/itinerarioModel/itinerario.model');
 const custon = require('../../Custom/function_custom/custom');
 const itinerarioError = require('../../Error/Itinerario/itinerarioError');
+const dt = require('../../Custom/dates/dates');
 
 const itinerarioService = {
 
@@ -320,7 +321,17 @@ const itinerarioService = {
 
 			try{
 				let result = await con.QueryAwait( sqlString );
-				resolve( result );
+        let dataArray = [];
+        dataArray.push(  ... result.rows );
+
+        let resultSend = dataArray.reduce( ( previus, current ) => {
+          if( dt.belongsRangeTime( data.fecha_itinerario, current.hora_itinerario, current.hora_itinerario_fin,
+              data.hora_itinerario, data.hora_itinerario_fin )){
+            return current;
+          }
+        }, []);
+
+				resolve( resultSend );
 			}catch( err ){
 				throw new intinerarioError( 'Error in Itinerario', `Error get query getAvailabilityDate() : ${err} `);
 			}
