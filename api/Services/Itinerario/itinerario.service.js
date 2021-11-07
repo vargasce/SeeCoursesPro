@@ -317,31 +317,31 @@ const itinerarioService = {
       }
 
       let objItinerario = new itinerarioModel();
-			let sqlString = objItinerario.getSqlAvailable( data );
-
+			let sqlString = objItinerario.getSqlAvailabilityDate( data );
+      console.log( sqlString );
 			try{
 				let result = await con.QueryAwait( sqlString );
-        let dataArray = [];
+        let dataArray = new Array();
         dataArray.push(  ... result.rows );
 
         let resultSend = dataArray.reduce( ( previus, current ) => {
-          if( dt.belongsRangeTime( data.fecha_itinerario, current.hora_itinerario, current.hora_itinerario_fin,
-              data.hora_itinerario, data.hora_itinerario_fin )){
-            return current;
+          console.log("%s %s %s %s %s",data.fecha_itinerario, current.hora_itinerario, current.hora_itinerario_fin, data.hora_itinerario, data.hora_itinerario_fin );
+          if( dt.belongsRangeTime( data.fecha_itinerario, current.hora_itinerario, current.hora_itinerario_fin, data.hora_itinerario, data.hora_itinerario_fin )){
+            previus.push( current );
+            return previus;
           }
         }, []);
-
+        console.log( resultSend );
 				resolve( resultSend );
+
 			}catch( err ){
-				throw new intinerarioError( 'Error in Itinerario', `Error get query getAvailabilityDate() : ${err} `);
+        console.log( err );
+				reject( new intinerarioError( 'Error in Itinerario', `Error get query getAvailabilityDate() : ${err} `) );
 			}
 
     });
   }
 	
-	//Por ahora dejo esto por aca.
-	// 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
-
 };
 
 module.exports = itinerarioService;

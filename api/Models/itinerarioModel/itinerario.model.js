@@ -207,7 +207,7 @@ class ItinerarioModel{
       sql = `
         SELECT id, id_entidad, nombre, titulo, descripcion, observacion, fecha_itinerario, hora_itinerario, fecha_alta, imagen, link, instructor, validado, finalizado, rechazado, viewed, hora_itinerario_fin
           FROM public.itinerario	
-          WHERE fecha_itinerario = '${data.fecha}'
+          WHERE fecha_itinerario = '${data.fecha_itinerario}'
 		  ;`;
 
     }
