@@ -1,3 +1,4 @@
+<app-navbar-admin-general></app-navbar-admin-general>
 <div class="container mt-5">
     <div class="card">
         <div class="card-body">
@@ -16,8 +17,8 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let provincia of provincias">
-                        <td> {{provincia.desc_pais}} </td>
-                        <td> {{provincia.descripcion}} </td>
+                        <td> {{provincia.descr_pais}} </td>
+                        <td> {{provincia.descr_provincia}} </td>
                         <td><i [routerLink]="['/home/editProvincias/', provincia.id]" class="fas fa-edit fa-lg text-info "></i></td>
                         <td><i (click)="eliminarProvincia(provincia.id)" class="fas fa-trash-alt fa-lg text-danger"></i> </td>
                     </tr>

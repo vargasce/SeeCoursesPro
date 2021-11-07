@@ -18,6 +18,7 @@ import { RegisterEntidadComponent } from './register-entidad/register-entidad.co
 import { ImgTestComponent } from './img-test/img-test.component';
 import { AbmPaisesComponent } from './abm-paises/abm-paises.component';
 import { AbmProvinciasComponent } from './abm-provincias/abm-provincias.component';
+import { NavbarAdminGeneralComponent } from './navbar-admin-general/navbar-admin-general.component';
 
 
 
@@ -37,6 +38,7 @@ import { AbmProvinciasComponent } from './abm-provincias/abm-provincias.componen
         ImgTestComponent,
         AbmPaisesComponent,
         AbmProvinciasComponent,
+        NavbarAdminGeneralComponent,
         
 
        
@@ -61,7 +63,8 @@ import { AbmProvinciasComponent } from './abm-provincias/abm-provincias.componen
         RegisterEntidadComponent,
         ImgTestComponent,
         AbmPaisesComponent,
-        AbmProvinciasComponent
+        AbmProvinciasComponent,
+        NavbarAdminGeneralComponent
 
     ],
     schemas: [ CUSTOM_ELEMENTS_SCHEMA ]

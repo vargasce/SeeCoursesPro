@@ -173,7 +173,7 @@ const deleteSqlStr = ( id ) =>{
 }
 
 const listSqlList = () =>{
-  let sql = `SELECT prov.id AS id_provincia, prov.descripcion AS descr_provincia, pa.id AS id_pais, pa.descripcion AS descr_pais
+  let sql = `SELECT prov.id AS id, prov.descripcion AS descr_provincia, pa.id AS id_pais, pa.descripcion AS descr_pais
              FROM provincia as prov 
              INNER JOIN pais as pa 
              ON prov.id_pais = pa.id ;`;

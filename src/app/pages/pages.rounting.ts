@@ -10,7 +10,8 @@ const routes: Routes = [
   { path : 'registrarEntidad', loadChildren : () => import('./registrar-entidad/registrar-entidad.module').then( reference => reference.RegistrarEntidadModule)},
   { path : 'registrarAdmin', loadChildren : () => import('./registrar-admin/registrar-admin.module').then( reference => reference.RegistrarAdminModule)},
   { path : 'paises', loadChildren : () => import('./paises/paises.module').then( reference => reference.PaisesModule)},
-  { path : 'provincias', loadChildren : () => import('./provincias/provincias.module').then( reference => reference.ProvinciasModule)}
+  { path : 'provincias', loadChildren : () => import('./provincias/provincias.module').then( reference => reference.ProvinciasModule)},
+  { path : 'adminGeneral', loadChildren : () => import('./administrador-general/administrador-general.module').then( reference => reference.AdministradorGeneralModule)}
 ];
  
 @NgModule({

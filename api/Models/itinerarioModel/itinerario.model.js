@@ -212,6 +212,8 @@ class ItinerarioModel{
 
     }
 
+    //2021-01-01
+
     return sql;
   }
 

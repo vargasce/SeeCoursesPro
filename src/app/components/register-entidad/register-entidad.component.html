@@ -57,7 +57,7 @@
                             <div class="col">
                                 <select id="provincias" #id_paisForm name="id_provincia"  [(ngModel)]="entidadModel.id_provincia" class="form-select mt-3" formControlName="id_provincia">
                                     <option value="0" disabled selected>Provincias</option>
-                                    <option value="{{prov.id}}" *ngFor ="let prov of provincias;">{{prov.descripcion}}</option>
+                                    <option value="{{prov.id}}" *ngFor ="let prov of provincias;">{{prov.descr_provincia}}</option>
                                 </select>
                             </div>
                             <div class="col">
