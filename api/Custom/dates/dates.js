@@ -76,17 +76,21 @@ const getHourMinuteCurrent = () => {
  * @returns { boolean } => TRUE or FALSE. 
  */
 const belongsRangeTime = ( fecha, hInitBase, hEndBase, hInitCompare, hEndCompare ) =>{
-	let fehcaBaseI = getDateCurrentComplete( `${fecha} ${hInitBase}`);
-	let fehcaBaseE = getDateCurrentComplete( `${fecha} ${hEndBase}`);
+	let fehcaBaseI    = getDateCurrentComplete( `${fecha} ${hInitBase}`);
+	let fehcaBaseE 	  = getDateCurrentComplete( `${fecha} ${hEndBase}`);
 	let fehcaCompareI = getDateCurrentComplete( `${fecha} ${hInitCompare}`);
 	let fehcaCompareE = getDateCurrentComplete( `${fecha} ${hEndCompare}`);
 
-	// 12:00 13:00 => 11:30 12:30
 	if( fehcaCompareI.getTime() > fehcaBaseI.getTime() && fehcaCompareI.getTime() < fehcaBaseE.getTime() ){
 		return false;
 	}
 
 	if( fehcaCompareE.getTime() > fehcaBaseI.getTime() && fehcaCompareE.getTime() < fehcaBaseE.getTime() ){
+		return false;
+	}
+
+	// 12:00:00 13:30:00     11:30:00 12:15:00
+	if( fehcaBaseI.getTime() >= fehcaCompareI.getTime() && fehcaBaseI.getTime() <= fehcaCompareE.getTime() ){
 		return false;
 	}
 

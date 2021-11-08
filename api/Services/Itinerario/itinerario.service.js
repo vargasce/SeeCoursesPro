@@ -5,6 +5,7 @@ const itinerarioModel = require('../../Models/itinerarioModel/itinerario.model')
 const custon = require('../../Custom/function_custom/custom');
 const itinerarioError = require('../../Error/Itinerario/itinerarioError');
 const dt = require('../../Custom/dates/dates');
+const { fn } = require('@angular/compiler/src/output/output_ast');
 
 const itinerarioService = {
 
@@ -318,16 +319,18 @@ const itinerarioService = {
 
       let objItinerario = new itinerarioModel();
 			let sqlString = objItinerario.getSqlAvailabilityDate( data );
-      console.log( sqlString );
+
 			try{
 				let result = await con.QueryAwait( sqlString );
         let dataArray = new Array();
         dataArray.push(  ... result.rows );
 
         let resultSend = dataArray.reduce( ( previus, current ) => {
-          console.log("%s %s %s %s %s",data.fecha_itinerario, current.hora_itinerario, current.hora_itinerario_fin, data.hora_itinerario, data.hora_itinerario_fin );
-          if( dt.belongsRangeTime( data.fecha_itinerario, current.hora_itinerario, current.hora_itinerario_fin, data.hora_itinerario, data.hora_itinerario_fin )){
+
+          if( !dt.belongsRangeTime( data.fecha_itinerario, current.hora_itinerario, current.hora_itinerario_fin, data.hora_itinerario, data.hora_itinerario_fin )){
             previus.push( current );
+            return previus;
+          }else{
             return previus;
           }
         }, []);
@@ -335,13 +338,38 @@ const itinerarioService = {
 				resolve( resultSend );
 
 			}catch( err ){
-        console.log( err );
 				reject( new intinerarioError( 'Error in Itinerario', `Error get query getAvailabilityDate() : ${err} `) );
 			}
 
     });
+
+  },
+
+  /** OBTENER LOS ITINERARIOS POR FECHA.
+   * @Observations => Retorna todos los itineraios de una fecha determinada.
+   * @param { string } fecha => Fecha a consultar.
+   * @returns { Promise } => new Promise<Object> 
+   */
+  getItinerarioForDate : ( fecha ) => {
+    return new Promise( async ( resolve, reject ) =>{
+
+      try{
+        fn.validateType( 'string', fecha );
+      }catch( err ){
+        reject( new itinerarioError('Error itinerario service', `${err}`));
+      }
+
+      try{
+        let resultDate = await con.QueryAwait(`SELECT * FROM itinerario WHERE fecha_itinerario = '${fecha}' ;`);
+        resolve( resultDate );
+      }catch( err ){
+ 				reject( new intinerarioError( 'Error in Itinerario', `Error get query get fecha for date : ${err} `) );
+      }
+
+    });
+
   }
-	
+
 };
 
 module.exports = itinerarioService;
