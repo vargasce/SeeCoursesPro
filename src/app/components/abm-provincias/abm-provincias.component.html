@@ -19,7 +19,7 @@
                     <tr *ngFor="let provincia of provincias">
                         <td> {{provincia.descr_pais}} </td>
                         <td> {{provincia.descr_provincia}} </td>
-                        <td><i [routerLink]="['/home/editProvincias/', provincia.id]" class="fas fa-edit fa-lg text-info "></i></td>
+                        <td><i [routerLink]="['/adminGeneral/provincias/editarProvincias/', provincia.id]" class="fas fa-edit fa-lg text-info "></i></td>
                         <td><i (click)="eliminarProvincia(provincia.id)" class="fas fa-trash-alt fa-lg text-danger"></i> </td>
                     </tr>
                 </tbody>

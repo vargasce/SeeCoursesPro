@@ -19,6 +19,8 @@ import { ImgTestComponent } from './img-test/img-test.component';
 import { AbmPaisesComponent } from './abm-paises/abm-paises.component';
 import { AbmProvinciasComponent } from './abm-provincias/abm-provincias.component';
 import { NavbarAdminGeneralComponent } from './navbar-admin-general/navbar-admin-general.component';
+import { AgregarPaisesComponent } from './agregar-paises/agregar-paises.component';
+import { AgregarProvinciasComponent } from './agregar-provincias/agregar-provincias.component';
 
 
 
@@ -39,6 +41,8 @@ import { NavbarAdminGeneralComponent } from './navbar-admin-general/navbar-admin
         AbmPaisesComponent,
         AbmProvinciasComponent,
         NavbarAdminGeneralComponent,
+        AgregarPaisesComponent,
+        AgregarProvinciasComponent,
         
 
        
@@ -64,7 +68,9 @@ import { NavbarAdminGeneralComponent } from './navbar-admin-general/navbar-admin
         ImgTestComponent,
         AbmPaisesComponent,
         AbmProvinciasComponent,
-        NavbarAdminGeneralComponent
+        NavbarAdminGeneralComponent,
+        AgregarPaisesComponent,
+        AgregarProvinciasComponent,
 
     ],
     schemas: [ CUSTOM_ELEMENTS_SCHEMA ]

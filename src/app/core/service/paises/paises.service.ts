@@ -1,6 +1,8 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHandler, HttpHeaders } from "@angular/common/http";
 import { environment } from '../../../../environments/environment';
+import { PaisesModel } from "../../models/paises/paises.model";
+import { Observable } from "rxjs";
 
 @Injectable({
     providedIn: 'root'
@@ -37,6 +39,25 @@ export class PaisService {
         let send ={
             'action' : "delete-paises",
             'data'   : id
+        }
+        return this.http.post<any>( environment.apiURL + this.controller , send, headers );
+    }
+
+    guardarPais(data:PaisesModel):  Observable<any>{ 
+        let headers = { headers : environment.headers };
+        let send ={
+            'action' : "add-paises",
+            'data'   : data
+        }
+        return this.http.post<any>( environment.apiURL + this.controller , send, headers );
+    }
+
+    editarPaises(id:number,data:PaisesModel):  Observable<any>{  
+        let headers = { headers : environment.headers };
+        let send ={
+            'action' : "update-paises",
+            'id'     : id,   
+            'data'   : data
         }
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }

@@ -17,6 +17,8 @@ import { RegistrarAdminComponent } from './registrar-admin/registrar-admin.compo
 import { PaisesComponent } from './paises/paises.component';
 import { ProvinciasComponent } from './provincias/provincias.component';
 import { AdministradorGeneralComponent } from './administrador-general/administrador-general.component';
+import { AddPaisesComponent } from './add-paises/add-paises.component';
+import { AddProvinciasComponent } from './add-provincias/add-provincias.component';
 //import { ComponentsModule } from '../components/components.module';
 
 //IMPORTS YOUR PAGES MAIN FOR SYSTEM 
@@ -35,6 +37,8 @@ import { AdministradorGeneralComponent } from './administrador-general/administr
         PaisesComponent,
         ProvinciasComponent,
         AdministradorGeneralComponent,
+        AddPaisesComponent,
+        AddProvinciasComponent,
 
     ],
     imports : [

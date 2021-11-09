@@ -181,12 +181,18 @@ class Notificacion {
                enti.imagen AS imagen_entidad,
                enti.cuit AS cuit_entidad,
                enti.ciudad AS ciudad_entidad,
-               enti.director AS director_entidad
+               enti.director AS director_entidad,
+               pas.descripcion AS pais_entidad,
+               prov.descripcion as provincia_entidad
         FROM notificacion AS noti
         FULL OUTER JOIN itinerario AS it 
         ON noti.id_curso = it.id
         INNER JOIN entidad AS enti 
         ON enti.id = noti.id_entidad
+        INNER JOIN pais AS pas 
+        ON pas.id = enti.id_pais
+        INNER JOIN provincia AS prov
+        ON prov.id = enti.id_procincia
         WHERE noti.id_entidad = ${filtro.id}
         ORDER BY noti.id DESC
       ;`;
@@ -233,10 +239,14 @@ class Notificacion {
                enti.imagen AS imagen_entidad,
                enti.cuit AS cuit_entidad,
                enti.ciudad AS ciudad_entidad,
-               enti.director AS director_entidad
+               enti.director AS director_entidad,
+               pas.descripcion AS pais_entidad,
+               prov.descripcion as provincia_entidad
         FROM notificacion AS noti
         FULL OUTER JOIN itinerario AS it ON noti.id_curso = it.id
         INNER JOIN entidad AS enti       ON enti.id = noti.id_entidad
+        INNER JOIN pais as pas ON pas.id = enti.id_pais
+        INNER JOIN provincia AS prov ON prov.id = enti.id_provincia
         ;`;
     }
 

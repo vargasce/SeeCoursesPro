@@ -334,7 +334,7 @@ const itinerarioService = {
             return previus;
           }
         }, []);
-        console.log( resultSend );
+        //console.log( resultSend );
 				resolve( resultSend );
 
 			}catch( err ){
