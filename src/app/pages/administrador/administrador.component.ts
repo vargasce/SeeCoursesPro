@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
+import { DialogoConfirmacionComponent } from 'src/app/components/dialogo-confirmacion/dialogo-confirmacion.component';
 import { fechas } from 'src/app/core/custom/fechas';
 import { Imagenes } from 'src/app/core/global/imagenes/imagenes';
 import { NotificacionModel } from 'src/app/core/models/notificacion/notificacion.model';
@@ -19,6 +21,7 @@ export class AdministradorComponent implements OnInit {
   notificaciones:any[]=[];
   entidades:any[]=[];
   displayStyle: any[] = [];
+  displayStyleModal:string = "";
   img: Imagenes;
 
   constructor(
@@ -26,7 +29,8 @@ export class AdministradorComponent implements OnInit {
     private _uploadFileService : UploadFileService,
     private _emailService : EmailService,
     private toastr: ToastrService,
-    private _paisService:PaisService
+    private _paisService:PaisService,
+    public dialogo: MatDialog
     )
     { 
       this.img  = new Imagenes(this._uploadFileService);
@@ -65,7 +69,7 @@ export class AdministradorComponent implements OnInit {
             }
           }
         });
-      }); //CODIGO PARA CUANDO ESTE EL SERVICIO
+      }); 
 
 
   }
@@ -76,6 +80,34 @@ export class AdministradorComponent implements OnInit {
     this.displayStyle[id] = "none";
   }
 
+  openModal() {
+    this.displayStyleModal = "block";
+  }
+
+  acceptModal(){
+    this.displayStyleModal = "none";
+  }
+  closeModal() {
+    this.displayStyleModal = "none";
+
+  }
+
+  mostrarDialogo(): void {
+    this.dialogo
+      .open(DialogoConfirmacionComponent, {
+        data: `Esta seguro que quiere rechazar la entidad?`
+      })
+      .afterClosed()
+      .subscribe((confirmado: string) => {
+        console.log(confirmado);
+        if (confirmado) {
+          alert("¡A mí también!");
+        } else {
+          alert("Deberías probarlo, a mí me gusta :)");
+        }
+      });
+  }
+  
   aprobarSolicitudesDeCursos(id:number,id_entidad:number, id_curso:number,es_curso:boolean,email_entidad:string){  
 
     let fecha = new fechas();

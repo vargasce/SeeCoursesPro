@@ -30,9 +30,6 @@
                     <h1 style="line-height: 1.2; font-size: 1.75rem; font-weight: 500;" class="text-center">Ingresar datos de Entidad
                     </h1>
                     <h3 class="text-danger text-center mt-3" *ngIf="submitted && registrarEntidad.invalid">TODOS LOS CAMPOS SON OBLIGATORIOS</h3>
-                    <h3 class="text-danger text-center mt-3" *ngIf="!validarPais">Debe seleccionar al menos un pais</h3>
-                    <h3 class="text-danger text-center mt-3" *ngIf="!validarProv">Debe seleccionar al menos una provincia</h3>
-                    <h3 class="text-danger text-center mt-3" *ngIf="!validarImagen">Debe seleccionar al menos una imagen</h3> 
                     <form name ="registrarEntidadDataForm"  #registrarEntidadDataForm="ngForm"  class="mt-4" [formGroup]="registrarEntidad" (ngSubmit)="addEntidad()">
 
                         <div class="row" style="margin-bottom:3px;">
@@ -53,12 +50,14 @@
                                     <option value="0" selected>Pais</option>
                                     <option value="{{pais.id}}" *ngFor ="let pais of paises;">{{pais.descripcion}}</option>
                                 </select>
+                                <h5 class="text-danger text-center mt-0"  *ngIf="!validarPais">Debe seleccionar al menos un pais</h5>
                             </div>
                             <div class="col">
                                 <select id="provincias" #id_paisForm name="id_provincia"  [(ngModel)]="entidadModel.id_provincia" class="form-select mt-3" formControlName="id_provincia">
                                     <option value="0" disabled selected>Provincias</option>
                                     <option value="{{prov.id}}" *ngFor ="let prov of provincias;">{{prov.descr_provincia}}</option>
                                 </select>
+                                <h5 class="text-danger text-center mt-0" *ngIf="!validarProv">Debe seleccionar al menos una provincia</h5>
                             </div>
                             <div class="col">
                                 <input #ciudadForm name="ciudad"  [(ngModel)]="entidadModel.ciudad" type="text" class="form-control mt-3" placeholder="Ciudad" formControlName="ciudad">
@@ -79,7 +78,6 @@
                         
                         <input #webForm name="web"  [(ngModel)]="entidadModel.web" type="text" class="form-control mt-3" placeholder="Web" formControlName="web">
                           
-                        <!--<input #imagenForm name="imagen"   type="file" class="form-control mt-3" placeholder="Imagen" formControlName="imagen" (change)="fileChangeEventFoto($event)"> -->
 
                         <input #directorForm name="director"  [(ngModel)]="entidadModel.director" type="text" class="form-control mt-3" placeholder="Director" formControlName="director">
 
@@ -88,6 +86,7 @@
                             <option value="1">Subir imagen propia</option>
                             <option value="2">Subir imagen por defecto</option>
                         </select>
+                        <h5 class="text-danger text-center mt-0" *ngIf="!validarImagen">Debe seleccionar al menos una imagen</h5>
 
                         <select (change)="onChangeSelect($event)" *ngIf="imagenPorDefecto" id ="img-default"class="form-select mt-3">
                             <option value="0" disabled selected>Imagen</option>

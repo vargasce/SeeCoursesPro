@@ -92,6 +92,7 @@
   </div>
 
 
+
   <div *ngFor= "let entidad of entidades ">
     <div  id="{{entidad.id}}" class="modal" role="dialog" [ngStyle]="{'display':displayStyle[entidad.id]}" style="font-size: 16px;">
       <div class="modal-dialog" role="document">
@@ -121,3 +122,23 @@
       </div>
     </div>
   </div>
+
+  <button (click)="[openModal()]">Modal</button>
+  <button mat-raised-button mat-button color="warn" (click)="mostrarDialogo()">Mostrar diálogo</button>
+
+    <div  id="modalRechazarEntidad" class="modal" role="dialog" [ngStyle]="{'display':displayStyleModal}" style="font-size: 16px;">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title mt-3">Rechazar Entidad</h1>
+          </div>
+          <div class="modal-body">
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" (click)="[closeModal()]">Cerrar</button>
+            <button type="button" class="btn btn-success" (click)="[acceptModal()]">Aceptar</button>
+          </div>
+        </div>
+      </div>
+    </div>

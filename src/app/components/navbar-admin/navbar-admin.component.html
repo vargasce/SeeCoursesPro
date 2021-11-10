@@ -10,8 +10,17 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item" routerLinkActive="active">
-                    <a class="nav-link active" routerLink="home">Solicitudes</a>
+                    <a class="nav-link" [routerLink]="['/admin']">Solicitudes</a>
                 </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Parametrizacion
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                      <li><a class="dropdown-item" href="#" [routerLink]="['/adminGeneral/paises']">Paises</a></li>
+                      <li><a class="dropdown-item" href="#" [routerLink]="['/adminGeneral/provincias']">Provincias</a></li>
+                    </ul>
+                  </li>
             </ul>
         </div>
         <div class="container">

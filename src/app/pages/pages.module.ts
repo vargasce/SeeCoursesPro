@@ -21,6 +21,12 @@ import { AddPaisesComponent } from './add-paises/add-paises.component';
 import { AddProvinciasComponent } from './add-provincias/add-provincias.component';
 //import { ComponentsModule } from '../components/components.module';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { DialogoConfirmacionComponent } from "../components/dialogo-confirmacion/dialogo-confirmacion.component";
+
+
 //IMPORTS YOUR PAGES MAIN FOR SYSTEM 
 @NgModule({
     declarations : [
@@ -39,6 +45,7 @@ import { AddProvinciasComponent } from './add-provincias/add-provincias.componen
         AdministradorGeneralComponent,
         AddPaisesComponent,
         AddProvinciasComponent,
+
 
     ],
     imports : [

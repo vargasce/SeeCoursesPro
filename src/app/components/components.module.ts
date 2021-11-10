@@ -21,6 +21,10 @@ import { AbmProvinciasComponent } from './abm-provincias/abm-provincias.componen
 import { NavbarAdminGeneralComponent } from './navbar-admin-general/navbar-admin-general.component';
 import { AgregarPaisesComponent } from './agregar-paises/agregar-paises.component';
 import { AgregarProvinciasComponent } from './agregar-provincias/agregar-provincias.component';
+import { DialogoConfirmacionComponent } from './dialogo-confirmacion/dialogo-confirmacion.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -43,6 +47,7 @@ import { AgregarProvinciasComponent } from './agregar-provincias/agregar-provinc
         NavbarAdminGeneralComponent,
         AgregarPaisesComponent,
         AgregarProvinciasComponent,
+        DialogoConfirmacionComponent,
         
 
        
@@ -53,6 +58,8 @@ import { AgregarProvinciasComponent } from './agregar-provincias/agregar-provinc
         ReactiveFormsModule,
         MatIconModule,
         MatBadgeModule,
+        MatDialogModule,
+        MatButtonModule,
     ],
     exports : [
         NavbarComponent,
@@ -71,8 +78,12 @@ import { AgregarProvinciasComponent } from './agregar-provincias/agregar-provinc
         NavbarAdminGeneralComponent,
         AgregarPaisesComponent,
         AgregarProvinciasComponent,
+        DialogoConfirmacionComponent
 
     ],
+    entryComponents: [
+        DialogoConfirmacionComponent// <--- Aquí
+      ],
     schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 
