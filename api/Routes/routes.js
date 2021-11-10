@@ -10,6 +10,7 @@ const Provincia = require('../Controllers/Provincias/provincias');
 const Pais = require('../Controllers/Paises/paises');
 const Upload = require('../Controllers/Upload/upload');
 const Email = require('../Controllers/Email/email');
+const Administrador = require('../Controllers/Administrador/Administrador');
 
 const router = express.Router();
 
@@ -26,6 +27,7 @@ router.post('/provincia', Provincia.provincias );                     // CONTROL
 router.post('/upload', Upload.upload );                               // CONTROLLER UPLOAD IMG
 router.get('/godownImg/:image', Upload.goDown );                      // CONTROLLER GODOWS IMG
 router.post('/email', Email.emailController );                        // CONTROLLER EMAIL
+router.post('/administrador', Administrador.administradorController ) // CONTROLLER ADMINISTRADOR
 
 module.exports = router;
 

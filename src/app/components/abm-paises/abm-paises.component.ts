@@ -45,6 +45,10 @@ export class AbmPaisesComponent implements OnInit {
             positionClass:'toast-bottom-right'
           });
         }
+      },
+      error =>{
+        this.toastr.error("No se pueden eliminar paises que tengan provincias asociadas","Ocurrio un error",{
+          positionClass:'toast-bottom-right'});
       }
     );
   }

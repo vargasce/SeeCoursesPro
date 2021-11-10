@@ -43,4 +43,4 @@ class AdministradorService{
 
 }
 
-module.exports = AdministradorService;
+module.exports = new AdministradorService() ;

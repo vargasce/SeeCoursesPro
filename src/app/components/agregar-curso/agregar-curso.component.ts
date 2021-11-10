@@ -63,6 +63,7 @@ export class AgregarCursoComponent implements OnInit {
       observacion:['',Validators.required],
       fecha_itinerario:['',Validators.required],
       hora_itinerario:['',Validators.required],
+      hora_itinerario_fin:['',Validators.required],
       link:['',Validators.required],
       instructor:['',Validators.required]
     });
@@ -73,7 +74,7 @@ export class AgregarCursoComponent implements OnInit {
   ];
     
     this.id = Number(environment.id_entidad) //capturo el id del registro que quiero modificar
-    this.itinerarioModel = new ItinerarioModel(0,Number(environment.id_entidad),"","","","","","",this.fechas.currentDate(),"","","",false,false,false,false);
+    this.itinerarioModel = new ItinerarioModel(0,Number(environment.id_entidad),"","","","","","","",this.fechas.currentDate(),"","","",false,false,false,false);
     this.img  = new Imagenes(this._uploadFileService);
   }
 

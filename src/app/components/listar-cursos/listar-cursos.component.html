@@ -15,7 +15,8 @@
                         <th>Descripcion</th>
                         <th>Observacion</th>
                         <th>Fecha del Curso</th>
-                        <th>Hora del Curso</th>
+                        <th>Hora inicio</th>
+                        <th>Hora final</th>
                         <th>Fecha de Alta</th>
                         <th>Link</th>
                         <th>Instructor</th>
@@ -30,6 +31,8 @@
                         <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.observacion}} </td>
                         <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.fecha_itinerario}} </td>
                         <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.hora_itinerario}} </td>
+                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.hora_itinerario_fin}} </td>
+                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.fecha_alta}} </td>
                         <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.fecha_alta}} </td>
                         <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.link}} </td>
                         <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.instructor}} </td>
@@ -56,7 +59,8 @@
                         <th>Descripcion</th>
                         <th>Observacion</th>
                         <th>Fecha del Curso</th>
-                        <th>Hora del Curso</th>
+                        <th>Hora inicio</th>
+                        <th>Hora final</th>
                         <th>Fecha de Alta</th>
                         <th>Link</th>
                         <th>Instructor</th>
@@ -71,6 +75,7 @@
                         <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.observacion}} </td>
                         <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.fecha_itinerario}} </td>
                         <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.hora_itinerario}} </td>
+                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.hora_itinerario_fin}} </td>
                         <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.fecha_alta}} </td>
                         <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.link}} </td>
                         <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.instructor}} </td>
@@ -94,7 +99,8 @@
                         <th>Descripcion</th>
                         <th>Observacion</th>
                         <th>Fecha del Curso</th>
-                        <th>Hora del Curso</th>
+                        <th>Hora inicio</th>
+                        <th>Hora final</th>
                         <th>Fecha de Alta</th>
                         <th>Link</th>
                         <th>Instructor</th>                       
@@ -108,6 +114,7 @@
                         <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.observacion}} </td>
                         <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.fecha_itinerario}} </td>
                         <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.hora_itinerario}} </td>
+                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.hora_itinerario_fin}} </td>
                         <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.fecha_alta}} </td>
                         <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.link}} </td>
                         <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.instructor}} </td>
@@ -131,7 +138,8 @@
                       <th>Descripcion</th>
                       <th>Observacion</th>
                       <th>Fecha del Curso</th>
-                      <th>Hora del Curso</th>
+                      <th>Hora inicio</th>
+                      <th>Hora final</th>
                       <th>Fecha de Alta</th>
                       <th>Link</th>
                       <th>Instructor</th>                      
@@ -145,6 +153,7 @@
                       <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.observacion}} </td>
                       <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.fecha_itinerario}} </td>
                       <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.hora_itinerario}} </td>
+                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.hora_itinerario_fin}} </td>
                       <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.fecha_alta}} </td>
                       <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.link}} </td>
                       <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.instructor}} </td>
@@ -168,7 +177,8 @@
             <p> <b>Descripcion: </b>{{curso.descripcion}}</p>
             <p> <b>Observacion: </b>{{curso.observacion}}</p>
             <p> <b>Fecha del Curso: </b>{{curso.fecha_itinerario}}</p>
-            <p> <b>Hora del Curso: </b>{{curso.hora_itinerario}}</p>
+            <p> <b>Hora inicio: </b>{{curso.hora_itinerario}}</p>
+            <p> <b>Hora final: </b>{{curso.hora_itinerario_fin}}</p>
             <p> <b>Fecha de alta: </b>{{curso.fecha_alta}}</p>
             <p> <b>Link: </b>{{curso.link}}</p>
             <img src="{{getStringImg(curso.imagen)}}"  class="card-img-top"alt="">
@@ -194,7 +204,8 @@
             <p> <b>Descripcion: </b>{{curso.descripcion}}</p>
             <p> <b>Observacion: </b>{{curso.observacion}}</p>
             <p> <b>Fecha del Curso: </b>{{curso.fecha_itinerario}}</p>
-            <p> <b>Hora del Curso: </b>{{curso.hora_itinerario}}</p>
+            <p> <b>Hora inicio: </b>{{curso.hora_itinerario}}</p>
+            <p> <b>Hora final: </b>{{curso.hora_itinerario_fin}}</p>
             <p> <b>Fecha de alta: </b>{{curso.fecha_alta}}</p>
             <p> <b>Link: </b>{{curso.link}}</p>
             <p> <b>Instructor: </b>{{curso.instructor}}</p>
@@ -222,7 +233,8 @@
             <p> <b>Descripcion: </b>{{curso.descripcion}}</p>
             <p> <b>Observacion: </b>{{curso.observacion}}</p>
             <p> <b>Fecha del Curso: </b>{{curso.fecha_itinerario}}</p>
-            <p> <b>Hora del Curso: </b>{{curso.hora_itinerario}}</p>
+            <p> <b>Hora inicio: </b>{{curso.hora_itinerario}}</p>
+            <p> <b>Hora final: </b>{{curso.hora_itinerario_fin}}</p>
             <p> <b>Fecha de alta: </b>{{curso.fecha_alta}}</p>
             <p> <b>Link: </b>{{curso.link}}</p>
             <p> <b>Instructor: </b>{{curso.instructor}}</p>
@@ -249,7 +261,8 @@
             <p> <b>Descripcion: </b>{{curso.descripcion}}</p>
             <p> <b>Observacion: </b>{{curso.observacion}}</p>
             <p> <b>Fecha del Curso: </b>{{curso.fecha_itinerario}}</p>
-            <p> <b>Hora del Curso: </b>{{curso.hora_itinerario}}</p>
+            <p> <b>Hora inicio: </b>{{curso.hora_itinerario}}</p>
+            <p> <b>Hora final: </b>{{curso.hora_itinerario_fin}}</p>
             <p> <b>Fecha de alta: </b>{{curso.fecha_alta}}</p>
             <p> <b>Link: </b>{{curso.link}}</p>
             <p> <b>Instructor: </b>{{curso.instructor}}</p>

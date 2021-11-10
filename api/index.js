@@ -12,7 +12,7 @@ process.env.DB = props.DB;
 
 function createServer (){
 	http.Server = app.listen(port,host, ()=>{
-		console.log(`Service "Billing" run, enter next address => Url : http://${host}:${port}/api`);
+		console.log(`[+] Service "Billing" run, enter next address => Url : http://${host}:${port}/api`);
 	});
 	return http.Server;
 }

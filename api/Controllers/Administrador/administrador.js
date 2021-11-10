@@ -1,8 +1,6 @@
 'use strict'
 
-const _service = require('../../Services/Administrador/administradorService');
-const Container = require('typedi');
-const _administradorService = Container.get(_service);
+const _administradorService = require('../../Services/Administrador/administradorService');
 
 const controller = {
 

@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHandler, HttpHeaders } from "@angular/common/http";
 import { environment } from '../../../../environments/environment';
+import { ProvinciasModel } from "../../models/provincias/provincias.model";
 
 @Injectable({
     providedIn: 'root'
@@ -37,10 +38,48 @@ export class ProvinciasService {
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }
 
+    getProvinciaById(id:number){
+        let headers = { headers : environment.headers };
+        let send ={
+            'action' : "get-provinciaById",
+            'data' : {
+                'id' : id
+            }
+        }
+        return this.http.post<any>( environment.apiURL + this.controller , send, headers );
+    }
+
     eliminarProvincia(id:string){
         let headers = { headers : environment.headers };
         let send ={
-            'action' : "delate-provincias",
+            'action' : "delete-provincias",
+            'data'   : {
+                'id' : id
+            }
+        }
+        return this.http.post<any>( environment.apiURL + this.controller , send, headers );
+    }
+
+    editarProvincia(id_pais:number,id:number,descripcion:string){
+        let headers = { headers : environment.headers };
+        let send ={
+            'action' : "update-provincias",
+            'data'   : {
+                'id': id,
+                'descripcion': descripcion,
+                'id_pais': id_pais
+            }
+        }
+        return this.http.post<any>( environment.apiURL + this.controller , send, headers );
+    }
+
+    guardarProvincia(provincia:ProvinciasModel){
+        let headers = { headers : environment.headers };
+        let send ={
+            'action' : "add-provincias",
+            'data'   : {
+                'data': provincia
+            }
         }
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }

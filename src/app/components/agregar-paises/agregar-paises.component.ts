@@ -55,8 +55,7 @@ export class AgregarPaisesComponent implements OnInit {
       this.titulo = 'Editar/Ver Paises';
       this.loading=true
       this._paisesService.getPaisesById(this.id).subscribe(Response =>{
-        console.log(Response)
-        this.paisesModel = Response.Resultset[0];
+        this.paisesModel = Response.ResultSet[0];
         this.loading=false
       })
     }
@@ -76,7 +75,7 @@ export class AgregarPaisesComponent implements OnInit {
         });
       }
     })
-    this.router.navigate(['/home/paises']);
+    this.router.navigate(['/adminGeneral/paises']);
     
   }
 
@@ -94,7 +93,7 @@ export class AgregarPaisesComponent implements OnInit {
         });
       }
     })
-    this.router.navigate(['/home/paises']);
+    this.router.navigate(['/adminGeneral/paises']);
   }
 
 }

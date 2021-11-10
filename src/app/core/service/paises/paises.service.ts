@@ -28,8 +28,10 @@ export class PaisService {
     getPaisesById(id:number){
         let headers = { headers : environment.headers };
         let send ={
-            'action' : "get-paises",
-            'data'   : id
+            'action' : "list-paisesById",
+            'data'   : {
+                'id' : id,
+            }
         }
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }
@@ -38,7 +40,9 @@ export class PaisService {
         let headers = { headers : environment.headers };
         let send ={
             'action' : "delete-paises",
-            'data'   : id
+            'data'   : {
+                'id' : id,
+            }
         }
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }
@@ -55,9 +59,11 @@ export class PaisService {
     editarPaises(id:number,data:PaisesModel):  Observable<any>{  
         let headers = { headers : environment.headers };
         let send ={
-            'action' : "update-paises",
-            'id'     : id,   
-            'data'   : data
+            'action' : "update-paises",  
+            'data'   : {
+                'id' : id,
+                'data'   : data
+            }
         }
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }

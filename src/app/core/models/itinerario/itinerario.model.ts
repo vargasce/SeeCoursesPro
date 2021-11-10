@@ -9,6 +9,7 @@ export class ItinerarioModel{
         public observacion:string,
         public fecha_itinerario:string,
         public hora_itinerario:string,
+        public hora_itinerario_fin:string,
         public fecha_alta:string,
         public imagen:string,
         public link:string,

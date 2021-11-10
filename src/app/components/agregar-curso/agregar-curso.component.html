@@ -25,7 +25,13 @@
                                 onfocus="(this.type='date')" onblur="(this.type='text')" formControlName="fecha_itinerario" style="margin-bottom:5px;" min="{{today}}">  
                             </div>
                             <div class="col">
-                                <input #hora_itinerarioForm name="hora_itinerario"  [(ngModel)]="itinerarioModel.hora_itinerario" type="time" class="form-control mt-3" placeholder="Hora del Curso" formControlName="hora_itinerario" style="margin-bottom:5px;">
+                                <input #hora_itinerarioForm name="hora_itinerario"  [(ngModel)]="itinerarioModel.hora_itinerario"  class="form-control mt-3" placeholder="Hora del Curso" formControlName="hora_itinerario" style="margin-bottom:5px;"
+                                onfocus="(this.type='time')" onblur="(this.type='text')">
+                            </div>
+
+                            <div class="col">
+                                <input #hora_itinerarioForm name="hora_itinerario_fin"  [(ngModel)]="itinerarioModel.hora_itinerario_fin"  class="form-control mt-3" placeholder="Finalización del Curso" formControlName="hora_itinerario_fin" style="margin-bottom:5px;"
+                                onfocus="(this.type='time')" onblur="(this.type='text')">
                             </div>
                         </div>
 

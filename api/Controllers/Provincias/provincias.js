@@ -83,7 +83,7 @@ const controller = {
 
       case 'delete-provincias' :
 
-        let id_delete = req.body.id;
+        let id_delete = req.body.data.id;
         let sql_delete = deleteSqlStr( id_delete );
 
         con.delete( sql_delete, ( error_delete, result_delete  ) => {
@@ -96,14 +96,16 @@ const controller = {
 
       break;
 
-      case 'get-provincias' :
+      case 'get-provinciaById' :
       
-        let id_get = req.body.id;
+        let id_get = req.body.data.id;
 
-        funciones.getSqlForID( id_get, 'provincias', schema, 'id' ).then( ( provincias ) => {
-          return res.status(200).send({ 'error' : '', 'Resultset' : provincias.Resultset });
-        }).catch( ( error_get ) =>{
-          return res.status(500).send({ 'error' : `Error al intentar obtener provincias : ${error_get}` });
+        con.select(`SELECT * FROM provincia WHERE id = ${id_get} ;`, ( error, result ) =>{
+          if( !error ){
+            return res.status(200).send({ 'error' : '', 'ResultSet' : result.rows });
+          }else{
+            return res.status(500).send({ 'error' : `Error al intentar obtener provincias : ${error}` });
+          }
         });
 
       break;
@@ -138,13 +140,13 @@ const listSqlstrById = ( id_pais  ) =>{
  */
 const addSqlStr = ( data ) =>{
 
-  let sql = `INSERT INTO ${schema}.provincia (
-    id_pais,
-    descripcion
+  let sql = `INSERT INTO provincia (
+    descripcion,
+    id_pais
     )
     VALUES(
-    ${data.id_pais},
-    '${data.descripcion}'
+    '${data.data.descripcion}',
+    ${data.data.id_pais}
     );`;
 
   return sql;
@@ -157,7 +159,7 @@ const addSqlStr = ( data ) =>{
  * @return sql : String => String con la consulta a enviar a la base de datos.
  */
 const updateSqlStr = ( data ) =>{
-  let sql = `UPDATE ${schema}.provincia SET id_pais = ${data.id_pais}, descripcion = '${data.descripcion}' WHERE id = ${data.id} ;`;
+  let sql = `UPDATE provincia SET id_pais = ${data.id_pais} , descripcion = '${data.descripcion}' WHERE id = ${data.id} ;`;
   return sql;
 }
 

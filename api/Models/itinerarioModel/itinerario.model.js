@@ -181,7 +181,7 @@ class ItinerarioModel{
   getSqlStringItinerarioByEntidad( id ){
     let sql = `
       SELECT it.id, it.nombre, it.titulo, it.descripcion, it.observacion, to_char( it.fecha_itinerario, 'yyyy-MM-DD' ) AS fecha_itinerario, it.hora_itinerario, 
-             to_char( it.fecha_alta, 'yyyy-MM-DD' ) AS fecha_alta, it.imagen, it.link, it.instructor, it.viewed, it.validado, it.finalizado, it.rechazado,
+             to_char( it.fecha_alta, 'yyyy-MM-DD' ) AS fecha_alta, it.imagen, it.link, it.instructor, it.viewed, it.validado, it.finalizado, it.rechazado, it.hora_itinerario_fin,
              ent.id as id_entidad, ent.nombre as nombre_entidad,
              ent.descripcion as descripcion_entidad, ent.telefono as telefono_entidad,
              ent.director as director_entidad, ent.ciudad as ciudad_entidad

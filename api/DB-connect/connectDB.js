@@ -111,7 +111,7 @@ const deleteQuery = ( sql, resultset ) =>{
 				resultset( error, null );
 			}
 		}else{
-			console.log(`Error al relizar delete a la DB : ${error}`);
+			resultset( error, null );
 		}
 	});
 }

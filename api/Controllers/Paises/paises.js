@@ -81,14 +81,14 @@ const controller = {
 
       case 'delete-paises' :
 
-        let id_delete = req.body.id;
+        let id_delete = req.body.data.id;
         let sql_delete = deleteSqlStr( id_delete );
 
         con.delete( sql_delete, ( error_delete, result_delete  ) => {
           if( !error_delete ){
             return res.status(200).send({ 'error' : '', 'Resultset' : result_delete.rows });
           }else{
-            return res.statu(500).send({ 'error' : `Error al intentar eliminar paises : ${error_delete}` });
+            return res.status(500).send({ 'error' : `Error al intentar eliminar paises : ${error_delete}` });
           }
         });  
 
@@ -150,7 +150,7 @@ const addSqlStr = ( data ) =>{
  * @return sql : String => String con la consulta a enviar a la base de datos.
  */
 const updateSqlStr = ( data ) =>{
-  let sql = `UPDATE ${schema}.pais SET descripcion = '${data.descripcion}' WHERE id = ${data.id} ;`;
+  let sql = `UPDATE pais SET descripcion = '${data.data.descripcion}' WHERE id = ${data.id} ;`;
   return sql;
 }
 
