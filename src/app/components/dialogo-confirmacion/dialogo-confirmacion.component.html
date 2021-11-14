@@ -1,9 +1,10 @@
-<h1 mat-dialog-title>Confirmación</h1>
+<h1 mat-dialog-title>Rechazar</h1>
 <div mat-dialog-content>
     <p>{{mensaje}}</p>
 </div>
 <div>
-    <input id="observacion" type="text">
+    <h5 class="text-danger text-center" *ngIf="!completarObservacion">Debe completar el motivo del rechazo antes de continuar</h5>
+    <input id="observacion" type="text" class="form-control mt-3" placeholder="Escriba el motivo">
 </div>
 <div mat-dialog-actions>
     <button mat-button (click)="cerrarDialogo()">No</button>

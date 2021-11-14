@@ -20,13 +20,9 @@ const loginService = {
     return new Promise( async ( resolve, reject ) =>{
 
       let data = req.body.data;
-      let tabla = req.body.tipo == 'admin' ? 'administrador' : 'usuario';
+      let tabla = req.body.tipo == 'admin' ? 'usuario_admin' : 'usuario';
 
-      let sql = `SELECT usro.id, usro.usuario, enti.id AS id_entidad, enti.nombre AS nombre_entidad, enti.email AS email 
-                 FROM ${tabla} AS usro
-                 INNER JOIN entidad AS enti
-                 ON usro.id = enti.id_usuario
-                 WHERE usuario = '${data.usuario}' AND pass = '${md5(data.pass)}' AND activo = true ;`;
+      let sql = getSqlLogin( tabla, data )
 
       con.select( sql, ( error, result ) =>{
         if( !error ){
@@ -46,3 +42,24 @@ const loginService = {
 }
 
 module.exports = loginService;
+
+
+const getSqlLogin = ( tipo, data ) =>{
+  let sql = '';
+  if( tipo == 'usuario'){
+    sql = `SELECT usro.id, usro.usuario, enti.id AS id_entidad, enti.nombre AS nombre_entidad, enti.email AS email 
+           FROM usuario AS usro
+           INNER JOIN entidad AS enti
+           ON usro.id = enti.id_usuario
+           WHERE usuario = '${data.usuario}' AND pass = '${md5(data.pass)}' AND activo = true ;`;
+  }else{
+    sql = `SELECT admin.id AS id_administrador, admin.activo AS activo_administrador, admin.nombre AS nombre_administrador, admin.apellido AS apellido_administrador,
+                  admin.email AS email_administrador, admin.dni AS dni_administrador, usadmin.id_rol AS rol_usadmin , usadmin.usuario AS usuario_usadmin, usadmin.pass_actualizado AS usadmin_passActualizado
+           FROM usuario_admin AS usadmin 
+           INNER JOIN administrador AS admin 
+           ON admin.id = usadmin.id_administrador
+           WHERE usadmin.usuario = '${data.usuario}' AND usadmin.contrasenia = '${md5(data.pass)}' AND usadmin.activo = true ;
+           `;
+  }
+  return sql;
+}

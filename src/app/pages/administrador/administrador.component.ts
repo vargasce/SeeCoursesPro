@@ -20,9 +20,11 @@ export class AdministradorComponent implements OnInit {
   public id : number = 0;
   notificaciones:any[]=[];
   entidades:any[]=[];
+  administrador:any[]=[];
   displayStyle: any[] = [];
   displayStyleModal:string = "";
   img: Imagenes;
+  emailAdministrador:string | null="";
 
   constructor(
     private _administradorService:AdministradorService,
@@ -39,14 +41,7 @@ export class AdministradorComponent implements OnInit {
 
   ngOnInit(): void {
     this.getNotificaciones();
-    //this.getPaisPorId("1");
-  }
-
-  getPaisPorId(id:string):string{
-    this._paisService.getPaisesById(1).subscribe(Response=>{
-      console.log(Response);
-    })
-    return "bolivia"
+    this.emailAdministrador= localStorage.getItem('email_administrador');
   }
 
 
@@ -80,31 +75,32 @@ export class AdministradorComponent implements OnInit {
     this.displayStyle[id] = "none";
   }
 
-  openModal() {
-    this.displayStyleModal = "block";
-  }
 
-  acceptModal(){
-    this.displayStyleModal = "none";
-  }
-  closeModal() {
-    this.displayStyleModal = "none";
-
-  }
-
-  mostrarDialogo(): void {
+  rechazarEntidadesDialog(id:number,id_entidad:number, id_curso:number,es_curso:boolean,email_entidad:string): void {
     this.dialogo
       .open(DialogoConfirmacionComponent, {
-        data: `Esta seguro que quiere rechazar la entidad?`
+        data: `Esta seguro que quiere rechazar la solicitud?`
       })
       .afterClosed()
-      .subscribe((confirmado: string) => {
-        console.log(confirmado);
-        if (confirmado) {
-          alert("¡A mí también!");
-        } else {
-          alert("Deberías probarlo, a mí me gusta :)");
-        }
+      .subscribe((observacion: string) => {
+        console.log(observacion);
+        if (observacion) {
+          this.rechazarEntidades(id,id_entidad,id_curso,es_curso,email_entidad,observacion);
+        } 
+      });
+  }
+
+  rechazarCursosDialog(id:number,id_entidad:number, id_curso:number,es_curso:boolean,email_entidad:string): void {
+    this.dialogo
+      .open(DialogoConfirmacionComponent, {
+        data: `Esta seguro que quiere rechazar la solicitud?`
+      })
+      .afterClosed()
+      .subscribe((observacion: string) => {
+        console.log(observacion);
+        if (observacion) {
+          this.rechazarSolicitudesDeCursos(id,id_entidad,id_curso,es_curso,email_entidad,observacion);
+        } 
       });
   }
   
@@ -131,7 +127,7 @@ export class AdministradorComponent implements OnInit {
       dataEmail : {
         TO      : [email_entidad], // get de todos los mails de admins
         FROM    : "Administrador",
-        EMAIL   : "cristian.ema_91@hotmail.com",
+        EMAIL   : this.emailAdministrador,
         SUBJECT : "Solicitud de curso aprobada",
         TITULO  : "Solicitud de curso aprobada",
         MESSAGE : "Le informamos que se ha aprobado la solicitud de incorporación de curso.",
@@ -156,7 +152,7 @@ export class AdministradorComponent implements OnInit {
     this.id = id;
   }
 
-  rechazarSolicitudesDeCursos(id:number,id_entidad:number, id_curso:number,es_curso:boolean,email_entidad:string){
+  rechazarSolicitudesDeCursos(id:number,id_entidad:number, id_curso:number,es_curso:boolean,email_entidad:string,observacion:string){
     let fecha = new fechas();
     var today = fecha.currentDate();
     let notif : NotificacionModel;
@@ -170,18 +166,18 @@ export class AdministradorComponent implements OnInit {
        true,
        true,
        "Solicitud de Curso rechazada",
-       "Sin Observaciones",
+       observacion,
        today,
     );
     let  emailObject = {
       dataEmail : {
         TO      : [email_entidad], // get de todos los mails de entidad
         FROM    : "Administrador",
-        EMAIL   : "cristian.ema_91@hotmail.com",
+        EMAIL   : this.emailAdministrador,
         SUBJECT : "Solicitud de curso rechazada",
         TITULO  : "Solicitud de curso rechazada",
         MESSAGE : "Le informamos que se ha rechazado la solicitud de incorporación de curso.",
-        OBS     : ""
+        OBS     : observacion
       }
     };
     this._administradorService.rechazarNotificacion(id,es_curso).subscribe(Response =>{
@@ -222,7 +218,7 @@ export class AdministradorComponent implements OnInit {
       dataEmail : {
         TO      : [email_entidad], // get de todos los mails de admins
         FROM    : "Administrador",
-        EMAIL   : "gonzalezjuani239@gmail.com",
+        EMAIL   : this.emailAdministrador,
         SUBJECT : "Solicitud de entidad aprobada",
         TITULO  : "Solicitud de entidad aprobada",
         MESSAGE : "Le informamos que se ha aprobado la solicitud de incorporación de entidad.",
@@ -246,7 +242,7 @@ export class AdministradorComponent implements OnInit {
     this.id = id;
   }
 
-  rechazarEntidades(id:number,id_entidad:number, id_curso:number,es_curso:boolean,email_entidad:string){
+  rechazarEntidades(id:number,id_entidad:number, id_curso:number,es_curso:boolean,email_entidad:string, observacion:string){
     let fecha = new fechas();
     var today = fecha.currentDate();
     let notif : NotificacionModel;
@@ -260,18 +256,18 @@ export class AdministradorComponent implements OnInit {
        false,
        true,
        "Solicitud de Entidad rechazada",
-       "Sin Observaciones",
+       observacion,
        today,
     );
     let  emailObject = {
       dataEmail : {
         TO      : [email_entidad], // get de todos los mails de entidad
         FROM    : "Administrador",
-        EMAIL   : "cristian.ema_91@hotmail.com",
+        EMAIL   : this.emailAdministrador,
         SUBJECT : "Solicitud de entidad rechazada",
         TITULO  : "Solicitud de entidad rechazada",
         MESSAGE : "Le informamos que se ha rechazado la solicitud de incorporación de entidad.",
-        OBS     : ""
+        OBS     : observacion
       }
     };
     

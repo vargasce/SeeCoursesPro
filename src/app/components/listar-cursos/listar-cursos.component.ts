@@ -29,6 +29,7 @@ export class ListarCursosComponent implements OnInit {
     this.getCursos();
   }
 
+
   getCursos(){
     let id = Number(localStorage.getItem("id_entidad"));
     if(id != null){
@@ -42,29 +43,30 @@ export class ListarCursosComponent implements OnInit {
   
           Response.ResultSet.forEach((element:any) => {
   
-            if(element.validado && !element.finalizado && !element.rechazado){
+            if(element.validado && !element.finalizado && !element.rechazado && element.noti_pendiente){
               this.cursos.push({
                 ...element 
               })
             } 
   
-            if(!element.validado){
+            if(!element.validado && element.noti_pendiente){
               this.cursosPendientes.push({
                 ...element 
               })
             }
-            if(element.finalizado){
+            if(element.finalizado && element.noti_pendiente){
               this.cursosFinalizados.push({
                 ...element 
               })
             }
-            if(element.rechazado && element.rechazado){
+            if(element.rechazado && element.noti_pendiente){
                 this.cursosRechazados.push({
                   ...element 
                 })
             }
   
           });
+          console.log(this.cursosRechazados)
         }); 
     }
    

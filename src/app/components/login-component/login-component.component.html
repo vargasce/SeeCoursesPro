@@ -14,7 +14,6 @@
             <h4 class="mt-2 text-center" style="color: red;" *ngIf="usuarioIncorrecto"> Usuario o contraseña incorrectos</h4>
         </form>
         <h4 *ngIf="tipo =='usuario'" [routerLink]="['/registrarEntidad']" style="cursor: pointer"><u>Registrar una entidad</u></h4>
-        <h4 *ngIf="tipo =='admin'" [routerLink]="['/registrarAdmin']" style="cursor: pointer" >Registrar un administrador</h4>
     </div>
 </div>
 

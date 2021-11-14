@@ -39,14 +39,15 @@ export class LoginComponentComponent implements OnInit {
           console.log(response.Resultset);
           localStorage.setItem('token',response.Resultset.token);//token
           localStorage.setItem('user',this.logearUsuario.value.user);//user
-          localStorage.setItem('nombre_entidad',response.Resultset.user.nombre_entidad); //nombre 
-          localStorage.setItem('email_entidad',response.Resultset.user.email); // email
           //this.sesionExpirada();
           if(tipo == "admin"){
-            
+            localStorage.setItem('rol',response.Resultset.user.rol_usadmin);
+            localStorage.setItem('email_administrador',response.Resultset.user.email_administrador); // rol
             this._navegador.navigate(['/admin']);
           }else{
             localStorage.setItem('id_entidad',response.Resultset.user.id_entidad)//user
+            localStorage.setItem('nombre_entidad',response.Resultset.user.nombre_entidad); //nombre 
+            localStorage.setItem('email_entidad',response.Resultset.user.email); // email
             this._navegador.navigate(['/entidad/listarCursos']);
           }
         }

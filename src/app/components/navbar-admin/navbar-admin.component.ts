@@ -16,6 +16,7 @@ export class NavbarAdminComponent implements OnInit {
   verNotificaciones = false;
   notificaciones:any[]=[]
   notificacionVista:boolean[]=[];
+  adminGeneralRol:number = 0;
   
   @Input() id: number=0;
   @Output() updateGrid = new EventEmitter<void>();
@@ -39,8 +40,16 @@ export class NavbarAdminComponent implements OnInit {
 
   ngOnInit(): void {
     this.getNotificaciones();
+    this.verRol();
   }
 
+  verRol(){
+    if(localStorage.getItem('rol')=="1"){
+      this.adminGeneralRol= 1;
+    }else{
+      this.adminGeneralRol= 2;
+    }
+  }
   getNotificaciones() {
         this._administradorService.getNotificaciones().subscribe(
       Response =>{

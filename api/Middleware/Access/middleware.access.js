@@ -20,7 +20,7 @@ class MiddleWare{
         let urlCurrent = req.originalUrl;
         let token = req.body.token ? req.body.token : null;
 
-        if( urlCurrent == '/api/administrador' || urlCurrent == '/api/entidad' ){
+        if( urlCurrent == '/api/administrador' ){
             if( token ){
                 if( this.validoToken( token )){
                     next();

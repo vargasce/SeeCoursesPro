@@ -1,28 +1,37 @@
 'use strict'
 
+const md5 = require('md5');
+
 class Administrador{
 
     constructor( data = null ){
         if( data ){
+            this.id = data.id;
             this.fecha_alta = data.fecha_alta;
-            this.pass = data.pass;
-            this.pass_extremo = data.pass_extremo;
             this.activo = data.activo;
-            this.usuario = data.usuario;
+            this.nombre = data.nombre;
+            this.apellido = data.apellido;
+            this.email = data.email;
+            this.dni = data.dni;
         }
     }
 
     // GETTERS
+    getId(){ return this.id; }
     getFecha_Alta(){ return this.fecha_alta; }
-    getPass(){ return this.pass; }
     getActivo(){ return this.activo; }
-    getUsuario(){ return this.usuario; }
+    getNombre(){ return this.nombre; }
+    getApellido(){ return this.apellido; }
+    getEmail(){ return this.email; }
+    getDNI(){ return this.dni; }
 
     // SETTERS
+    setId( id ){ this.id = id; }
     setFecha_Alta( fecha ){ this.fecha_alta = fecha; }
-    setPass( pass ){ this.pass = pass; }
     setActivo( activo ){ this.activo = activo; }
-    setUsuario( usuario ){ this.usuario = usuario; }
+    setNombre( nombre ){ this.nombre = nombre; }
+    setApeliido( apellido ){ this.apellido = apellido; }
+    setEmail( email ){ this.email = email; }
 
     /** GET SQL STRING ADD ADMINISTRADOR
      * @Observations => Crear sql para insertar administrador.
@@ -34,24 +43,37 @@ class Administrador{
             INSERT INTO administrador 
             (
                 fecha_alta,
-                pass,
-                pass_extremo,
                 activo,
-                usuario
+                nombre,
+                apellido,
+                email,
+                dni
             )
             VALUES
             (
                 '${this.getFecha_Alta()}',
-                '${this.getPass}',
-                '${this.pass_extremo()}',
                 ${this.getActivo()},
-                ${this.getUsuario()}
-            );
+                '${this.getNombre()}',
+                '${this.getApellido()}',
+                '${this.getEmail()}',
+                '${this.getDNI()}'
+            ) RETURNING *;
         `;
         return sql;
     }
 
-    //ADD NEW METHOD
+    /** GET SQL STRING SEARCH BY ID ADMININISTRADOR
+     * @Observations => Crear sql para buscar por id de administrador.
+     * @returns { string } => string sql format.
+     */
+    getSqlStringByIdAdministrador(){
+        
+        let sql = `
+            SELECT * FROM administrador WHERE id = ${this.getId()} ;
+        `;
+    }
+
+
 }
 
 module.exports = Administrador;

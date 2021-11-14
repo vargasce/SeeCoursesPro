@@ -19,7 +19,7 @@ class Paginador {
   static nextPage ( data ) {
 
     try{
-      this.page         = parseInt( data.page );
+      this.page         = parseInt( data.filter.skip );
       this.nextPageList = parseInt( data.page ) + 1;
       this.backPageList = ((parseInt(data.page)-1) < 1) ? 1 : parseInt( data.page ) - 1;
       this.countTotal   = parseInt( data.countTotal );

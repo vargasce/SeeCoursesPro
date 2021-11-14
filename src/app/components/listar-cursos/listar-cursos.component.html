@@ -33,7 +33,6 @@
                         <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.hora_itinerario}} </td>
                         <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.hora_itinerario_fin}} </td>
                         <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.fecha_alta}} </td>
-                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.fecha_alta}} </td>
                         <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.link}} </td>
                         <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.instructor}} </td>
                     </tr>
@@ -266,6 +265,7 @@
             <p> <b>Fecha de alta: </b>{{curso.fecha_alta}}</p>
             <p> <b>Link: </b>{{curso.link}}</p>
             <p> <b>Instructor: </b>{{curso.instructor}}</p>
+            <p> <b>Motivo de Rechazo: </b>{{curso.observacion_notificacion}}</p>
             <img src="{{getStringImg(curso.imagen)}}"  class="card-img-top"alt="">
           </div>
           <div class="modal-footer">

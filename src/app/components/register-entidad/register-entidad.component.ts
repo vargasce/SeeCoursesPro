@@ -117,6 +117,7 @@ export class RegisterEntidadComponent implements OnInit {
     this.validarPaises();
     this.validarProvincias();
     this.validarCargaImagen();
+    this.confirmarContrasena();
     if (this.cuitValido && this.mailValido &&this.validarProv && this.validarPais && this.validarImagen){
       if (!this.registrarEntidad.invalid && !this.registrarUsuario.invalid && this.validarPass) {
         this.registrarComoEntidad();

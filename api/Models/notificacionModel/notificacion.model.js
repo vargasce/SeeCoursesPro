@@ -192,7 +192,7 @@ class Notificacion {
         INNER JOIN pais AS pas 
         ON pas.id = enti.id_pais
         INNER JOIN provincia AS prov
-        ON prov.id = enti.id_procincia
+        ON prov.id = enti.id_provincia
         WHERE noti.id_entidad = ${filtro.id}
         ORDER BY noti.id DESC
       ;`;

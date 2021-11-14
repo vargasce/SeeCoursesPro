@@ -28,7 +28,7 @@
                         <td (click)="[openPopup(notificacion.id)]" style="cursor: pointer;"> {{notificacion.observacion}} </td>
                         <td (click)="[openPopup(notificacion.id)]" style="cursor: pointer;"> {{notificacion.fecha}} </td>
                         <th style="color: green; cursor: pointer; text-align: left;" (click)="aprobarSolicitudesDeCursos(notificacion.id,notificacion.id_entidad,notificacion.id_curso,notificacion.es_curso,notificacion.email_entidad)">✓</th>
-                        <th style="color: red; cursor: pointer;  text-align: left;" (click)="rechazarSolicitudesDeCursos(notificacion.id,notificacion.id_entidad,notificacion.id_curso,notificacion.es_curso,notificacion.email_entidad)">X</th>
+                        <th style="color: red; cursor: pointer;  text-align: left;" (click)="rechazarCursosDialog(notificacion.id,notificacion.id_entidad,notificacion.id_curso,notificacion.es_curso,notificacion.email_entidad)">X</th>
                     </tr>
                 </tbody>
             </table>
@@ -55,14 +55,13 @@
                         <td (click)="[openPopup(entidad.id)]" style="cursor: pointer;"> {{entidad.descripcion}} </td>
                         <td (click)="[openPopup(entidad.id)]" style="cursor: pointer;"> {{entidad.fecha}} </td>
                         <th style="color: green; cursor: pointer;  text-align: left;" (click)="aprobarEntidades(entidad.id,entidad.id_entidad,entidad.id_curso,entidad.es_curso,entidad.email_entidad)">✓</th>
-                        <th style="color: red; cursor: pointer;  text-align: left;" (click)="rechazarEntidades(entidad.id,entidad.id_entidad,entidad.id_curso,entidad.es_curso,entidad.email_entidad)">X</th>
+                        <th style="color: red; cursor: pointer;  text-align: left;" (click)="rechazarEntidadesDialog(entidad.id,entidad.id_entidad,entidad.id_curso,entidad.es_curso,entidad.email_entidad)">X</th>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
-
 
 
 <div *ngFor= "let notificacion of notificaciones ">
@@ -123,22 +122,6 @@
     </div>
   </div>
 
-  <button (click)="[openModal()]">Modal</button>
-  <button mat-raised-button mat-button color="warn" (click)="mostrarDialogo()">Mostrar diálogo</button>
+  
 
-    <div  id="modalRechazarEntidad" class="modal" role="dialog" [ngStyle]="{'display':displayStyleModal}" style="font-size: 16px;">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title mt-3">Rechazar Entidad</h1>
-          </div>
-          <div class="modal-body">
 
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-danger" (click)="[closeModal()]">Cerrar</button>
-            <button type="button" class="btn btn-success" (click)="[acceptModal()]">Aceptar</button>
-          </div>
-        </div>
-      </div>
-    </div>

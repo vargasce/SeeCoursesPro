@@ -56,6 +56,47 @@ const QueryAwait = async ( sql, valuesArray = null ) =>{
 	}).catch( error => { throw error } );
 }
 
+/** SELECT QUERY AWAIT BY ID
+ * @Observations => Retorna consulta por id de la tabla.
+ * @param { string } id => Identificador a buscar. 
+ * @param { string } table => Tabla a donde realizar la consulta. 
+ * @param { string } columnFilter => Columna mach del identificador.
+ * @param { string } column => ( OPCIONAL ) Columnas a filtar.
+ * @example 
+ * 		column = "id, name, apellido, fecha"
+ * @returns resultset : Promise => ( async )
+ */
+const QueryAwaitById = async ( id, table, columnFilter, column = null ) =>{
+	return new Promise( async ( resolve, reject ) =>{
+		let sql = '';
+		
+		try{
+			if( arguments.length >= 3 ){
+
+				if( column ){
+					sql = `SELECT ${column} FROM ${table} WHERE ${columnFilter} = ${id}`;
+				}else{
+					sql = `SELECT * FROM ${table} WHERE ${columnFilter} = ${id} `
+				}
+				
+				await con.conectionDB.getInstance().request().query('BEGIN');
+				let result = await con.conectionDB.getInstance().request().query( sql );
+				let ok = await con.conectionDB.getInstance().request().query('COMMIT');
+				if( ok ) resolve( result );
+
+			}else{
+				await con.conectionDB.getInstance().request().query('ROLLBACK');
+				reject( new ConnectError('Error ConnectDB', `Error, total de argumentos incorrecto. line 87 QueryAwaitById`) );
+			}
+
+		}catch( error ){
+			reject( new ConnectError('Error ConnectDB', `Error procesando consulta : line 91 QueryAwaitById connectDB.js => ${ error }`) );
+		}
+
+	}).catch( error => { throw error } );
+}
+
+
 /** INSERT QUERY
  * @Observation : Realizar insert en tabla.
  * @param sql : String => consulta en formato sql para enviar.
@@ -131,5 +172,6 @@ module.exports = {
 	update : updateQuery,
 	delete : deleteQuery,
 	close  : closeDB,
-	QueryAwait : QueryAwait
+	QueryAwait : QueryAwait,
+	QueryAwaitById : QueryAwaitById
 }

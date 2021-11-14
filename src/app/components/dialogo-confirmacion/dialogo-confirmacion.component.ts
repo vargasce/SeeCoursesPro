@@ -7,7 +7,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./dialogo-confirmacion.component.css']
 })
 export class DialogoConfirmacionComponent implements OnInit {
-
+  completarObservacion:boolean = true;
   constructor(
     public dialogo: MatDialogRef<DialogoConfirmacionComponent>,
     @Inject(MAT_DIALOG_DATA) public mensaje: string) { }
@@ -16,7 +16,13 @@ export class DialogoConfirmacionComponent implements OnInit {
       this.dialogo.close(false);
     }
     confirmado(): void {
-      this.dialogo.close((<HTMLInputElement>document.getElementById('observacion')).value);
+      if((<HTMLInputElement>document.getElementById('observacion')).value == ""){
+        this.completarObservacion = false;
+      }else{
+        this.completarObservacion = true;
+        this.dialogo.close((<HTMLInputElement>document.getElementById('observacion')).value);
+      }
+
     }
 
   ngOnInit() {

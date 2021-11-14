@@ -6,7 +6,7 @@ const controller = {
 
     administradorController : async ( req, res ) => {
 
-        let action = req.body.data.action;
+        let action = req.body.action;
         
         switch( action ){
 

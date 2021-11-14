@@ -184,9 +184,11 @@ class ItinerarioModel{
              to_char( it.fecha_alta, 'yyyy-MM-DD' ) AS fecha_alta, it.imagen, it.link, it.instructor, it.viewed, it.validado, it.finalizado, it.rechazado, it.hora_itinerario_fin,
              ent.id as id_entidad, ent.nombre as nombre_entidad,
              ent.descripcion as descripcion_entidad, ent.telefono as telefono_entidad,
-             ent.director as director_entidad, ent.ciudad as ciudad_entidad
+             ent.director as director_entidad, ent.ciudad as ciudad_entidad,
+             noti.observacion AS observacion_notificacion, noti.pendiente AS noti_pendiente
       FROM public.itinerario as it 
       INNER JOIN public.entidad as ent on it.id_entidad = ent.id
+      INNER JOIN public.notificacion AS noti ON noti.id_curso = it.id
       WHERE ent.id = ${id}
       ;`;
     return sql;
