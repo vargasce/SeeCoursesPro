@@ -29,6 +29,7 @@ export class AgregarCursoComponent implements OnInit {
   agregarCurso : FormGroup;
   submitted= false;
   id: number = -1;
+  id_curso: number =-1;
   titulo ="Agregar Curso";
   itinerarioModel: ItinerarioModel;
   loading :boolean = false;
@@ -73,25 +74,55 @@ export class AgregarCursoComponent implements OnInit {
       {id:'2',descripcion:'imagen default 3'},
   ];
     
-    this.id = Number(environment.id_entidad) //capturo el id del registro que quiero modificar
-    this.itinerarioModel = new ItinerarioModel(0,Number(environment.id_entidad),"","","","","","","",this.fechas.currentDate(),"","","",false,false,false,false);
+    this.id = Number(localStorage.getItem('id_entidad')) //capturo el id del registro que quiero modificar
+    this.itinerarioModel = new ItinerarioModel(0,Number(localStorage.getItem('id_entidad')),"","","","","","","",this.fechas.currentDate(),"","","",false,false,false,false);
     this.img  = new Imagenes(this._uploadFileService);
   }
 
   ngOnInit(): void {
-    
+    this.esEditar();
+    /*console.log(location.href.split("/",6)[5]);
+    this.id_curso = Number(location.href.split("/",6)[5]); // obtengo el id del curso
+    if(this.id_curso== undefined){
+      this.id_curso =0;
+    }*/
   }
 
   ngAfterViewInit(): void{
     this.eventChange();
   }
   
+
+  esEditar(){ 
+    if(location.href.split("/",6)[5]==undefined){
+      this.id_curso = 0;
+    }else{
+      this.id_curso = Number(location.href.split("/",6)[5]);
+    }
+    if(this.id_curso !== 0){
+      this.titulo = 'Editar Curso';
+      this.loading=true
+      alert("Editando curso id_curso: " + this.id_curso);
+      // necesito metodo que me obtenga curso por id
+
+      this._itinerarioService.getItinerarioById(this.id).subscribe(Response =>{
+        console.log(Response);
+        this.itinerarioModel = Response.ResultSet[0];
+        this.loading=false
+      })
+    }
+  }
+
+
   addEditCurso() {
-    console.log((<HTMLInputElement>document.getElementById('fecha')).value);
     this.submitted = true;
     this.validarCargaImagen();
     if (!this.agregarCurso.invalid && this.validarImagen) {
-      this.addCurso();
+      if (this.id_curso == 0) { // si el id es 0 agrego un nuevo laboratorio, sino lo edito
+        this.addCurso();
+      } else {
+        this.editCurso();
+      }
     }else{
       return
     }
@@ -174,6 +205,8 @@ export class AgregarCursoComponent implements OnInit {
 
   }
 
+  editCurso(){
+  }
 
   backRouter():void{
     this.location.back();
@@ -261,6 +294,10 @@ export class AgregarCursoComponent implements OnInit {
         }
       }
     }
+  }
+
+  getMailsAdministrador():string[]{ //retorna el mail de todos los administradores
+  return[]
   }
     
 }

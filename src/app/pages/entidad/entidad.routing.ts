@@ -12,6 +12,7 @@ const routes: Routes = [
     children : [
       { path : 'listarCursos', component : ListarCursosComponent },
       { path : 'agregarCurso', component : AddCursoComponent },
+      { path : 'editCurso/:id', component : AddCursoComponent },
     ]}
 ];
  

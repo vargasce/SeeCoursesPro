@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { DialogoConfirmacionComponent } from 'src/app/components/dialogo-confirmacion/dialogo-confirmacion.component';
 import { fechas } from 'src/app/core/custom/fechas';
 import { Imagenes } from 'src/app/core/global/imagenes/imagenes';
 import { NotificacionModel } from 'src/app/core/models/notificacion/notificacion.model';
+import { Usuario_AdminModel } from 'src/app/core/models/usuario_admin/usuario_admin.model';
 import { AdministradorService } from 'src/app/core/service/administrador/administrador.service';
 import { EmailService } from 'src/app/core/service/email/email.service';
 import { PaisService } from 'src/app/core/service/paises/paises.service';
@@ -25,6 +27,13 @@ export class AdministradorComponent implements OnInit {
   displayStyleModal:string = "";
   img: Imagenes;
   emailAdministrador:string | null="";
+  usuarioModel: Usuario_AdminModel;
+  registrarUsuario:FormGroup;
+  validarPass=true;
+  passActualizado:boolean = true;
+  loading :boolean = false;
+  submitted= false;
+  rol:string|null="";
 
   constructor(
     private _administradorService:AdministradorService,
@@ -32,16 +41,27 @@ export class AdministradorComponent implements OnInit {
     private _emailService : EmailService,
     private toastr: ToastrService,
     private _paisService:PaisService,
-    public dialogo: MatDialog
+    public dialogo: MatDialog,
+    private fb: FormBuilder,
     )
     { 
+      this.registrarUsuario = this.fb.group({
+        contrasenia:['',Validators.required],
+      })
       this.img  = new Imagenes(this._uploadFileService);
-
+      this.usuarioModel = new Usuario_AdminModel(0,0,0,"","","",false,true);
+      this.rol=localStorage.getItem('rol');
   }
+
 
   ngOnInit(): void {
     this.getNotificaciones();
     this.emailAdministrador= localStorage.getItem('email_administrador');
+    if(localStorage.getItem('usadmin_passactualizado') == "false" && this.rol!="1"){
+      this.passActualizado = false;
+    }else{
+      this.passActualizado = true;
+    }
   }
 
 
@@ -66,8 +86,33 @@ export class AdministradorComponent implements OnInit {
         });
       }); 
 
-
   }
+
+  confirmarContrasena(){
+    if((<HTMLInputElement>document.getElementById('contrasenia')).value!=(<HTMLInputElement>document.getElementById('confirm_pass')).value){
+      this.validarPass = false;
+    }else{
+      this.validarPass = true;
+    }
+  }
+
+  validarPassword(){
+    this.submitted = true;
+    this.confirmarContrasena();
+    if (!this.registrarUsuario.invalid && this.validarPass) {
+      this.actualizarPass();
+    }else{
+      return
+    }
+  }
+  
+  actualizarPass(){
+    this.loading=true;
+    //llamar al servicio para actualizar pass del admin
+    let id_administrador = localStorage.getItem('id_administrador');
+    this.passActualizado = true; localStorage.setItem('usadmin_passactualizado','true')
+  }
+
   openPopup(id:number) {
     this.displayStyle[id] = "block";
   }

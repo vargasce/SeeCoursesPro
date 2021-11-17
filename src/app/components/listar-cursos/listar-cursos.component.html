@@ -269,6 +269,7 @@
             <img src="{{getStringImg(curso.imagen)}}"  class="card-img-top"alt="">
           </div>
           <div class="modal-footer">
+            <button type="button" class="btn btn-dark " [routerLink]="['/entidad/editCurso/', curso.id]">Modificar</button>
             <button type="button" class="btn btn-danger" (click)="[closePopup(curso.id)]">Cerrar</button>
           </div>
         </div>

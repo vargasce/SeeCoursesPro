@@ -43,6 +43,8 @@ export class LoginComponentComponent implements OnInit {
           if(tipo == "admin"){
             localStorage.setItem('rol',response.Resultset.user.rol_usadmin);
             localStorage.setItem('email_administrador',response.Resultset.user.email_administrador); // rol
+            localStorage.setItem('usadmin_passactualizado',response.Resultset.user.usadmin_passactualizado)
+            localStorage.setItem('id_administrador',response.Resultset.user.id_administrador) 
             this._navegador.navigate(['/admin']);
           }else{
             localStorage.setItem('id_entidad',response.Resultset.user.id_entidad)//user

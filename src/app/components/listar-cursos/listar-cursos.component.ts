@@ -82,4 +82,5 @@ export class ListarCursosComponent implements OnInit {
   public getStringImg(imagen:string):string{
     return this.img.bajarImagen(imagen)
   }
+  
 }
