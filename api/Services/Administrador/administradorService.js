@@ -3,7 +3,7 @@
 const fn  = require('../../Custom/function_custom/custom');
 const AdministradorError = require('../../Error/Administrador/administradorError');
 const AdministradorModel = require('../../Models/administradorModel/administrador.model');
-const { QueryAwaitById, QueryAwait } = require('../../DB-connect/connectDB');
+const { QueryAwaitById, QueryAwait, QueryAwaitPag } = require('../../DB-connect/connectDB');
 const usuarioAdminModel = require('../../Models/usuario_admin/usuario_admin.model');
 
 class AdministradorService{
@@ -85,8 +85,11 @@ class AdministradorService{
      * @example 
      *      {
      *          filter : {
+     *              table : 'administrador',
      *              skip : 0,
-     *              take : 10           
+     *              take : 10,
+     *              sortBy : 'id',
+     *              sendtido : 'ASC'           
      *          }
      *      }
      * @return { Promise } => new promise.
@@ -100,10 +103,32 @@ class AdministradorService{
                 reject( err )
             }
 
+            try{
+                let result = await QueryAwaitPag( filter.table, filter.skip, filter.take, filter.sortBy, filter.sentido );
+                resolve( result );
+            }catch( err ){
+                reject( new AdministradorError('Error Administrador', `Error list Administrador : ${err}`) );
+            }
 
         });
     }
 
+    /** GET LIST EMAIL ADMINISTRADOR
+     * @Observations => Retorna lista de email asociados a todos los admin.
+     * @return { Promise } => new Promise.
+     */
+    async getListEmailAdministrador(){
+        return new Promise( async ( resolve, reject ) => {
+
+            try{
+                let resultEmailList = await QueryAwait( `SELECT email FROM administrador ;`);
+                if( resultEmailList ) resolve( resultEmailList.rows );
+            }catch( err ){
+                reject( new AdministradorError('Error Administrador', `Error list email Administrador : ${err}`) );
+            }
+            
+        });
+    }
 
 }
 

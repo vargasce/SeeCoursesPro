@@ -73,7 +73,6 @@ class Administrador{
         `;
     }
 
-
 }
 
 module.exports = Administrador;

@@ -1,6 +1,7 @@
 'use strict'
 
 const con = require('../../DB-connect/connectDB');
+const { QueryAwait } = require('../../DB-connect/connectDB');
 const fn = require('../../Custom/function_custom/custom');
 const Entidad = require('../../Models/Entidad/entidad.model');
 const EntidadError = require('../../Error/Entidad/entidadError');
@@ -199,6 +200,38 @@ const entidadService = {
       });
 
     });
+  },
+
+  /** GET LIST EMAIL ENTIDAD
+   * @Observations => Retorna lista de email asociados a la entidad.
+   * @return { Promise } => new Promise.
+   */
+  getListEmailEntidad : ( id ) => {
+    return new Promise( async ( resolve, reject ) => {
+
+      try{
+        fn.validateType('number', id );
+      }catch( err ){
+        reject( new EntidadError('Error Entidad', `${err}`) );
+      }
+
+      let sql = '';
+      if( id ){
+        sql = `SELECT email FROM entidad WHERE id = ${id} ;`;
+      }else{
+        sql = `SELECT email FROM entidad ;`;
+      }
+
+      try{
+
+        let resultListEmail = await QueryAwait( sql );
+        if( resultListEmail ) resolve( resultListEmail.rows );
+
+      }catch( err ){
+        reject( new EntidadError('Error Entidad', `Error al listar email entidad : ${err}`) );
+      }
+
+    }).catch( error => { throw error; } );
   }
 
 };

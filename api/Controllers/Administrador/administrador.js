@@ -1,5 +1,7 @@
 'use strict'
 
+const { TypeScriptEmitter } = require('@angular/compiler');
+const { EWOULDBLOCK } = require('constants');
 const _administradorService = require('../../Services/Administrador/administradorService');
 
 const controller = {
@@ -26,6 +28,24 @@ const controller = {
             break;
 
             case 'listAdministrador' : 
+
+                try{
+                    let resultList = await _administradorService.getListAdministrador( req.body.filter );
+                    return res.status(200).send({ 'error' : '', 'ResultSet' : resultList });
+                }catch( err ){
+                    return res.status(500).send({ 'error' : `${err}`});
+                }
+
+            break;
+
+            case 'listEmailAdministrador' :
+
+                try{
+                    let resultListEmail = await _administradorService.getListEmailAdministrador();
+                    return res.status(200).send({ 'error' : '', 'ResultSet' : resultListEmail });
+                }catch( err ){
+                    return res.status(500).send({ 'error' : `${err}`});
+                }
 
             break;
 

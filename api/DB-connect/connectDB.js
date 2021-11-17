@@ -96,6 +96,51 @@ const QueryAwaitById = async ( id, table, columnFilter, column = null ) =>{
 	}).catch( error => { throw error } );
 }
 
+/** SELECT QUERY AWAIT PAGINATOR
+ * @Observations => Retorna consulta para ordenar grilla.
+ * @param { string } table => Tabla a donde realizar la consulta. 
+ * @param { number } skip => Pagina ( DEFAULT 0).
+ * @param { number } take => Cantidad visual a mostrar ( DEFAULT 10).
+ * @example 
+ * 		skip = 0
+ * 		take = 10
+ * 
+ * @param { string } sortBy => Orden que se le aplica antes del LIMIT y OFFSET, ( DEFAULT id )
+ * @example 
+ * 		'id'
+ * 
+ * @param { string } sentido => Si el orden es Ascendente o  Desendente, ( DEFAULT ASC )
+ * @example
+ * 		ASC or DESC
+ * 
+ * @returns resultset : Promise => ( async )
+ */
+const QueryAwaitPag = async ( table, skip = 0, take = 10, sortBy = 'id', sentido = 'ASC' ) =>{
+	return new Promise( async ( resolve, reject ) => {
+		
+		if( arguments.length == 5 ){
+			let sql = `
+				SELECT * FROM ${table} LIMIT ${skip} OFFSET ${take} ORDER BY ${sortBy} ${sentido} ;
+			`;
+
+			try{
+
+				await con.conectionDB.getInstance().request().query('BEGIN');
+				let result = await con.conectionDB.getInstance().request().query( sql );
+				let ok = await con.conectionDB.getInstance().request().query('COMMIT');
+				if( ok ) resolve( result );
+
+			}catch( error ){
+				await con.conectionDB.getInstance().request().query('ROLLBACK');
+				reject( new ConnectError('Error ConnectDB', `Error procesando consulta : QueryAwaitPag => ${error}`));
+			}
+
+		}else{
+			reject( new ConnectError('Error ConnectDB', `Error procesando consulta : QueryAwaitPag connectDB.js : arguments incorrecto => ${arguments.length }`));
+		}
+
+	}).catch( error => { throw error } );
+}
 
 /** INSERT QUERY
  * @Observation : Realizar insert en tabla.
@@ -173,5 +218,6 @@ module.exports = {
 	delete : deleteQuery,
 	close  : closeDB,
 	QueryAwait : QueryAwait,
-	QueryAwaitById : QueryAwaitById
+	QueryAwaitById : QueryAwaitById,
+	QueryAwaitPag : QueryAwaitPag
 }

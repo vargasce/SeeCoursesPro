@@ -84,7 +84,7 @@ class Email {
         },
         options : {
           from : `"${dataEmail.FROM}" <${dataEmail.EMAIL}>`,
-          to : `${dataEmail.TO[0]}`,
+          to : `${dataEmail.TO.join(';')}`,
           subject : `${dataEmail.SUBJECT}`,
           html : `${html}`
         }
