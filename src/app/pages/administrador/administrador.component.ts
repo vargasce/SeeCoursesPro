@@ -11,6 +11,7 @@ import { AdministradorService } from 'src/app/core/service/administrador/adminis
 import { EmailService } from 'src/app/core/service/email/email.service';
 import { PaisService } from 'src/app/core/service/paises/paises.service';
 import { UploadFileService } from 'src/app/core/service/uploadFile/uploadFile.service';
+import { Usuario_AdminService } from 'src/app/core/service/user_admin/user_admin.service';
 
 @Component({
   selector: 'app-administrador',
@@ -43,6 +44,7 @@ export class AdministradorComponent implements OnInit {
     private _paisService:PaisService,
     public dialogo: MatDialog,
     private fb: FormBuilder,
+    private _usuarioAdminService:Usuario_AdminService,
     )
     { 
       this.registrarUsuario = this.fb.group({
@@ -56,14 +58,10 @@ export class AdministradorComponent implements OnInit {
 
   ngOnInit(): void {
     this.getNotificaciones();
+    this.comprobarPassActualizado();
     this.emailAdministrador= localStorage.getItem('email_administrador');
-    if(localStorage.getItem('usadmin_passactualizado') == "false" && this.rol!="1"){
-      this.passActualizado = false;
-    }else{
-      this.passActualizado = true;
-    }
-  }
 
+  }
 
   getNotificaciones(){
     this.notificaciones=[];
@@ -88,6 +86,14 @@ export class AdministradorComponent implements OnInit {
 
   }
 
+  comprobarPassActualizado(){
+    if(localStorage.getItem('usadmin_passactualizado') == "false"){
+      this.passActualizado = false;
+    }else{
+      this.passActualizado = true;
+    }
+  }
+
   confirmarContrasena(){
     if((<HTMLInputElement>document.getElementById('contrasenia')).value!=(<HTMLInputElement>document.getElementById('confirm_pass')).value){
       this.validarPass = false;
@@ -108,9 +114,16 @@ export class AdministradorComponent implements OnInit {
   
   actualizarPass(){
     this.loading=true;
-    //llamar al servicio para actualizar pass del admin
-    let id_administrador = localStorage.getItem('id_administrador');
+    let id_administrador = Number(localStorage.getItem('id_administrador'));
+    let pass = this.usuarioModel.contrasenia;
     this.passActualizado = true; localStorage.setItem('usadmin_passactualizado','true')
+      this._usuarioAdminService.actualizarPassAdmin(id_administrador,pass).subscribe(Response=>{
+        console.log(Response);
+        this.loading = false;
+        this._usuarioAdminService.actualizarBoleanoPassAdmin(id_administrador).subscribe(Response=>{
+          console.log(Response);
+        });
+      });
   }
 
   openPopup(id:number) {

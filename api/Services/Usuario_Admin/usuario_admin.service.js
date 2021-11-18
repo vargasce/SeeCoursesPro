@@ -4,7 +4,6 @@ const { QueryAwait } = require('../../DB-connect/connectDB');
 const UsuarioAdminModel = require('../../Models/usuario_admin/usuario_admin.model');
 const UsuarioError = require('../../Error/UsuarioAdmin/usuario_admin.error');
 const fn = require('../../Custom/function_custom/custom');
-const { CallTracker } = require('assert/strict');
 
 class UsuarioAdmin{
 
@@ -43,20 +42,20 @@ class UsuarioAdmin{
 
     /** UPDATE PASS CHANGUE
      * @Observations => Actualizar cambio de pass del usuario.
-     * @param { boolean } changue => Datos a ingresar.
+     * @param { object } data => Datos a ingresar.
      * @returns { Promise } => new Promise.
      */
-    async updateChanguePassword( changue ){
+    async updateChanguePassword( data ){
         return new Promise( async ( resolve, reject ) =>{
 
             try{
-                fn.validateType('boolean', changue);
+                fn.validateType('object', data);
             }catch( err ){
                 reject( err );
             }
 
             let usuarioAdmin = new UsuarioAdminModel();
-            let sql = usuarioAdmin.getSlqStringUpdateChanguePass( changue );
+            let sql = usuarioAdmin.getSlqStringUpdateChanguePass( data );
 
             try{
 
@@ -89,7 +88,7 @@ class UsuarioAdmin{
 
             let usuarioAdmin = new UsuarioAdminModel();
             let sql = usuarioAdmin.getSqlStringUpdataCredenciales( data );
-
+            console.log( sql );
             try{
 
                 await QueryAwait('BEGIN');

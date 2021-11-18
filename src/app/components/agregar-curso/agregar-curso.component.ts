@@ -105,15 +105,19 @@ export class AgregarCursoComponent implements OnInit {
       alert("Editando curso id_curso: " + this.id_curso);
       // necesito metodo que me obtenga curso por id
 
-      this._itinerarioService.getItinerarioById(this.id).subscribe(Response =>{
+      this._itinerarioService.getItinerarioById(this.id_curso).subscribe(Response =>{
         console.log(Response);
-        this.itinerarioModel = Response.ResultSet[0];
+        this.itinerarioModel = Response.ResultSet;
         this.loading=false
       })
     }
   }
 
-
+  verificarFechaCurso(){
+    this._itinerarioService.getAvailabilityDate(this.itinerarioModel).subscribe(Response=>{
+      console.log(Response);
+    });
+  }
   addEditCurso() {
     this.submitted = true;
     this.validarCargaImagen();

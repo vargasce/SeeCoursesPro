@@ -53,4 +53,17 @@ export class ItinerarioEntidadService {
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }
 
+    getAvailabilityDate(itinerario:ItinerarioModel):  Observable<any>{ 
+        let headers = { headers : environment.headers };
+        let send ={
+            'action' : "getAvailabilityDate",
+            'data'   : {
+                'fecha_itinerario': itinerario.fecha_itinerario,
+                'hora_itinerario' : itinerario.hora_itinerario,
+                'hora_itinerario_fin': itinerario.hora_itinerario_fin
+            }
+        }
+        return this.http.post<any>( environment.apiURL + this.controller , send, headers );
+    }
+
 }

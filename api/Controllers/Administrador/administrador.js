@@ -1,7 +1,5 @@
 'use strict'
 
-const { TypeScriptEmitter } = require('@angular/compiler');
-const { EWOULDBLOCK } = require('constants');
 const _administradorService = require('../../Services/Administrador/administradorService');
 
 const controller = {

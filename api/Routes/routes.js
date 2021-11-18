@@ -11,13 +11,14 @@ const Pais = require('../Controllers/Paises/paises');
 const Upload = require('../Controllers/Upload/upload');
 const Email = require('../Controllers/Email/email');
 const Administrador = require('../Controllers/Administrador/Administrador');
+const UsuarioAdmin = require('../Controllers/Usuario_Admin/usuario_admin.controller');
 
 const router = express.Router();
 
 const multiparty = require('connect-multiparty');
-const multipartMiddeleware = multiparty({ uploadDir : '../File_up' });
+//const multipartMiddeleware = multiparty({ uploadDir : '../File_up' });
 
-router.post('/login', Login.login ); 																	// CONTROLLER LOGIN
+router.post('/login', Login.login ); 								  // CONTROLLER LOGIN
 router.post('/itinerario', Itinerario.itinerario );                   // CONTROLLER ITINERARIO
 router.post('/usuario', Usuario.usuario );                            // CONTROLLER USUARIO
 router.post('/entidad', Entidad.entidad );                            // CONTROLLER ENTIDAD
@@ -28,6 +29,7 @@ router.post('/upload', Upload.upload );                               // CONTROL
 router.get('/godownImg/:image', Upload.goDown );                      // CONTROLLER GODOWS IMG
 router.post('/email', Email.emailController );                        // CONTROLLER EMAIL
 router.post('/administrador', Administrador.administradorController ) // CONTROLLER ADMINISTRADOR
+router.post('/usuario_admin', UsuarioAdmin.usuario_admin );           // CONTROLLER USUARIO ADMIN
 
 module.exports = router;
 

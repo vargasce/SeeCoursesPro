@@ -15,5 +15,5 @@ class UsuarioAdminError {
 
 }
 
-module.exports = UsuarioError;
+module.exports = UsuarioAdminError;
 

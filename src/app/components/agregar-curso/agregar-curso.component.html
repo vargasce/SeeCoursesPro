@@ -33,6 +33,8 @@
                                 <input #hora_itinerarioForm name="hora_itinerario_fin"  [(ngModel)]="itinerarioModel.hora_itinerario_fin"  class="form-control mt-3" placeholder="Finalización del Curso" formControlName="hora_itinerario_fin" style="margin-bottom:5px;"
                                 onfocus="(this.type='time')" onblur="(this.type='text')">
                             </div>
+
+                            <button class="btn btn-primary" (click)="verificarFechaCurso()">Verificar fecha</button>
                         </div>
 
                         <div class="row" style="margin-bottom:5px;">

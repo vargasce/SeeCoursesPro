@@ -5,7 +5,6 @@ const itinerarioModel = require('../../Models/itinerarioModel/itinerario.model')
 const custon = require('../../Custom/function_custom/custom');
 const itinerarioError = require('../../Error/Itinerario/itinerarioError');
 const dt = require('../../Custom/dates/dates');
-const { fn } = require('@angular/compiler/src/output/output_ast');
 
 const itinerarioService = {
 
@@ -312,7 +311,7 @@ const itinerarioService = {
     return new Promise( async ( resolve, reject ) =>{
       
       try{
-        fn.validateType( 'object', data );
+        custon.validateType( 'object', data );
       }catch( err ){
         reject( new itinerarioError( 'Error itinerarioService', `${err}` ) );
       }
@@ -321,6 +320,7 @@ const itinerarioService = {
 			let sqlString = objItinerario.getSqlAvailabilityDate( data );
 
 			try{
+
 				let result = await con.QueryAwait( sqlString );
         let dataArray = new Array();
         dataArray.push(  ... result.rows );
@@ -333,8 +333,9 @@ const itinerarioService = {
           }else{
             return previus;
           }
+
         }, []);
-        //console.log( resultSend );
+
 				resolve( resultSend );
 
 			}catch( err ){

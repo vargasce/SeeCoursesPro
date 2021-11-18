@@ -67,12 +67,12 @@ class UsuarioModel{
 
     /** GET SQL STRING UPDATE CHANGUE PASSWORD 
      * @Observations => Realiza update de cambio contraseña de usuario.
-     * @param { boolean } changue => Valor a cambiar
+     * @param { object } data => Datos actualizar
      * @return { string } => sql string.
      */
-    getSlqStringUpdateChanguePass( changue ){
+    getSlqStringUpdateChanguePass( data ){
         let sql = `
-            UPDATE usuario_admin SET pass_actualizado = ${changue} ;
+            UPDATE usuario_admin SET pass_actualizado = ${data.value} WHERE id_administrador = ${data.id} ;
         `;
 
         return sql;
@@ -85,8 +85,8 @@ class UsuarioModel{
      */
     getSqlStringUpdataCredenciales( data ){
         let sql = `
-            UPDATE usuario_admin SET usuario = '${data.usuario}' , contrasenia = '${md5(data.contrasenia)}'
-            WHERE id = ${data.id} ;
+            UPDATE usuario_admin SET contrasenia = '${md5(data.contrasenia)}'
+            WHERE id_administrador = ${data.id} ;
         `;
 
         return sql;
