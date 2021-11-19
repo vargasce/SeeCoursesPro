@@ -14,6 +14,10 @@ import { UploadFileService } from 'src/app/core/service/uploadFile/uploadFile.se
 import { EmailService } from 'src/app/core/service/email/email.service';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Imagenes } from 'src/app/core/global/imagenes/imagenes';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogoFechasComponent } from '../dialogo-fechas/dialogo-fechas.component';
+import * as moment from 'moment';
+
 
 @Component({
   selector: 'app-agregar-curso',
@@ -24,6 +28,7 @@ import { Imagenes } from 'src/app/core/global/imagenes/imagenes';
 export class AgregarCursoComponent implements OnInit {
 
   @ViewChild('selectorDeImagen') selectorDeImagen:ElementRef | undefined;
+  @ViewChild('hora_itinerario') hora_itinerario:ElementRef | undefined;
   @ViewChild('selectorDeImagenPorDefecto') selectorDeImagenPorDefecto:ElementRef | undefined;
 
   agregarCurso : FormGroup;
@@ -35,6 +40,7 @@ export class AgregarCursoComponent implements OnInit {
   loading :boolean = false;
   imagenFile: Array<File>=[];
   imagenDefault :any[]=[];
+  fechasNoDisponibles :any[]=[];
   imagenPropia:boolean =false;
   imagenPorDefecto:boolean = false;
   imagenModel:Array<File> =[];
@@ -43,6 +49,10 @@ export class AgregarCursoComponent implements OnInit {
   imagenExist:boolean = false;
   validarImagen:boolean = true;
   today:string= this.fechas.currentDateConGuionMedio();
+  mostrarFechasOcupadas:boolean = false;
+  conservarHorario:boolean = false;
+  minHoraFin:string=""
+
 
   constructor(
     private fb: FormBuilder,
@@ -55,7 +65,8 @@ export class AgregarCursoComponent implements OnInit {
     private _uploadFileService : UploadFileService,
     private _emailService : EmailService,
     private fechas :fechas,
-    public renderer:Renderer2
+    public renderer:Renderer2,
+    public dialogo: MatDialog,
     ) {
     this.agregarCurso = this.fb.group({
       nombre:['',Validators.required],
@@ -80,12 +91,9 @@ export class AgregarCursoComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    (<HTMLInputElement>document.getElementById('hora_itinerario_fin')).disabled=true;
     this.esEditar();
-    /*console.log(location.href.split("/",6)[5]);
-    this.id_curso = Number(location.href.split("/",6)[5]); // obtengo el id del curso
-    if(this.id_curso== undefined){
-      this.id_curso =0;
-    }*/
+    
   }
 
   ngAfterViewInit(): void{
@@ -113,23 +121,66 @@ export class AgregarCursoComponent implements OnInit {
     }
   }
 
+
   verificarFechaCurso(){
-    this._itinerarioService.getAvailabilityDate(this.itinerarioModel).subscribe(Response=>{
-      console.log(Response);
+    return new Promise( ( resolve, rejec ) =>{
+      this.fechasNoDisponibles=[];
+      this._itinerarioService.getAvailabilityDate(this.itinerarioModel).subscribe(Response=>{
+        if(Response.ResultSet.length == 0){
+          this.mostrarFechasOcupadas=false;
+          this.conservarHorario=true;
+        }else{
+          this.dialogFechaCurso();
+          this.mostrarFechasOcupadas=true;
+          Response.ResultSet.forEach((element:any) => {
+            this.fechasNoDisponibles.push({ // guardo la lista de laboratorios en el array laboratorios  
+              ...element 
+            })
+          });
+        }
+        resolve(true);
+      }, 
+      error =>{
+        rejec(false);
+      });
+    });
+    
+  }
+
+  dialogFechaCurso(){
+    this.dialogo
+    .open(DialogoFechasComponent, {
+      data: `Esta seguro que quiere conservar el horario? Ya hay cursos en ese rango`
+    })
+    .afterClosed()
+    .subscribe(Response => {
+      this.conservarHorario=Response;
     });
   }
-  addEditCurso() {
-    this.submitted = true;
-    this.validarCargaImagen();
-    if (!this.agregarCurso.invalid && this.validarImagen) {
-      if (this.id_curso == 0) { // si el id es 0 agrego un nuevo laboratorio, sino lo edito
-        this.addCurso();
-      } else {
-        this.editCurso();
+
+  async addEditCurso() {
+
+    try{
+      
+      this.submitted = true;
+      this.validarCargaImagen();
+      await this.verificarFechaCurso();
+
+      if (!this.agregarCurso.invalid && this.validarImagen && this.conservarHorario ) {
+
+        if (this.id_curso == 0) { // si el id es 0 agrego un nuevo laboratorio, sino lo edito
+          this.addCurso();
+        } else {
+          this.editCurso();
+        }
+
+      }else{
+        return
       }
-    }else{
-      return
-    }
+
+    }catch( error ){
+      throw error;
+    }    
       
   }
 
@@ -259,6 +310,13 @@ export class AgregarCursoComponent implements OnInit {
         break;
          
     }
+  }
+
+  onChangeHora(event:any){
+    console.log(event.target.value);
+    this.minHoraFin =event.target.value;
+    (<HTMLInputElement>document.getElementById('hora_itinerario_fin')).disabled=false;
+    (<HTMLInputElement>document.getElementById('hora_itinerario_fin')).value = this.minHoraFin;
   }
   
   /** PREVISUALIZAR IMAGEN.

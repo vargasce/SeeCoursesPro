@@ -51,7 +51,6 @@ export class NavbarEntidadComponent implements OnInit {
    let id_entidad = localStorage.getItem("id_entidad");
     this._entidadService.getNotificaciones(Number(id_entidad)).subscribe(
       Response =>{
-        console.log(Response);
         this.notificaciones=[];
         Response.ResultSet.forEach((element:any) => {
           if(element.pendiente && !element.visto && !element.es_admin){

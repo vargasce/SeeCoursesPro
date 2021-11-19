@@ -25,18 +25,15 @@
                                 onfocus="(this.type='date')" onblur="(this.type='text')" formControlName="fecha_itinerario" style="margin-bottom:5px;" min="{{today}}">  
                             </div>
                             <div class="col">
-                                <input #hora_itinerarioForm name="hora_itinerario"  [(ngModel)]="itinerarioModel.hora_itinerario"  class="form-control mt-3" placeholder="Hora del Curso" formControlName="hora_itinerario" style="margin-bottom:5px;"
+                                <input (change)="onChangeHora($event)"#hora_itinerarioForm name="hora_itinerario"  [(ngModel)]="itinerarioModel.hora_itinerario"  class="form-control mt-3" placeholder="Hora del Curso" formControlName="hora_itinerario" style="margin-bottom:5px;"
                                 onfocus="(this.type='time')" onblur="(this.type='text')">
                             </div>
 
                             <div class="col">
-                                <input #hora_itinerarioForm name="hora_itinerario_fin"  [(ngModel)]="itinerarioModel.hora_itinerario_fin"  class="form-control mt-3" placeholder="Finalización del Curso" formControlName="hora_itinerario_fin" style="margin-bottom:5px;"
-                                onfocus="(this.type='time')" onblur="(this.type='text')">
+                                <input id="hora_itinerario_fin" #hora_itinerario_finForm name="hora_itinerario_fin"  type="text" [(ngModel)]="itinerarioModel.hora_itinerario_fin"  class="form-control mt-3" placeholder="Finalización del Curso" formControlName="hora_itinerario_fin" style="margin-bottom:5px;"
+                                onfocus="(this.type='time')" onblur="(this.type='text')"  max="10:00:00">
                             </div>
-
-                            <button class="btn btn-primary" (click)="verificarFechaCurso()">Verificar fecha</button>
                         </div>
-
                         <div class="row" style="margin-bottom:5px;">
                             <div class="col">
                                <input #linkForm name="link"  [(ngModel)]="itinerarioModel.link" type="text" class="form-control mt-3" placeholder="Link" formControlName="link">
@@ -75,6 +72,17 @@
                             <button id="btn-submit" type="submit" class="btn btn-dark"> Agregar </button>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="mostrarFechasOcupadas" class="col">
+            <div class="card border-danger">
+                <div class="card-body text-danger">
+                    <h2 style="line-height: 1.2; font-weight: 500;" class="mt-2">Horarios ocupados</h2>
+                    <div *ngFor="let fecha of fechasNoDisponibles">
+                        <p>Hora: {{fecha.hora_itinerario}} - Hora fin: {{fecha.hora_itinerario_fin}}</p>
+                        <br>
+                    </div>
                 </div>
             </div>
         </div>

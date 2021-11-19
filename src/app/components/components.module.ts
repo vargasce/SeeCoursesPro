@@ -25,6 +25,7 @@ import { DialogoConfirmacionComponent } from './dialogo-confirmacion/dialogo-con
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DialogoFechasComponent } from './dialogo-fechas/dialogo-fechas.component';
 
 
 
@@ -48,6 +49,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         AgregarPaisesComponent,
         AgregarProvinciasComponent,
         DialogoConfirmacionComponent,
+        DialogoFechasComponent,
         
 
        

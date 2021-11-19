@@ -339,7 +339,8 @@ const itinerarioService = {
 				resolve( resultSend );
 
 			}catch( err ){
-				reject( new intinerarioError( 'Error in Itinerario', `Error get query getAvailabilityDate() : ${err} `) );
+        reject( err );
+				//reject( new itinerarioError( 'Error in Itinerario', `Error get query getAvailabilityDate() : ${err} `) );
 			}
 
     });
