@@ -112,8 +112,9 @@ export class AgregarCursoComponent implements OnInit {
     }
     if(this.id_curso !== 0){
       this.titulo = 'Editar Curso';
-      this.loading=true
-      alert("Editando curso id_curso: " + this.id_curso);
+      this.loading=true;
+      (<HTMLInputElement>document.getElementById('hora_itinerario_fin')).disabled=false;
+      (<HTMLInputElement>document.getElementById('selectorDeImagen')).value= "2";
       // necesito metodo que me obtenga curso por id
 
       this._itinerarioService.getItinerarioById(this.id_curso).subscribe(Response =>{

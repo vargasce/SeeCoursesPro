@@ -244,8 +244,8 @@ const itinerarioService = {
       }
       
       let sql = `
-        SELECT it.id, it.nombre, it.titulo, it.descripcion, it.observacion, it.fecha_itinerario, it.hora_itinerario, 
-	             it.fecha_alta, it.imagen, it.link, it.instructor, it.viewed, ent.id as id_entidad, ent.nombre as nombre_entidad,
+        SELECT it.id, it.nombre, it.titulo, it.descripcion, it.observacion, to_char( it.fecha_itinerario, 'yyyy-MM-DD' ) AS fecha_itinerario, it.hora_itinerario, it.hora_itinerario_fin, 
+	             to_char( it.fecha_alta, 'yyyy-MM-DD' ), it.imagen, it.link, it.instructor, it.viewed, ent.id as id_entidad, ent.nombre as nombre_entidad,
 	             ent.descripcion as descripcion_entidad, ent.telefono as telefono_entidad,
 	             ent.director as director_entidad, ent.ciudad as ciudad_entidad
 	      FROM public.itinerario as it 
