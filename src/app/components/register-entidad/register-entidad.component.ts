@@ -84,7 +84,7 @@ export class RegisterEntidadComponent implements OnInit {
       cuit:['',Validators.required],
       ciudad:['',Validators.required],
       director:['',Validators.required],
-
+      id_actividad:['', Validators.required]
     });
     this.imagenDefault=[
       {id:'0',descripcion:'imagen default 0'},
@@ -96,7 +96,7 @@ export class RegisterEntidadComponent implements OnInit {
       usuario:['',Validators.required],
       pass:['',Validators.required],
     })
-    this.entidadModel = new EntidadModel(0,0,0,0,"","","",false,"","","","","","","");
+    this.entidadModel = new EntidadModel(0,0,0,0,"","","",false,"","","","","","","",0);
     this.usuarioModel = new UsuarioModel(0,"","","",true);
     this.img  = new Imagenes(this._uploadFileService);
    }

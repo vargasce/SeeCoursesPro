@@ -17,6 +17,7 @@ import { Imagenes } from 'src/app/core/global/imagenes/imagenes';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogoFechasComponent } from '../dialogo-fechas/dialogo-fechas.component';
 import * as moment from 'moment';
+import { splitAtColon } from '@angular/compiler/src/util';
 
 
 @Component({
@@ -29,6 +30,7 @@ export class AgregarCursoComponent implements OnInit {
 
   @ViewChild('selectorDeImagen') selectorDeImagen:ElementRef | undefined;
   @ViewChild('hora_itinerario') hora_itinerario:ElementRef | undefined;
+  @ViewChild('hora_itinerario_fin') hora_itinerario_fin:ElementRef | undefined;
   @ViewChild('selectorDeImagenPorDefecto') selectorDeImagenPorDefecto:ElementRef | undefined;
 
   agregarCurso : FormGroup;
@@ -52,6 +54,7 @@ export class AgregarCursoComponent implements OnInit {
   mostrarFechasOcupadas:boolean = false;
   conservarHorario:boolean = false;
   minHoraFin:string=""
+  errorFechas:boolean= false;
 
 
   constructor(
@@ -154,26 +157,34 @@ export class AgregarCursoComponent implements OnInit {
     })
     .afterClosed()
     .subscribe(Response => {
-      this.conservarHorario=Response;
-    });
-  }
-
-  async addEditCurso() {
-
-    try{
-      
-      this.submitted = true;
-      this.validarCargaImagen();
-      await this.verificarFechaCurso();
-
-      if (!this.agregarCurso.invalid && this.validarImagen && this.conservarHorario ) {
-
+      if(Response == true){
+        this.conservarHorario=true;
         if (this.id_curso == 0) { // si el id es 0 agrego un nuevo laboratorio, sino lo edito
           this.addCurso();
         } else {
           this.editCurso();
         }
+      }
+    });
+  }
 
+
+  async addEditCurso() {
+
+    try{
+
+      this.submitted = true;
+      this.validarCargaImagen();
+    
+      if (!this.agregarCurso.invalid && this.validarImagen && !this.errorFechas ) {
+        let fechasVerificadas = await this.verificarFechaCurso();
+        if(fechasVerificadas && this.conservarHorario){
+          if (this.id_curso == 0) { // si el id es 0 agrego un nuevo laboratorio, sino lo edito
+            this.addCurso();
+          } else {
+            this.editCurso();
+          }
+        }
       }else{
         return
       }
@@ -316,7 +327,14 @@ export class AgregarCursoComponent implements OnInit {
     console.log(event.target.value);
     this.minHoraFin =event.target.value;
     (<HTMLInputElement>document.getElementById('hora_itinerario_fin')).disabled=false;
+    let hora_itinerario=(<HTMLInputElement>document.getElementById('hora_itinerario')).value;
     (<HTMLInputElement>document.getElementById('hora_itinerario_fin')).value = this.minHoraFin;
+  }
+
+  onChangeHoraFin(event:any){
+    let hora_comienzo=(<HTMLInputElement>document.getElementById('hora_itinerario')).value
+    let hora_fin=(<HTMLInputElement>document.getElementById('hora_itinerario_fin')).value
+    this.errorFechas = this.fechas.validarHorarios(hora_comienzo,hora_fin) ? true : false;
   }
   
   /** PREVISUALIZAR IMAGEN.

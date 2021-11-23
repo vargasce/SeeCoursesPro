@@ -25,21 +25,22 @@
                                 onfocus="(this.type='date')" onblur="(this.type='text')" formControlName="fecha_itinerario" style="margin-bottom:5px;" min="{{today}}">  
                             </div>
                             <div class="col">
-                                <input (change)="onChangeHora($event)"#hora_itinerarioForm name="hora_itinerario"  [(ngModel)]="itinerarioModel.hora_itinerario"  class="form-control mt-3" placeholder="Hora del Curso" formControlName="hora_itinerario" style="margin-bottom:5px;"
+                                <input id="hora_itinerario"(change)="onChangeHora($event)"#hora_itinerarioForm name="hora_itinerario"  [(ngModel)]="itinerarioModel.hora_itinerario"  class="form-control mt-3" placeholder="Hora del Curso" formControlName="hora_itinerario" style="margin-bottom:5px;"
                                 onfocus="(this.type='time')" onblur="(this.type='text')">
                             </div>
 
                             <div class="col">
-                                <input id="hora_itinerario_fin" #hora_itinerario_finForm name="hora_itinerario_fin"  type="text" [(ngModel)]="itinerarioModel.hora_itinerario_fin"  class="form-control mt-3" placeholder="Finalización del Curso" formControlName="hora_itinerario_fin" style="margin-bottom:5px;"
+                                <input id="hora_itinerario_fin" (change)="onChangeHoraFin($event)" #hora_itinerario_finForm name="hora_itinerario_fin"  type="text" [(ngModel)]="itinerarioModel.hora_itinerario_fin"  class="form-control mt-3" placeholder="Finalización del Curso" formControlName="hora_itinerario_fin" style="margin-bottom:5px;"
                                 onfocus="(this.type='time')" onblur="(this.type='text')"  max="10:00:00">
                             </div>
+                            <h3 class="text-danger text-center mt-3" *ngIf="errorFechas">La hora final no puede ser menor a la hora de inicio</h3>
                         </div>
                         <div class="row" style="margin-bottom:5px;">
                             <div class="col">
                                <input #linkForm name="link"  [(ngModel)]="itinerarioModel.link" type="text" class="form-control mt-3" placeholder="Link" formControlName="link">
                             </div>
                         </div>
-                        <input #instructorForm name="instructor"  [(ngModel)]="itinerarioModel.instructor" type="text" class="form-control mt-3" placeholder="Instructor" formControlName="instructor">
+                        <input #instructorForm name="instructor"  [(ngModel)]="itinerarioModel.instructor" type="text" class="form-control mt-3" placeholder="Disertantes/Profesor" formControlName="instructor">
 
                         <select #selectorDeImagen class="form-select mt-3">
                             <option value="0" disabled selected>Subir imagen </option>
@@ -77,11 +78,14 @@
         </div>
         <div *ngIf="mostrarFechasOcupadas" class="col">
             <div class="card border-danger">
-                <div class="card-body text-danger">
+                <div class="card-body text-danger" >
                     <h2 style="line-height: 1.2; font-weight: 500;" class="mt-2">Horarios ocupados</h2>
-                    <div *ngFor="let fecha of fechasNoDisponibles">
-                        <p>Hora: {{fecha.hora_itinerario}} - Hora fin: {{fecha.hora_itinerario_fin}}</p>
-                        <br>
+                    <div *ngFor="let itinerario of fechasNoDisponibles">
+                        <p> <b>Nombre: </b>{{itinerario.nombre}}</p>
+                        <p><b>Descripcion: </b>{{itinerario.descripcion}}</p>
+                        <p><b>Disertantes/Profesor: </b>{{itinerario.instructor}}</p>  
+                        <p><b>Hora: </b>{{itinerario.hora_itinerario}} - Hora fin: {{itinerario.hora_itinerario_fin}}</p>
+                        <hr>
                     </div>
                 </div>
             </div>

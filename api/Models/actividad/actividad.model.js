@@ -4,19 +4,54 @@ class actividadModel {
 
     constructor( data = null ){
         if( data ){
-            this.description = data.description;
+            this.id = data.id;
+            this.descripcion = data.descripcion;
         }
     }
 
     //GETTERS
-    getDescripcion(){ return this.description; }
+    getId(){ return this.id; }
+    getDescripcion(){ return this.descripcion; }
 
     //SETTERS
-    setDescripcion( desc ){ this.description = desc; }
+    setDescripcion( desc ){ this.descripcion = desc; }
+    setId( id ){ this.id = id; }
 
     //CUSTOM
     
     getSqlAddActividad(){
-        return '';
+        let sql = `INSERT INTO actividad 
+        (
+            descripcion
+        )
+        VALUES 
+        (
+            '${this.getDescripcion()}'
+        );`
+        
+        return sql;
     }
+
+    getSqlUpdateActividad(){        
+        let sql = `UPDATE actividad SET descripcion '${this.getDescripcion()}' WHERE id = ${this.getId()}); `;
+        return sql;
+    }
+
+    getSqlListActividad( ){
+        let sql = `SELECT * FROM actividad ;`;
+        return sql;
+    }
+
+    getSqlByIdActividad( id ){
+        let sql = `SELECT * FROM actividad WHERE id = ${id} ;`;
+        return sql;
+    }
+
+    getSqlDeleteActividad( id ){
+        let sql = `DELETE actividad WHERE id= ${id} ;`;
+        return sql;
+    }
+
 }
+
+module.exports = actividadModel ;

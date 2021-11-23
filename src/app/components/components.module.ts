@@ -26,6 +26,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DialogoFechasComponent } from './dialogo-fechas/dialogo-fechas.component';
+import { AbmActividadesComponent } from './abm-actividades/abm-actividades.component';
+import { AgregarActividadesComponent } from './agregar-actividades/agregar-actividades.component';
 
 
 
@@ -50,6 +52,8 @@ import { DialogoFechasComponent } from './dialogo-fechas/dialogo-fechas.componen
         AgregarProvinciasComponent,
         DialogoConfirmacionComponent,
         DialogoFechasComponent,
+        AbmActividadesComponent,
+        AgregarActividadesComponent,
         
 
        
@@ -80,7 +84,9 @@ import { DialogoFechasComponent } from './dialogo-fechas/dialogo-fechas.componen
         NavbarAdminGeneralComponent,
         AgregarPaisesComponent,
         AgregarProvinciasComponent,
-        DialogoConfirmacionComponent
+        DialogoConfirmacionComponent,
+        AbmActividadesComponent,
+        AgregarActividadesComponent,
 
     ],
     entryComponents: [

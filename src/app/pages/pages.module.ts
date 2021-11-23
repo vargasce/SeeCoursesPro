@@ -25,6 +25,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { DialogoConfirmacionComponent } from "../components/dialogo-confirmacion/dialogo-confirmacion.component";
+import { AddActividadesComponent } from './add-actividades/add-actividades.component';
+import { ActividadesComponent } from './actividades/actividades.component';
 
 
 //IMPORTS YOUR PAGES MAIN FOR SYSTEM 
@@ -45,6 +47,8 @@ import { DialogoConfirmacionComponent } from "../components/dialogo-confirmacion
         AdministradorGeneralComponent,
         AddPaisesComponent,
         AddProvinciasComponent,
+        AddActividadesComponent,
+        ActividadesComponent,
 
 
     ],

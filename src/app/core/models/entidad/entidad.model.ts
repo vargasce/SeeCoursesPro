@@ -15,8 +15,8 @@ export class EntidadModel{
         public imagen:string,
         public cuit:string,
         public ciudad:string,
-        public director:string
-
+        public director:string,
+        public id_actividad:number
     ){
 
     }

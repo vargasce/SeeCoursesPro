@@ -12,6 +12,7 @@ const Upload = require('../Controllers/Upload/upload');
 const Email = require('../Controllers/Email/email');
 const Administrador = require('../Controllers/Administrador/Administrador');
 const UsuarioAdmin = require('../Controllers/Usuario_Admin/usuario_admin.controller');
+const Actividad = require('../Controllers/Actividad/actividad');
 
 const router = express.Router();
 
@@ -30,6 +31,7 @@ router.get('/godownImg/:image', Upload.goDown );                      // CONTROL
 router.post('/email', Email.emailController );                        // CONTROLLER EMAIL
 router.post('/administrador', Administrador.administradorController ) // CONTROLLER ADMINISTRADOR
 router.post('/usuario_admin', UsuarioAdmin.usuario_admin );           // CONTROLLER USUARIO ADMIN
+router.post('/actividad', Actividad.actividad );                      // CONTROLLER ACTIVIDAD
 
 module.exports = router;
 
