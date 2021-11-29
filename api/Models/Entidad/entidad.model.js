@@ -151,6 +151,11 @@ class Entidad{
     return sql;
   }
 
+  getSqlStringValidateCuit( cuit ){
+    let sql = `SELECT * FROM entidad WHERE cuit = '${cuit}' ;`;
+    return sql;
+  }
+
 }
 
 module.exports = Entidad;

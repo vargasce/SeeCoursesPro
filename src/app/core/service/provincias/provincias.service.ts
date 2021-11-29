@@ -19,7 +19,7 @@ export class ProvinciasService {
     getProvinciasByIdPais(id:number){
         let headers = { headers : environment.headers };
         let send ={
-            'action' : "list-provincias",
+            'action' : "list-provinciasById",
             'data'   : {
                 'id_pais': id
             }

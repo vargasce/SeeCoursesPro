@@ -67,7 +67,7 @@ class ActividadService{
     async getActividadById( id ){
         return new Promise( async ( resolve, reject) =>{
 
-            let actModel = new actividadModel( data );            
+            let actModel = new actividadModel( id );            
             let sqlGetById = actModel.getSqlByIdActividad(id);
 
             try{

@@ -34,3 +34,9 @@
     max-width: 500px;
     max-height: 300px;
 }
+
+#tabla-responsiva{
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+}

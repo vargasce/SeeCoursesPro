@@ -1,6 +1,7 @@
 'use strict'
 
 const fn = require('../../Custom/function_custom/custom');
+const { delteActividad } = require('../../Services/Actividad/actividad.service');
 const _actividadService = require('../../Services/Actividad/actividad.service');
 
 const controller = {
@@ -16,6 +17,17 @@ const controller = {
                 try{
                     let resultAdd = await _actividadService.getListActividad();
                     return res.status(200).send({ 'error' : '', 'ResultSet' : resultAdd });
+                }catch( err ){
+                    return res.status(500).send({ 'error' : `${err}`});
+                }
+               
+            break;
+
+            case 'get-actividad' :
+                let id = req.body.data.id;
+                try{
+                    let resultAdd = await _actividadService.getActividadById(id);
+                    return res.status(200).send({ 'error' : '', 'ResultSet' : resultAdd.rows});
                 }catch( err ){
                     return res.status(500).send({ 'error' : `${err}`});
                 }

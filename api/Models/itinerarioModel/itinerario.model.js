@@ -120,14 +120,18 @@ class ItinerarioModel{
         descripcion = '${this.getDescripcion()}',
         observacion = '${this.getObservacion()}',
         fecha_itinerario = '${this.getFechaItinerario()}',
-        hora_itinerario = ${this.getHoraItinerario()},
-        fecha_alta = ${this.getFechaAlta()},
+        hora_itinerario = '${this.getHoraItinerario()}',
+        fecha_alta = '${this.getFechaAlta()}',
         imagen = '${this.getImagen()}',
         link = '${this.getLink()}',
         instructor = '${this.getInstructor()}',
-        viewed = ${this.getViewed()},
-        validate = ${this.getValidate()}
+        viewed = false,
+        validado = false,
+        finalizado = false,
+        rechazado = false,
+        hora_itinerario_fin = '${this.getHoraItinerarioFin()}'
       WHERE id = ${this.getId()} ;`;
+      console.log(sql)
 
     return sql;
   }

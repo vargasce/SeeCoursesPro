@@ -1,6 +1,7 @@
 'use strict'
 const _entidadService = require('../../Services/Entidad/entidad.service');
 const fn = require('../../Custom/function_custom/custom');
+const { TypeScriptEmitter } = require('@angular/compiler');
 
 const controller = {
   
@@ -56,6 +57,20 @@ const controller = {
           return res.status(200).send({ 'error' : '', 'ResultSet' : resultAdd });
         }catch( err ){
           return res.status(500).send({ 'error' : `Error : ${ err.getMessage() }` });
+        }
+
+      break;
+
+      case 'verifyCuit' :
+
+        try{
+
+          let resultVerificacion = await _entidadService.verifyCuit( req.body.cuit );
+          if( resultVerificacion == 0 ) return res.status(200).send({ 'error' : '', 'ResultSet' : resultVerificacion });
+          return res.status(500).send({ 'error' : 'El cuit que se intenta ingresar ya existe.' });
+
+        }catch( err ){
+          return res.status(500).send({ 'error' : `${err}`});
         }
 
       break;

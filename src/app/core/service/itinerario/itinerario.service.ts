@@ -35,6 +35,19 @@ export class ItinerarioEntidadService {
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }
 
+    editarItinerario(id:number,data:ItinerarioModel):  Observable<any>{ 
+        let headers = { headers : environment.headers };
+        let send ={
+            'action' : "updateItinerario",
+            'token'  : localStorage.getItem('token'),  
+            'data'   : {
+                'id' : id,
+                'data': data
+            }
+        }
+        return this.http.post<any>( environment.apiURL + this.controller , send, headers );
+    }
+
     guardarItinerario(data:ItinerarioModel):  Observable<any>{ 
         let headers = { headers : environment.headers };
         let send ={

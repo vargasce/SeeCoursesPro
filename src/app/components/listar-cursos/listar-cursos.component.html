@@ -7,7 +7,7 @@
                 </div>
             </span>
             <h1 class="mt-3"  *ngIf="cursos.length==0">No hay cursos para mostrar</h1>                
-            <table *ngIf ="cursos.length > 0" class="table table-striped mt-2 tablaLab">
+            <table id="tabla-responsiva" *ngIf ="cursos.length > 0" class="table table-striped mt-2 tablaLab">
                 <thead>
                     <tr class="noHover">
                         <th>Nombre</th>
@@ -50,7 +50,7 @@
         <div class="card-body">
             <span class="h3">Cursos Pendientes</span>
             <h1 class="mt-3"  *ngIf="cursosPendientes.length==0">No hay cursos para mostrar</h1>                
-            <table *ngIf ="cursosPendientes.length > 0" class="table table-striped mt-2 tablaLab">
+            <table id="tabla-responsiva" *ngIf ="cursosPendientes.length > 0" class="table table-striped mt-2 tablaLab">
                 <thead>
                     <tr class="noHover">
                         <th>Nombre</th>
@@ -90,7 +90,7 @@
         <div class="card-body">
             <span class="h3">Cursos Rechazados</span>
             <h1 class="mt-3"  *ngIf="cursosRechazados.length==0">No hay cursos para mostrar</h1>                
-            <table *ngIf ="cursosRechazados.length > 0" class="table table-striped mt-2 tablaLab">
+            <table id="tabla-responsiva" *ngIf ="cursosRechazados.length > 0" class="table table-striped mt-2 tablaLab">
                 <thead>
                     <tr class="noHover">
                         <th>Nombre</th>
@@ -129,7 +129,7 @@
       <div class="card-body">
           <span class="h3">Cursos Finalizados</span>
           <h1 class="mt-3"  *ngIf="cursosFinalizados.length==0">No hay cursos para mostrar</h1>                
-          <table *ngIf ="cursosFinalizados.length > 0" class="table table-striped mt-2 tablaLab">
+          <table id="tabla-responsiva" *ngIf ="cursosFinalizados.length > 0" class="table table-striped mt-2 tablaLab">
               <thead>
                   <tr class="noHover">
                       <th>Nombre</th>

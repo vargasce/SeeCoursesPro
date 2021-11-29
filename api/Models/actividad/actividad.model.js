@@ -33,7 +33,8 @@ class actividadModel {
     }
 
     getSqlUpdateActividad(){        
-        let sql = `UPDATE actividad SET descripcion '${this.getDescripcion()}' WHERE id = ${this.getId()}); `;
+        let sql = `UPDATE actividad SET descripcion = '${this.getDescripcion()}' WHERE id = ${this.getId()}; `;
+        console.log(sql);
         return sql;
     }
 
@@ -48,7 +49,7 @@ class actividadModel {
     }
 
     getSqlDeleteActividad( id ){
-        let sql = `DELETE actividad WHERE id= ${id} ;`;
+        let sql = `DELETE FROM actividad WHERE id= ${id} ;`;
         return sql;
     }
 

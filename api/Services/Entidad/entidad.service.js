@@ -232,6 +232,36 @@ const entidadService = {
       }
 
     }).catch( error => { throw error; } );
+  },
+
+  /** GET LIST EMAIL ENTIDAD
+   * @Observations => Retorna lista de email asociados a la entidad.
+   * @param { string } cuit => Numero de cuit a verificar.
+   * @return { Promise } => new Promise.
+   */
+  verifyCuit : ( cuit ) => {
+    return new Promise( async ( resolve, reject ) =>{
+
+      try{
+        fn.validateType('string', cuit );
+      }catch( err ){
+        reject( err );
+      }
+
+      let entidad = new Entidad();
+      let sql = entidad.getSqlStringValidateCuit( cuit );
+
+      try{
+
+        let resultVerify = await QueryAwait( sql );
+        console.log( resultVerify.rows.length );
+        if( resultVerify ) resolve( resultVerify.rows.length );
+
+      }catch( err ){
+        reject( new EntidadError('Error Entidad', `Error al intentar validar Cuit : ${err}`));
+      }
+
+    });
   }
 
 };

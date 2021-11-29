@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild, ɵCodegenComponentFactoryResolver } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AdministradorModel } from 'src/app/core/models/administrador/administrador.model';
@@ -17,6 +17,7 @@ import { NotificacionModel } from 'src/app/core/models/notificacion/notificacion
 import { UploadFileService } from 'src/app/core/service/uploadFile/uploadFile.service';
 import { EmailService } from 'src/app/core/service/email/email.service';
 import { Imagenes } from 'src/app/core/global/imagenes/imagenes';
+import { ActividadesService } from 'src/app/core/service/actividades/actividades.service';
 
 
 
@@ -33,6 +34,7 @@ export class RegisterEntidadComponent implements OnInit {
 
   paises: any[]=[];
   provincias: any[]=[];
+  actividades:any[]=[];
   registrarEntidad : FormGroup;
   registrarUsuario :FormGroup;
   submitted= false;
@@ -63,6 +65,7 @@ export class RegisterEntidadComponent implements OnInit {
     private location : Location,
     private _paisesService: PaisService,
     private _provinciasService: ProvinciasService,
+    private _actividadesService : ActividadesService,
     private _usuarioService: UsuarioService,
     private _registrarEntidadService : RegistrarEntidadService,
     private _uploadFileService : UploadFileService,
@@ -103,6 +106,7 @@ export class RegisterEntidadComponent implements OnInit {
 
   ngOnInit(): void {
     this.getPaises();
+    this.getActividades();
     (<HTMLInputElement>document.getElementById('provincias')).disabled=true;
   }
 
@@ -110,9 +114,9 @@ export class RegisterEntidadComponent implements OnInit {
     this.eventChange();
   }
 
-  addEntidad() {
+  async addEntidad() {
     this.submitted = true;
-    this.cuitValido = this.isCuitValid();
+    this.cuitValido = await this.isCuitValid();
     this.mailValido = this.isMailValid();
     this.validarPaises();
     this.validarProvincias();
@@ -193,9 +197,14 @@ export class RegisterEntidadComponent implements OnInit {
           });
           this.router.navigate(['/login']);
         }
-      })
+      },
+      Error =>{
+        console.log("Error capturado");
+        this.toastr.error(`Error interno, no se puede insertar la entidad`,"Ocurrio un error",{
+          positionClass:'toast-bottom-right'
+        });
+      });
     })
-    console.log(this.entidadModel);
   }
 
   confirmarContrasena(){
@@ -226,9 +235,14 @@ export class RegisterEntidadComponent implements OnInit {
           ...element
         })
       });
-      console.table( this.provincias );
     })
   }
+  getActividades(){
+    this._actividadesService.getActividades().subscribe(Response=>{
+      this.actividades.push( ... Response.ResultSet.rows )
+    })
+  }
+ 
 
 
 
@@ -328,11 +342,30 @@ export class RegisterEntidadComponent implements OnInit {
   }
 
 
-  isCuitValid():boolean {
-    let cuit= (<HTMLInputElement>document.getElementById('cuit')).value;
-    const regexCuit = /^(20|23|27|30|33)([0-9]{9}|-[0-9]{8}-[0-9]{1})$/g;
-    this.cuitValido=regexCuit.test(cuit);
-    return  this.cuitValido
+  public isCuitValid():Promise<boolean> {
+    return new Promise( (resolve, reject ) =>{
+
+      try{
+
+        this._registrarEntidadService.validarCuitUnique( this.entidadModel.cuit ).subscribe(
+          Response =>{
+
+            let cuit= (<HTMLInputElement>document.getElementById('cuit')).value;
+            const regexCuit = /^(20|23|27|30|33)([0-9]{9}|-[0-9]{8}-[0-9]{1})$/g;
+            this.cuitValido=regexCuit.test(cuit);
+            resolve( this.cuitValido );
+
+          },
+          Error =>{
+            resolve( false );
+          }
+        );
+
+      }catch( err ){
+        reject( false );
+      }
+
+    });
   }
   
   isMailValid():boolean {

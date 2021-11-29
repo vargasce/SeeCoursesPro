@@ -114,8 +114,7 @@ export class AgregarCursoComponent implements OnInit {
       this.titulo = 'Editar Curso';
       this.loading=true;
       (<HTMLInputElement>document.getElementById('hora_itinerario_fin')).disabled=false;
-      (<HTMLInputElement>document.getElementById('selectorDeImagen')).value= "2";
-      // necesito metodo que me obtenga curso por id
+
 
       this._itinerarioService.getItinerarioById(this.id_curso).subscribe(Response =>{
         console.log(Response);
@@ -221,7 +220,7 @@ export class AgregarCursoComponent implements OnInit {
     this.loading=true
     this.itinerarioModel.id_entidad = Number(localStorage.getItem("id_entidad"));
     this._itinerarioService.guardarItinerario(this.itinerarioModel).subscribe(async Response =>{
-      console.log(Response);
+      console.log("GUARDAR ITINERARIO SERVICE RESPONSE: "+Response);
       if(Response.error == ""){ // el response me tiene que devolver el id del curso que se creo, asi lo uso en el service de abajo
         try {
 
@@ -273,6 +272,80 @@ export class AgregarCursoComponent implements OnInit {
   }
 
   editCurso(){
+    (<HTMLInputElement>document.getElementById('btn-submit')).disabled=true;
+    this.loading=true;
+    let data = {
+      'data' : {
+        'file' :this.imagenModel,
+        'id'   : 0,
+        'tabla': "itinerario"
+      }
+    }
+    let  emailObject = {
+      dataEmail : {
+        TO      : ["cristian.ea_91@hotmail.com"], // get de todos los mails de admins
+        FROM    : localStorage.getItem("nombre_entidad"),
+        EMAIL   : localStorage.getItem("email_entidad"),
+        SUBJECT : "Solicitud de nuevo Curso",
+        TITULO  : "Solicitud de nuevo Curso",
+        MESSAGE : "Le informamos que se ha generado una nueva solicitud de incorporación de curso, por favor verifique la misma en el sistema.",
+        OBS     : ""
+      }
+    };
+    let id_curso = this.id_curso;
+    this.itinerarioModel.fecha_alta = this.fechas.currentDateConGuionMedio();
+    this.loading=true
+    this.itinerarioModel.id_entidad = Number(localStorage.getItem("id_entidad"));
+
+    this._itinerarioService.editarItinerario(id_curso,this.itinerarioModel).subscribe(async Response =>{
+      console.log(Response);
+      if(Response.error == ""){ // el response me tiene que devolver el id del curso que se creo, asi lo uso en el service de abajo
+        try {
+
+          let result = await this._envioNotificacionService.newCurso(Number(localStorage.getItem("id_entidad")),id_curso, this.itinerarioModel.observacion,this.itinerarioModel.nombre);
+          if( result ){
+            this.toastr.success("La solicitud de curso fue registrada con exito!","Solicitud de Curso Registrada",{
+              positionClass:'toast-bottom-right'
+            });
+          } 
+          
+          data.data.id =id_curso;
+
+          try{
+
+            await this._emailService.enviarMail( emailObject.dataEmail ).toPromise();   
+
+          }catch( err ){
+            console.log("error email");
+            this.toastr.error("Ocurrio un error al enviar el email al administrador","Ocurrio un error",{
+              positionClass:'toast-bottom-right'
+            });            
+          }
+
+          if(!this.imagenPorDefecto){
+            this._uploadFileService.makeFileRequest(data,"image").then(Result=>{}).catch(
+              error=>{
+                this.toastr.error("Ocurrio un guardar la imagen","Ocurrio un error",{
+                  positionClass:'toast-bottom-right'
+                });
+              }
+            )
+          }
+          this.router.navigate(['/entidad/listarCursos']);
+
+        } catch (error) {
+          this.toastr.error("Ocurrio un error al registrar la solicitud de curso","Ocurrio un error",{
+            positionClass:'toast-bottom-right'
+          });
+        }
+
+      }else{
+        this.toastr.error("Ocurrio un error al enviar la solicitud de curso","Ocurrio un error",{
+          positionClass:'toast-bottom-right'
+        });
+        (<HTMLInputElement>document.getElementById('btn-submit')).disabled=false;
+      }
+    })
   }
 
   backRouter():void{

@@ -78,8 +78,15 @@
                         
                         <input #webForm name="web"  [(ngModel)]="entidadModel.web" type="text" class="form-control mt-3" placeholder="Web" formControlName="web">
 
-                        <!-- Agregado para id de tipo de actividad en forma de prueba, este deberi ser un select-->
+                        <!-- Agregado para id de tipo de actividad en forma de prueba, este deberi ser un select
                         <input #id_actividadForm name="id_actividad"  [(ngModel)]="entidadModel.id_actividad" type="text" class="form-control mt-3" placeholder="ID Actividad" formControlName="id_actividad">
+                        -->
+                        <select  #id_actividadForm name="id_actividad"  [(ngModel)]="entidadModel.id_actividad" class="form-select mt-3" formControlName="id_actividad">
+                            <option value="0" selected>Actividad</option>
+                            <option value="{{actividad.id}}" *ngFor ="let actividad of actividades;">{{actividad.descripcion}}</option>
+                        </select>
+
+                        
 
                         <input #directorForm name="director"  [(ngModel)]="entidadModel.director" type="text" class="form-control mt-3" placeholder="Director" formControlName="director">
 

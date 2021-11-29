@@ -41,6 +41,8 @@ export class AbmActividadesComponent implements OnInit {
         }
       },
       error =>{
+        this.toastr.error("No se pueden eliminar actividades ya asosiadas a entidades","Ocurrio un error",{
+          positionClass:'toast-bottom-right'});
       }
     );
   }

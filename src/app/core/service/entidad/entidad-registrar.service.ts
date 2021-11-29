@@ -25,6 +25,16 @@ export class RegistrarEntidadService {
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }
 
+    validarCuitUnique( cuit : string ){
+        let headers = { headers : environment.headers };
+        let send ={
+            'action' : "verifyCuit",
+            'cuit'   : cuit
+        }
+
+        return this.http.post<any>( environment.apiURL + this.controller, send, headers  );
+    }
+
 
     
 

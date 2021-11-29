@@ -125,9 +125,10 @@ module.exports = controller;
  * @return sql : String => String con la consulta a enviar a la base de datos.
  */
 const listSqlstrById = ( id_pais  ) =>{
-  let sql = `SELECT prov.id, pais.id as id_pais, pais.descripcion AS desc_pais, prov.descripcion
-             FROM provincia AS prov
-             INNER JOIN pais AS pais ON prov.id_pais = ${id_pais};`;
+  let sql = `SELECT prov.id AS id, prov.descripcion AS descr_provincia, pa.id AS id_pais, pa.descripcion AS descr_pais
+             FROM provincia as prov 
+             INNER JOIN pais as pa ON prov.id_pais = pa.id
+             WHERE prov.id_pais = ${id_pais} ;`;
 
     return sql;
 }

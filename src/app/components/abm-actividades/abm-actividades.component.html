@@ -17,7 +17,7 @@
                 <tbody>
                     <tr *ngFor="let actividad of actividades">
                         <td> {{actividad.descripcion}} </td>
-                        <td><i [routerLink]="['/adminGeneral/activudades/editarActividades/', actividad.id]" class="fas fa-edit fa-lg text-info "></i></td>
+                        <td><i [routerLink]="['/adminGeneral/actividades/editarActividades/', actividad.id]" class="fas fa-edit fa-lg text-info "></i></td>
                         <td><i (click)="eliminarActividad(actividad.id)" class="fas fa-trash-alt fa-lg text-danger"></i> </td>
                     </tr>
                 </tbody>

@@ -44,25 +44,38 @@ export class ListarCursosComponent implements OnInit {
           Response.ResultSet.forEach((element:any) => {
   
             if(element.validado && !element.finalizado && !element.rechazado && element.noti_pendiente){
-              this.cursos.push({
-                ...element 
-              })
+              if(this.cursos.find(curso => curso.id === element.id)){
+              }else{
+                this.cursos.push({
+                  ...element 
+                })
+              }
             } 
   
             if(!element.validado && element.noti_pendiente){
-              this.cursosPendientes.push({
-                ...element 
-              })
-            }
-            if(element.finalizado && element.noti_pendiente){
-              this.cursosFinalizados.push({
-                ...element 
-              })
-            }
-            if(element.rechazado && element.noti_pendiente){
-                this.cursosRechazados.push({
+
+              if(this.cursosPendientes.find(curso => curso.id === element.id)){
+              }else{
+                this.cursosPendientes.push({
                   ...element 
                 })
+              }
+            }
+            if(element.finalizado && element.noti_pendiente){
+              if(this.cursosFinalizados.find(curso => curso.id === element.id)){
+              }else{
+                this.cursosFinalizados.push({
+                  ...element 
+                })
+              }
+            }
+            if(element.rechazado && element.noti_pendiente){
+                if(this.cursosRechazados.find(curso => curso.id === element.id)){
+                }else{
+                  this.cursosRechazados.push({
+                    ...element 
+                  })
+                }
             }
   
           });

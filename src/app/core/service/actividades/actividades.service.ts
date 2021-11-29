@@ -31,7 +31,7 @@ export class ActividadesService {
             'action' : "get-actividad",
             'data'   : {
                 'id' : id,
-            }
+            }            
         }
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }
@@ -61,10 +61,10 @@ export class ActividadesService {
     editarActividad(id:number,data:ActividadesModel):  Observable<any>{  
         let headers = { headers : environment.headers };
         let send ={
-            'action' : "update-paises",  
+            'action' : "update-actividad",  
             'data'   : {
                 'id' : id,
-                'data'   : data
+                'descripcion'   : data.descripcion
             }
         }
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );

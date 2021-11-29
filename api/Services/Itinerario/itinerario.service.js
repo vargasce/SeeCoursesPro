@@ -141,7 +141,7 @@ const itinerarioService = {
   updateItinerario : ( req ) =>{
     return new Promise( ( resolve, reject ) =>{
 
-      let data = req.body.data;
+      let data = req.body.data.data;
 
       try{
         custon.validateType( 'object', data );
