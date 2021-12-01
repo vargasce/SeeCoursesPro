@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 //import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
+  { path : '', loadChildren : () => import('./home/home.module').then( seec => seec.HomeModule ) },
   { path : 'home', loadChildren : () => import('./home/home.module').then( seec => seec.HomeModule ) },
   { path : 'admin', loadChildren : () => import('./administrador/administrador.module').then( reference => reference.AdministradorModule ) },
   { path : 'entidad', loadChildren : () => import('./entidad/entidad.module').then( reference => reference.EntidadModule)},

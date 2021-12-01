@@ -158,6 +158,7 @@ export class RegisterEntidadComponent implements OnInit {
         };
       this._registrarEntidadService.registrarEntidad(this.entidadModel).subscribe(async Response =>{
         this.loading=false
+        console.log("Response ADD ENTIDAD: "+Response)
         if(Response.error == ""){         
           try {
             await this._envioNotificacionService.newEntidad(Response.ResultSet.id, this.entidadModel.nombre);  
