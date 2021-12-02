@@ -2,7 +2,6 @@
 
 const _entidadService = require('../../Services/Entidad/entidad.service');
 const fn = require('../../Custom/function_custom/custom');
-const { TypeScriptEmitter } = require('@angular/compiler');
 
 const controller = {
   

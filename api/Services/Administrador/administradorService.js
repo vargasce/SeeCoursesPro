@@ -122,7 +122,8 @@ class AdministradorService{
 
             try{
                 let resultEmailList = await QueryAwait( `SELECT email FROM administrador ;`);
-                if( resultEmailList ) resolve( resultEmailList.rows );
+                let emailList = resultEmailList.rows.map( ( value, index ) =>{ return value.email });
+                if( resultEmailList ) resolve( emailList );
             }catch( err ){
                 reject( new AdministradorError('Error Administrador', `Error list email Administrador : ${err}`) );
             }

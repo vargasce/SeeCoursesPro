@@ -39,6 +39,7 @@ export class FiltrosComponent implements OnInit {
   }
 
   buscarPorFiltro(){
+    alert(this.filtro.controls['nombre'].value);
      this._itinerarioService.filtroItinerario(this.itinerarioModel).subscribe(Response=>{
       console.log(Response);
       Response.ResultSet.forEach((element:any) => {

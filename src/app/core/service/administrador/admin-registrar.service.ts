@@ -5,6 +5,7 @@ import { EntidadModel } from "../../models/entidad/entidad.model";
 import { UsuarioModel } from "../../models/usuario/usuario.model";
 import { AdministradorModel } from "../../models/administrador/administrador.model";
 import { Usuario_AdminModel } from "../../models/usuario_admin/usuario_admin.model";
+import { Observable } from "rxjs";
 @Injectable({
     providedIn: 'root'
 })
@@ -29,7 +30,13 @@ export class RegistrarAdminService {
         }
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }
-
+    getEmailAdmin(): Observable<any>{
+        let headers = { headers : environment.headers };
+        let send ={
+            'action' : "listEmailAdministrador",
+        }
+        return this.http.post<any>( environment.apiURL + this.controller , send, headers );
+    }
 
     
 

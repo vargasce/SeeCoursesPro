@@ -8,6 +8,7 @@
                     <h3 class="text-danger text-center mt-3" *ngIf="submitted && registrarUsuario.invalid">TODOS LOS CAMPOS SON OBLIGATORIOS</h3>
                     <form name ="registrarUsuarioDataForm"  #registrarUsuarioDataForm="ngForm"  class="mt-4" [formGroup]="registrarUsuario" (ngSubmit)="addEntidad()">
                         <input #usuarioForm name="usuario"  [(ngModel)]="usuarioModel.usuario" type="text" class="form-control mt-3" placeholder="Usuario" formControlName="usuario">                          
+                        <h5 class="text-danger text-center mt-0" *ngIf="usuarioExistente">El usuario ingresado ya existe.</h5>
                         <input id="pass" #passForm name="pass"  [(ngModel)]="usuarioModel.pass" type="password" class="form-control mt-3" placeholder="Constraseña" formControlName="pass">  
                         <input id="confirm_pass" type="password" class="form-control mt-3" placeholder="Confirmar Constraseña" (keyup)="confirmarContrasena()">                              
                         <h4 class="text-danger mt-3" *ngIf="!validarPass">Las contraseñas no son iguales</h4>

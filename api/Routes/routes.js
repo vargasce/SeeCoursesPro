@@ -10,7 +10,7 @@ const Provincia = require('../Controllers/Provincias/provincias');
 const Pais = require('../Controllers/Paises/paises');
 const Upload = require('../Controllers/Upload/upload');
 const Email = require('../Controllers/Email/email');
-const Administrador = require('../Controllers/Administrador/Administrador');
+const Administrador = require('../Controllers/Administrador/administrador');
 const UsuarioAdmin = require('../Controllers/Usuario_Admin/usuario_admin.controller');
 const Actividad = require('../Controllers/Actividad/actividad');
 

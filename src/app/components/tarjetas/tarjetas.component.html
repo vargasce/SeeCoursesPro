@@ -3,7 +3,7 @@
     <div class="card h-100">
       <div class="card-body">
         <img src="{{getStringImg(item.imagen)}}" class="imagen-tarjeta" alt="">
-        <h2 class="card-title mt-2">{{item.titulo}}</h2>
+        <h2 class="card-title mt-2">{{item.nombre}}</h2>
         <h4>{{item.descripcion}}</h4>
         <button id="{{item.id}}" type="button" class="btn btn-dark" (click)="[openPopup(item.id)]">Ver mas</button>
       </div>
@@ -19,7 +19,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title mt-2">{{item.titulo}}</h1>
+          <h1 class="modal-title mt-2">{{item.nombre}}</h1>
         </div>
         <div class="modal-body">
           <p><b>Nombre Entidad: </b>{{item.nombre_entidad}}</p>

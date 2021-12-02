@@ -2,22 +2,18 @@ import { Component, OnInit,Renderer2,ElementRef, ViewChild } from '@angular/core
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ItinerarioModel } from 'src/app/core/models/itinerario/itinerario.model';
-import { environment } from 'src/environments/environment';
 import { Location } from '@angular/common';
 import { ItinerarioEntidadService } from 'src/app/core/service/itinerario/itinerario.service';
 import { ToastrService } from 'ngx-toastr';
-import { EntidadService } from 'src/app/core/service/entidad/entidad.service';
 import { fechas } from 'src/app/core/custom/fechas';
-import { NotificacionModel } from 'src/app/core/models/notificacion/notificacion.model';
 import { EnvioNotificaciones } from 'src/app/core/custom/envio-notificaciones';
 import { UploadFileService } from 'src/app/core/service/uploadFile/uploadFile.service';
 import { EmailService } from 'src/app/core/service/email/email.service';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Imagenes } from 'src/app/core/global/imagenes/imagenes';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogoFechasComponent } from '../dialogo-fechas/dialogo-fechas.component';
-import * as moment from 'moment';
-import { splitAtColon } from '@angular/compiler/src/util';
+import { RegistrarAdminService } from 'src/app/core/service/administrador/admin-registrar.service';
+
 
 
 @Component({
@@ -56,6 +52,7 @@ export class AgregarCursoComponent implements OnInit {
   minHoraFin:string=""
   errorFechas:boolean= false;
   editImagen:boolean= false;
+  adminMails:string[]=[];
 
 
   constructor(
@@ -71,6 +68,7 @@ export class AgregarCursoComponent implements OnInit {
     private fechas :fechas,
     public renderer:Renderer2,
     public dialogo: MatDialog,
+    private _adminService:RegistrarAdminService
     ) {
     this.agregarCurso = this.fb.group({
       nombre:['',Validators.required],
@@ -94,9 +92,11 @@ export class AgregarCursoComponent implements OnInit {
     this.img  = new Imagenes(this._uploadFileService);
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     (<HTMLInputElement>document.getElementById('hora_itinerario_fin')).disabled=true;
     this.esEditar();
+    this.adminMails= await this.getMailsAdministrador();
+    console.log(this.adminMails);
     
   }
 
@@ -237,7 +237,7 @@ export class AgregarCursoComponent implements OnInit {
     }
     let  emailObject = {
       dataEmail : {
-        TO      : ["cristian.ea_91@hotmail.com"], // get de todos los mails de admins
+        TO      : this.adminMails, // get de todos los mails de admins
         FROM    : localStorage.getItem("nombre_entidad"),
         EMAIL   : localStorage.getItem("email_entidad"),
         SUBJECT : "Solicitud de nuevo Curso",
@@ -313,7 +313,7 @@ export class AgregarCursoComponent implements OnInit {
     }
     let  emailObject = {
       dataEmail : {
-        TO      : ["cristian.ea_91@hotmail.com"], // get de todos los mails de admins
+        TO      : this.adminMails, // get de todos los mails de admins
         FROM    : localStorage.getItem("nombre_entidad"),
         EMAIL   : localStorage.getItem("email_entidad"),
         SUBJECT : "Solicitud de nuevo Curso",
@@ -405,6 +405,7 @@ export class AgregarCursoComponent implements OnInit {
         this.imagenPorDefecto=false;
         this.editImagen = false;
       }else{
+        this.img_foto="";
         this.imagenPropia=false;
         this.imagenPorDefecto=true;
         this.editImagen = false;
@@ -460,6 +461,7 @@ export class AgregarCursoComponent implements OnInit {
 		let reader = new FileReader;
 		reader.onload = (e: any) => {
 			this.img_foto = e.target.result;
+      this.editImagen = false;
 		};
 		reader.readAsDataURL(file);
 	}
@@ -491,8 +493,20 @@ export class AgregarCursoComponent implements OnInit {
     }
   }
 
-  getMailsAdministrador():string[]{ //retorna el mail de todos los administradores
-  return[]
+   getMailsAdministrador():Promise<string[]>{ //retorna el mail de todos los administradores
+    return new Promise((resolve,reject)=>{
+      this._adminService.getEmailAdmin().subscribe(
+        Response=>{
+          resolve(Response.ResultSet)
+        },
+        error=>{
+          reject([])
+          this.toastr.error("Ocurrio un error al obtener los mails de administrador","Ocurrio un error",{
+            positionClass:'toast-bottom-right'
+          });
+          console.log(error);
+        });
+    }) 
   }
     
 }

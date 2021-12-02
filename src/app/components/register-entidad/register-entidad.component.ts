@@ -19,6 +19,7 @@ import { EmailService } from 'src/app/core/service/email/email.service';
 import { Imagenes } from 'src/app/core/global/imagenes/imagenes';
 import { ActividadesService } from 'src/app/core/service/actividades/actividades.service';
 import { Usuario_AdminService } from 'src/app/core/service/user_admin/user_admin.service';
+import { RegistrarAdminService } from 'src/app/core/service/administrador/admin-registrar.service';
 
 
 
@@ -59,6 +60,7 @@ export class RegisterEntidadComponent implements OnInit {
   validarProv:boolean = true;
   validarImagen:boolean = true;
   usuarioExistente:boolean= false;
+  adminMails:string[]=[];
 
   constructor(
     private fb: FormBuilder,
@@ -70,6 +72,7 @@ export class RegisterEntidadComponent implements OnInit {
     private _actividadesService : ActividadesService,
     private _usuarioService: UsuarioService,
     private _usuarioAdminService :Usuario_AdminService,
+    private _adminService: RegistrarAdminService,
     private _registrarEntidadService : RegistrarEntidadService,
     private _uploadFileService : UploadFileService,
     private toastr: ToastrService,
@@ -107,9 +110,10 @@ export class RegisterEntidadComponent implements OnInit {
     this.img  = new Imagenes(this._uploadFileService);
    }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.getPaises();
     this.getActividades();
+    this.adminMails= await this.getMailsAdministrador();
     (<HTMLInputElement>document.getElementById('provincias')).disabled=true;
   }
 
@@ -126,7 +130,7 @@ export class RegisterEntidadComponent implements OnInit {
     this.validarProvincias();
     this.validarCargaImagen();
     this.confirmarContrasena();
-    if (this.cuitValido && this.mailValido &&this.validarProv && this.validarPais && this.validarImagen){
+    if (this.cuitValido && this.mailValido &&this.validarProv && this.validarPais && this.validarImagen &&!this.usuarioExistente){
       if (!this.registrarEntidad.invalid && !this.registrarUsuario.invalid && this.validarPass) {
         this.registrarComoEntidad();
       } else {
@@ -151,7 +155,7 @@ export class RegisterEntidadComponent implements OnInit {
       this.entidadModel.id_usuario= Response.ResultSet.id
       let  emailObject = {
       	  dataEmail : {
-      	  	TO      : ["cristian.ema_91@hotmail.com"], // get de todos los mails de admins
+      	  	TO      : this.adminMails, // get de todos los mails de admins
       		  FROM    : this.entidadModel.nombre,
       		  EMAIL   : this.entidadModel.email,
       		  SUBJECT : "Solicitud de nueva Entidad",
@@ -277,20 +281,28 @@ export class RegisterEntidadComponent implements OnInit {
 
   onChangeSelect(event:any){
     this.imagenExist=true;
-    switch (event.target.value){
+    switch (event.target.value) {
       case "0":
-        this.entidadModel.imagen= "imagen1.jpg";
+        this.entidadModel.imagen = "defaultImageItinerario 1.jpg";
         break;
       case "1":
-        this.entidadModel.imagen= "imagen2.jpg";
+        this.entidadModel.imagen = "defaultImageItinerario 2.jpg";
         break;
       case "2":
-        this.entidadModel.imagen= "imagen3.jpg";
+        this.entidadModel.imagen = "defaultImageItinerario 3.jpg";
+        break;
+      case "3":
+        this.entidadModel.imagen = "defaultImageItinerario 4.jpg";
+        break;
+      case "4":
+        this.entidadModel.imagen = "defaultImageItinerario 5.jpg";
+        break;
+      case "5":
+        this.entidadModel.imagen = "defaultImageItinerario 6.jpg";
         break;
 
     }
   }
-
   validarCargaImagen(){
 
     if((this.imagenPorDefecto == false) && (this.imagenPropia == false)){
@@ -373,17 +385,43 @@ export class RegisterEntidadComponent implements OnInit {
     });
   }
 
-  validarUserName(){
-    console.log(this.usuarioModel);
-    this._usuarioService.verifyUser(this.usuarioModel.usuario).subscribe(Response=>{
-      if(Response.ResultSet.error ==""){
-        this.usuarioExistente = false;
-      }else{
-          this.usuarioExistente = true;
+  
+  public validarUserName():Promise<boolean> {
+    return new Promise( (resolve, reject ) =>{
+
+      try{
+
+        this._usuarioService.verifyUser(this.usuarioModel.usuario).subscribe(Response=>{
+          this.usuarioExistente = false;
+          },
+          Error =>{
+            this.usuarioExistente = true;
+            resolve( false );
+          }
+        );
+      }catch( err ){
+        reject( false );
       }
     });
   }
-  
+
+  getMailsAdministrador():Promise<string[]>{ //retorna el mail de todos los administradores
+    return new Promise((resolve,reject)=>{
+      this._adminService.getEmailAdmin().subscribe(
+        Response=>{
+          resolve(Response.ResultSet)
+        },
+        error=>{
+          reject([])
+          this.toastr.error("Ocurrio un error al obtener los mails de administrador","Ocurrio un error",{
+            positionClass:'toast-bottom-right'
+          });
+          console.log(error);
+        });
+    }) 
+  }
+
+
   isMailValid():boolean {
     let mail= (<HTMLInputElement>document.getElementById('mail')).value;
     const regexp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);

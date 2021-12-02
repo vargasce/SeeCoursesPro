@@ -43,11 +43,11 @@ export class ItinerariosService {
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }
 
-    filtroItinerario(itinerario:ItinerarioModel): Observable<any>{
+    filtroItinerario(filtro:object): Observable<any>{
         let headers = { headers : environment.headers };
         let send ={
             'action' : "filtroItinerario",
-            'data'   : itinerario
+            'data'   : filtro
         }
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }

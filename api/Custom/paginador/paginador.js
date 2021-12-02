@@ -3,15 +3,6 @@ const PaginadorError = require('../../Error/Paginador/paginadorError');
 
 class Paginador {
   
-  static page = 0;
-  static nextPageList = 0;
-  static backPageList = 0;
-  static countTotal = 0;
-  static countPage = 0;
-  static totalPage = 0;
-  static initPage = 0;
-  static finalPage = 0;
-
   constructor(){
     
   }

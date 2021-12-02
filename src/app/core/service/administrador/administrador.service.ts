@@ -27,6 +27,8 @@ export class AdministradorService {
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }
 
+
+
     aprobarNotificacion(id:number,es_curso:boolean): Observable<any>{ //si la notificacion es de curso, la aprueba en la tabla de cursos, y si es de entidad la aprueba en la tabla de entidad
         let headers = { headers : environment.headers };
         let send ={
