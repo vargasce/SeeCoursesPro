@@ -67,9 +67,12 @@
                             <img class="previewImagen mt-3" src="{{getStringImg(itinerarioModel.imagen)}}">
                         </div>
 
+                        <div  *ngIf="editImagen">
+                            <img class="previewImagen mt-3" src="{{getStringImg(itinerarioModel.imagen)}}">
+                        </div>
+
                         <div class="mt-3 text-center">
-                            <button type="text" class="btn btn-secundary mr-3" (click)="backRouter()" 
-                                routerLinkActive="active"> Volver </button>
+                            <button type="text" class="btn btn-secundary mr-3" [routerLink]="['/entidad/listarCursos']"> Volver </button>
                             <button id="btn-submit" type="submit" class="btn btn-dark"> Agregar </button>
                         </div>
                     </form>

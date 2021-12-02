@@ -37,8 +37,8 @@ max-width: 500px;
 }
 
 .imagen-tarjeta{
-  min-width: 250px;
+  max-width: 242px;
   min-height: 200px;
-  max-width: 250px;
+  max-width: 242px;
   max-height: 200px;
 }

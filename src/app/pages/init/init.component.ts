@@ -9,6 +9,7 @@ import { ItinerariosService } from 'src/app/core/service/home-service/home.servi
 export class InitComponent implements OnInit {
 
   itinerarios: any[] = [];
+  filtros:boolean = false;
 
   constructor(private _ItinerariosService: ItinerariosService) { 
     this._ItinerariosService.getItinerarios()
@@ -25,6 +26,5 @@ export class InitComponent implements OnInit {
   }
   ngOnInit(): void {
   }
-
 }
 /**/

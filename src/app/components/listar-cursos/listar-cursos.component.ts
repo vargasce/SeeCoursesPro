@@ -79,7 +79,6 @@ export class ListarCursosComponent implements OnInit {
             }
   
           });
-          console.log(this.cursosRechazados)
         }); 
     }
    

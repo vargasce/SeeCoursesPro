@@ -55,6 +55,7 @@ export class AgregarCursoComponent implements OnInit {
   conservarHorario:boolean = false;
   minHoraFin:string=""
   errorFechas:boolean= false;
+  editImagen:boolean= false;
 
 
   constructor(
@@ -106,20 +107,43 @@ export class AgregarCursoComponent implements OnInit {
 
   esEditar(){ 
     if(location.href.split("/",6)[5]==undefined){
+
       this.id_curso = 0;
+
     }else{
+
       this.id_curso = Number(location.href.split("/",6)[5]);
     }
+
     if(this.id_curso !== 0){
+
       this.titulo = 'Editar Curso';
       this.loading=true;
       (<HTMLInputElement>document.getElementById('hora_itinerario_fin')).disabled=false;
 
-
       this._itinerarioService.getItinerarioById(this.id_curso).subscribe(Response =>{
-        console.log(Response);
+
         this.itinerarioModel = Response.ResultSet;
-        this.loading=false
+        this.loading= false;
+        let slipt:any = this.itinerarioModel.imagen.split(" ",1);
+
+        if(slipt[0] =="defaultImageItinerario"){ // verifico si la imagen que tenia guardada es una imagen por defecto
+
+          (<HTMLInputElement>document.getElementById('selectorDeImagen')).value = "2";
+          this.imagenPorDefecto = true;
+          this.img_foto = "";
+          this.imagenExist = true;
+
+        }else{
+
+          (<HTMLInputElement>document.getElementById('selectorDeImagen')).value = "1";
+          this.imagenPropia = true;
+          this.imagenPorDefecto = false;
+          this.img_foto = "";
+          this.imagenExist = true;
+          this.editImagen = true;
+        }
+        this.getStringImg(this.itinerarioModel.imagen);
       })
     }
   }
@@ -127,15 +151,21 @@ export class AgregarCursoComponent implements OnInit {
 
   verificarFechaCurso(){
     return new Promise( ( resolve, rejec ) =>{
+
       this.fechasNoDisponibles=[];
       this._itinerarioService.getAvailabilityDate(this.itinerarioModel).subscribe(Response=>{
+
         if(Response.ResultSet.length == 0){
+
           this.mostrarFechasOcupadas=false;
           this.conservarHorario=true;
+
         }else{
+
           this.dialogFechaCurso();
           this.mostrarFechasOcupadas=true;
           Response.ResultSet.forEach((element:any) => {
+
             this.fechasNoDisponibles.push({ // guardo la lista de laboratorios en el array laboratorios  
               ...element 
             })
@@ -220,7 +250,7 @@ export class AgregarCursoComponent implements OnInit {
     this.loading=true
     this.itinerarioModel.id_entidad = Number(localStorage.getItem("id_entidad"));
     this._itinerarioService.guardarItinerario(this.itinerarioModel).subscribe(async Response =>{
-      console.log("GUARDAR ITINERARIO SERVICE RESPONSE: "+Response);
+
       if(Response.error == ""){ // el response me tiene que devolver el id del curso que se creo, asi lo uso en el service de abajo
         try {
 
@@ -296,9 +326,9 @@ export class AgregarCursoComponent implements OnInit {
     this.itinerarioModel.fecha_alta = this.fechas.currentDateConGuionMedio();
     this.loading=true
     this.itinerarioModel.id_entidad = Number(localStorage.getItem("id_entidad"));
-
+    console.log(this.itinerarioModel);
     this._itinerarioService.editarItinerario(id_curso,this.itinerarioModel).subscribe(async Response =>{
-      console.log(Response);
+
       if(Response.error == ""){ // el response me tiene que devolver el id del curso que se creo, asi lo uso en el service de abajo
         try {
 
@@ -373,32 +403,43 @@ export class AgregarCursoComponent implements OnInit {
       if(event.target.value==1){
         this.imagenPropia=true;
         this.imagenPorDefecto=false;
+        this.editImagen = false;
       }else{
         this.imagenPropia=false;
         this.imagenPorDefecto=true;
+        this.editImagen = false;
       }
     });
   }
 
-  onChangeSelect(event:any){
-    console.log(event.target.value) 
-    this.imagenExist=true;
-    switch (event.target.value){
+  onChangeSelect(event: any) {
+
+    this.imagenExist = true;
+    switch (event.target.value) {
       case "0":
-        this.itinerarioModel.imagen= "imagen1.jpg"; 
+        this.itinerarioModel.imagen = "defaultImageItinerario 1.jpg";
         break;
       case "1":
-        this.itinerarioModel.imagen= "imagen2.jpg"; 
+        this.itinerarioModel.imagen = "defaultImageItinerario 2.jpg";
         break;
       case "2":
-        this.itinerarioModel.imagen= "imagen3.jpg"; 
+        this.itinerarioModel.imagen = "defaultImageItinerario 3.jpg";
         break;
-         
+      case "3":
+        this.itinerarioModel.imagen = "defaultImageItinerario 4.jpg";
+        break;
+      case "4":
+        this.itinerarioModel.imagen = "defaultImageItinerario 5.jpg";
+        break;
+      case "5":
+        this.itinerarioModel.imagen = "defaultImageItinerario 6.jpg";
+        break;
+
     }
   }
 
   onChangeHora(event:any){
-    console.log(event.target.value);
+
     this.minHoraFin =event.target.value;
     (<HTMLInputElement>document.getElementById('hora_itinerario_fin')).disabled=false;
     let hora_itinerario=(<HTMLInputElement>document.getElementById('hora_itinerario')).value;

@@ -1,4 +1,5 @@
 'use strict'
+
 const _entidadService = require('../../Services/Entidad/entidad.service');
 const fn = require('../../Custom/function_custom/custom');
 const { TypeScriptEmitter } = require('@angular/compiler');
@@ -74,6 +75,7 @@ const controller = {
         }
 
       break;
+
 
       default :
         return res.status(500).send({ 'error': `Accion no definida.` });

@@ -28,6 +28,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DialogoFechasComponent } from './dialogo-fechas/dialogo-fechas.component';
 import { AbmActividadesComponent } from './abm-actividades/abm-actividades.component';
 import { AgregarActividadesComponent } from './agregar-actividades/agregar-actividades.component';
+import { FiltrosComponent } from './filtros/filtros.component';
 
 
 
@@ -54,6 +55,7 @@ import { AgregarActividadesComponent } from './agregar-actividades/agregar-activ
         DialogoFechasComponent,
         AbmActividadesComponent,
         AgregarActividadesComponent,
+        FiltrosComponent,
         
 
        
@@ -87,6 +89,7 @@ import { AgregarActividadesComponent } from './agregar-actividades/agregar-activ
         DialogoConfirmacionComponent,
         AbmActividadesComponent,
         AgregarActividadesComponent,
+        FiltrosComponent,
 
     ],
     entryComponents: [

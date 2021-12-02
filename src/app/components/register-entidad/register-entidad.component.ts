@@ -18,6 +18,7 @@ import { UploadFileService } from 'src/app/core/service/uploadFile/uploadFile.se
 import { EmailService } from 'src/app/core/service/email/email.service';
 import { Imagenes } from 'src/app/core/global/imagenes/imagenes';
 import { ActividadesService } from 'src/app/core/service/actividades/actividades.service';
+import { Usuario_AdminService } from 'src/app/core/service/user_admin/user_admin.service';
 
 
 
@@ -57,6 +58,7 @@ export class RegisterEntidadComponent implements OnInit {
   validarPais:boolean = true;
   validarProv:boolean = true;
   validarImagen:boolean = true;
+  usuarioExistente:boolean= false;
 
   constructor(
     private fb: FormBuilder,
@@ -67,6 +69,7 @@ export class RegisterEntidadComponent implements OnInit {
     private _provinciasService: ProvinciasService,
     private _actividadesService : ActividadesService,
     private _usuarioService: UsuarioService,
+    private _usuarioAdminService :Usuario_AdminService,
     private _registrarEntidadService : RegistrarEntidadService,
     private _uploadFileService : UploadFileService,
     private toastr: ToastrService,
@@ -116,6 +119,7 @@ export class RegisterEntidadComponent implements OnInit {
 
   async addEntidad() {
     this.submitted = true;
+    this.validarUserName();
     this.cuitValido = await this.isCuitValid();
     this.mailValido = this.isMailValid();
     this.validarPaises();
@@ -366,6 +370,17 @@ export class RegisterEntidadComponent implements OnInit {
         reject( false );
       }
 
+    });
+  }
+
+  validarUserName(){
+    console.log(this.usuarioModel);
+    this._usuarioService.verifyUser(this.usuarioModel.usuario).subscribe(Response=>{
+      if(Response.ResultSet.error ==""){
+        this.usuarioExistente = false;
+      }else{
+          this.usuarioExistente = true;
+      }
     });
   }
   

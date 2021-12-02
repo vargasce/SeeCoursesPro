@@ -1,0 +1,55 @@
+<div class="container">
+    <form name="filtroDataForm" #filtroDataForm="ngForm" class="mt-4" [formGroup]="filtro"
+        (ngSubmit)="buscarPorFiltro()">
+        <div class="row" style="margin-bottom:5px;">
+            <div class="col">
+                <input #nombreForm name="nombre" [(ngModel)]="itinerarioModel.nombre" type="text" class="form-control mt-2" placeholder="Nombre" formControlName="nombre">
+            </div>
+            <div class="col">
+                <input #tituloForm name="titulo" [(ngModel)]="itinerarioModel.titulo" type="text" class="form-control mt-2" placeholder="Titulo" formControlName="titulo">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <input #descripcionForm name="descripcion" [(ngModel)]="itinerarioModel.descripcion" type="text" class="form-control mt-3"
+                    placeholder="Descripcion" formControlName="descripcion">
+            </div>
+            <div class="col">
+                <input #NombreEntidadForm name="nombreEntidad"  type="text" class="form-control mt-3"
+                    placeholder="Nombre de Entidad" >
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <input #fechaForm name="fecha" [(ngModel)]="itinerarioModel.fecha_itinerario" type="text" class="form-control mt-3" placeholder="Fecha"
+                    onfocus="(this.type='date')" onblur="(this.type='text')" formControlName="fecha_itinerario">
+            </div>
+            <div class="col">
+                <input #ProfesoresDisertantesForm name="profesores/disertantes"[(ngModel)]="itinerarioModel.instructor" type="text" class="form-control mt-3"
+                    placeholder="Profesores/Disertantes" formControlName="instructor">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <input #horaDisertantesForm name="hora_itinerario" [(ngModel)]="itinerarioModel.hora_itinerario" type="text" class="form-control mt-3"
+                    placeholder="Hora de inicio" onfocus="(this.type='time')" onblur="(this.type='text')" formControlName="hora_itinerario">
+            </div>
+            <div class="col">
+                <input #horaDisertantesForm name="hora_itinerario_fin" [(ngModel)]="itinerarioModel.hora_itinerario_fin" type="text" class="form-control mt-3"
+                    placeholder="Hora de Finalización" onfocus="(this.type='time')" onblur="(this.type='text')" formControlName="hora_itinerario_fin">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <input #linkForm name="link" type="text" [(ngModel)]="itinerarioModel.link" class="form-control mt-3" placeholder="Link" formControlName="link">
+            </div>
+            <div class="col">
+                <input #observacionForm name="observacion" [(ngModel)]="itinerarioModel.observacion" type="text" class="form-control mt-3"
+                    placeholder="Observación" formControlName="observacion">
+            </div>
+        </div>
+        <button class="btn btn-dark mt-3" style="width: 100px;">Buscar</button>
+    </form>
+</div>
+

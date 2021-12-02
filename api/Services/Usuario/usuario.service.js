@@ -117,8 +117,35 @@ const usuarioService = {
       });
 
     });
-  }
+  },
 
+  /** VERIFY USER UNIQUE
+   * @Observations => Verifica que los nombres de usuario no se repitan.
+   * @param { string } name => Nombre a verificar.
+   * @return { Promise } => new Promise.
+   */
+  verifyUser : ( name ) => {
+    return new Promise( async ( resolve, reject ) =>{
+
+      try{
+        fn.validateType('string', name);
+      }catch( err ){
+        reject( err );
+      }
+      let Usuario = new User();
+      let sql = Usuario.getSqlStringValidateUser( name );
+
+      try{
+
+        let resultUser = await con.QueryAwait( sql );
+        if( resultUser ) resolve( resultUser.rows.length );
+
+      }catch( err ){
+        reject( `Error al intentar validar el usuario : ${err}` );
+      }
+
+    });
+  }
 };
 
 module.exports = usuarioService;

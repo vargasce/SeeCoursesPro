@@ -50,7 +50,7 @@ export class EnvioNotificaciones  {
     public async aprobarEntidad(id_entidad:number, id_curso:number,es_curso:boolean):Promise<boolean>{
         let fecha = new fechas();
         var today = fecha.currentDate();
-        var notificacion = new NotificacionModel(0,id_entidad,1,id_curso,false,false,false,true,"Solicitud de entidad aprobada","Sin Observaciones",today);
+        var notificacion = new NotificacionModel(0,id_entidad,1,id_curso,false,false,false,true,"Entidad aprobada","Sin Observaciones",today);
         return new Promise( ( resolve, reject ) =>{
             this._notificacionService.addNotificacion(notificacion).subscribe(
                 Response=>{

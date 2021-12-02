@@ -39,7 +39,6 @@ export class Usuario_AdminService {
         }
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }
-
     
 
 }

@@ -176,7 +176,7 @@ export class AdministradorComponent implements OnInit {
        false,
        false,
        true,
-       "Solicitud de Curso aprobada",
+       "Curso aprobado",
        "Sin Observaciones",
        today,
     );
@@ -223,7 +223,7 @@ export class AdministradorComponent implements OnInit {
        false,
        true,
        true,
-       "Solicitud de Curso rechazada",
+       "Curso rechazado",
        observacion,
        today,
     );
@@ -268,7 +268,7 @@ export class AdministradorComponent implements OnInit {
        false,
        false,
        true,
-       "Solicitud de Entidad Aprobada",
+       "Entidad Aprobada",
        "Sin Observaciones",
        today,
     );
@@ -313,7 +313,7 @@ export class AdministradorComponent implements OnInit {
        false,
        false,
        true,
-       "Solicitud de Entidad rechazada",
+       "Entidad rechazada",
        observacion,
        today,
     );

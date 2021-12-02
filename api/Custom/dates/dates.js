@@ -34,6 +34,17 @@ const getDateCurrentStringCustom = () => {
 	return `${date.getFullYear().toString()}-${( date.getMonth()+1 ).toString()}-${date.getDate().toString()}`;
 }
 
+/** PARSEAR FECHA
+ * @Observations : Retorna fecha parseada.
+ * en este caso la fecha es armada a mano en forma de  (yyyy-MM-DD);
+ * @param { string } fecha => Fecha para realizar el parse.
+ * @Retorna fecha : string => custom striong (yyyy-MM-DD)
+ */ 
+const getDateFormatyyyyMMDD = ( fecha ) => {
+	let date = new Date( fecha );
+	return `${date.getFullYear().toString()}-${( date.getMonth()+1 ).toString()}-${date.getDate().toString()}`;
+}
+
 
 /** OBTENER FECHA ACTUAL.  
  * @Observations : Retorna fecha actual, instancia Date.
@@ -102,6 +113,7 @@ module.exports = {
 	getDateCurrent : getDateCurrent,
 	getHourMinuteCurrent : getHourMinuteCurrent,
 	getDateCurrentStringCustom : getDateCurrentStringCustom,
-	belongsRangeTime : belongsRangeTime
+	belongsRangeTime : belongsRangeTime,
+	getDateFormatyyyyMMDD : getDateFormatyyyyMMDD
 }
 

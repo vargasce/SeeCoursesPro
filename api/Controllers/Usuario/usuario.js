@@ -50,6 +50,20 @@ const controller = {
 
       break;
       
+      case 'verifyUser' :
+
+        try{
+
+          let resultVerificacion = await _usuarioService.verifyUser( req.body.name );
+          if( resultVerificacion == 0 ) return res.status(200).send({ 'error' : '', 'ResultSet' : resultVerificacion });
+          return res.status(500).send({ 'error' : 'El usuario que se intenta ingresar ya existe.' });
+
+        }catch( err ){
+          return res.status(500).send({ 'error' : `${err}`});
+        }
+
+      break;
+
       default :
         return res.status(500).send({ 'error': `Accion no definida.` });
     };

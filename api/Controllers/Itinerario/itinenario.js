@@ -91,6 +91,17 @@ const controller = {
 				}
 			break;
 
+      case 'getItinerarioFilter' :
+
+				try{
+					let resultAvailableDate = await _itinerarioService.getAvailabilityDate( req.body.data );
+					return res.status(200).send({ 'error': '', 'ResultSet' : resultAvailableDate });
+				}catch( err ){
+					return res.status(500).send({ 'error' : `${err}`});
+				}
+
+      break;
+
       default :
         return res.status(500).send({ 'error' : `Controlador no encontrado!!!` });
 

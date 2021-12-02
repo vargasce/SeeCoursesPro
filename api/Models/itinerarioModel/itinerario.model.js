@@ -1,5 +1,7 @@
 'use strict'
 
+const dt = require('../../Custom/dates/dates');
+
 class ItinerarioModel{
 	
   constructor( data ){
@@ -217,6 +219,53 @@ class ItinerarioModel{
 		  ;`;
 
     }
+
+    return sql;
+  }
+
+  /** GET SQL STRING ITINERARIOS BY ENTIDAD 
+   * @Observations : Retorna sql string consulta.
+   * @param { string } id => id de la entidad para la consulta.
+   * @returns { string } => Sql string.
+   */
+  getSqlStringFilter( data ){
+    let colums = new Array();
+    let values = new Array();
+    let fechas = new Array();
+    let sql = ``;
+
+    for( const [ key, value ] of Object.entries( data ) ){
+
+      if( values != "" && key != "fecha_itinerario" && typeof value == "string" ){
+        colums.push( key );
+        values.push( value )
+      }
+
+      if( key == 'fecha_itinerario'){
+        fechas.push( value );
+      }
+
+    }
+
+    sql += `SELECT it.id AS id, it.nombre, it.titulo, it.descripcion, it.observacion, to_char( it.fecha_itinerario, 'yyyy-MM-DD' ) AS fecha_itinerario, it.hora_itinerario, 
+              to_char( it.fecha_alta, 'yyyy-MM-DD' ) AS fecha_alta, it.imagen, it.link, it.instructor, it.viewed, it.validado, it.finalizado,
+              ent.id as id_entidad, ent.nombre as nombre_entidad,
+              ent.descripcion as descripcion_entidad, ent.telefono as telefono_entidad,
+              ent.director as director_entidad, ent.ciudad as ciudad_entidad 
+            FROM public.itinerario as it 
+            INNER JOIN public.entidad as ent on it.id_entidad = ent.id 
+            WHERE validado = true AND finalizado = false`;
+
+    for( let i = 0; i < columns.length; i++ ){
+      sql += ` AND ${colums[i]} LIKE %'${values[i]}'% `;
+      //sql += i == (columns.length -1 ) ? '' : ',';
+    }
+
+    if( fechas.length > 0 ){
+      sql +=  ` AND fecha_itinerario =  '${ dt.getDateFormatyyyyMMDD( fechas[0] ) }' `;
+    }
+
+    sql += ';';
 
     return sql;
   }

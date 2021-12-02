@@ -234,8 +234,8 @@ const entidadService = {
     }).catch( error => { throw error; } );
   },
 
-  /** GET LIST EMAIL ENTIDAD
-   * @Observations => Retorna lista de email asociados a la entidad.
+  /**  VERIFY CUI
+   * @Observations => Verifica que el numero de cuit no se repita.
    * @param { string } cuit => Numero de cuit a verificar.
    * @return { Promise } => new Promise.
    */
@@ -254,7 +254,6 @@ const entidadService = {
       try{
 
         let resultVerify = await QueryAwait( sql );
-        console.log( resultVerify.rows.length );
         if( resultVerify ) resolve( resultVerify.rows.length );
 
       }catch( err ){

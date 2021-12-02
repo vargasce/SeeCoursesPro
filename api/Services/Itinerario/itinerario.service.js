@@ -71,7 +71,7 @@ const itinerarioService = {
       } 
 
       let sql = `
-        SELECT it.id AS id, it.nombre, it.titulo, it.descripcion, it.observacion, it.fecha_itinerario, it.hora_itinerario, 
+        SELECT it.id AS id, it.nombre, it.titulo, it.descripcion, it.observacion, it.fecha_itinerario, it.hora_itinerario, it.hora_itinerario_fin, 
 	             it.fecha_alta, it.imagen, it.link, it.instructor, it.viewed, it.validado, it.finalizado,
                ent.id as id_entidad, ent.nombre as nombre_entidad,
 	             ent.descripcion as descripcion_entidad, ent.telefono as telefono_entidad,
@@ -370,6 +370,38 @@ const itinerarioService = {
 
     });
 
+  },
+
+  /** OBTENER LOS ITINERARIOS POR FILTRO.
+   * @Observations => Retorna todos los itineraios por filtro.
+   * @param { object } filtro => Fecha a consultar.
+   * @returns { Promise } => new Promise<Object> 
+   */
+  getItinerarioByFilter : ( filter ) =>{
+    return new Promise( async ( resolve, reject ) =>{
+
+      try{
+        fn.validateType('object',filter);
+      }catch( err ){
+        reject( err );
+      }
+
+      let itiModel = new itinerarioModel();
+      let sql = itiModel.getHoraItinerario();
+
+      try{
+
+        await con.QueryAwait('BEGIN');
+        let result = con.QueryAwait( sql );
+        let ok = con.QueryAwait('COMMIT');
+        if( ok ) resolve( result.rows );
+
+      }catch( err ){
+        await con.QueryAwait('ROLLBACK');
+        reject( new itinerarioError('Error Itinerario', `Error al obtener la consulta : ${err}` ) );
+      }
+
+    });
   }
 
 };
