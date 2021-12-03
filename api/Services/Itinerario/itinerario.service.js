@@ -387,7 +387,7 @@ const itinerarioService = {
       }
 
       let itiModel = new itinerarioModel();
-      let sql = itiModel.getHoraItinerario();
+      let sql = itiModel.getSqlStringFilter( filter );
 
       try{
 

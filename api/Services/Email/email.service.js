@@ -4,9 +4,7 @@ const EmailError = require('../../Error/Email/emailError');
 const envProperties = require("../../env.vars.json");
 const fn = require('../../Custom/function_custom/custom');
 const fs = require('fs');
-//const node_env = process.env.NODE_ENV || 'developmen';
-//Luego de descomentar arriba, comentar abajo, es solo para test
-const node_env = 'developmen';
+const node_env = process.env.NODE_ENV || 'developmen';
 const props = envProperties[node_env];
 const nodeEmail = require('nodemailer');
 
@@ -109,7 +107,8 @@ class Email {
       let gethtml = fs.readFileSync('./Services/Email/modelEmail.html');      
       gethtml = gethtml.toString().replace('TituloAdd', dataEmail.TITULO);
       gethtml = gethtml.toString().replace('MensajeAdd', dataEmail.MESSAGE);
-      return gethtml;
+      gethtml = gethtml.toString().replace('Observacion', dataEmail.OBS);
+     return gethtml;
 
     }catch( err ){
       throw new EmailError( 'Error Email', `Error leyendo archivo html : ${err}` );

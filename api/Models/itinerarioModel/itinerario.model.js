@@ -133,7 +133,6 @@ class ItinerarioModel{
         rechazado = false,
         hora_itinerario_fin = '${this.getHoraItinerarioFin()}'
       WHERE id = ${this.getId()} ;`;
-      console.log(sql)
 
     return sql;
   }
@@ -229,42 +228,41 @@ class ItinerarioModel{
    * @returns { string } => Sql string.
    */
   getSqlStringFilter( data ){
+
     let colums = new Array();
     let values = new Array();
     let fechas = new Array();
-    let sql = ``;
+
+    let sql = `
+      SELECT it.id AS id, it.nombre, it.titulo, it.descripcion, it.observacion, to_char( it.fecha_itinerario, 'yyyy-MM-DD' ) AS fecha_itinerario, it.hora_itinerario, 
+        to_char( it.fecha_alta, 'yyyy-MM-DD' ) AS fecha_alta, it.imagen, it.link, it.instructor, it.viewed, it.validado, it.finalizado,
+        ent.id as id_entidad, ent.nombre as nombre_entidad,
+        ent.descripcion as descripcion_entidad, ent.telefono as telefono_entidad,
+        ent.director as director_entidad, ent.ciudad as ciudad_entidad 
+      FROM public.itinerario as it 
+      INNER JOIN public.entidad as ent on it.id_entidad = ent.id 
+      WHERE validado = true AND finalizado = false
+    `;
 
     for( const [ key, value ] of Object.entries( data ) ){
-
-      if( values != "" && key != "fecha_itinerario" && typeof value == "string" ){
+      if( key != "fecha_itinerario" ){
         colums.push( key );
         values.push( value )
       }
-
       if( key == 'fecha_itinerario'){
         fechas.push( value );
       }
-
     }
-
-    sql += `SELECT it.id AS id, it.nombre, it.titulo, it.descripcion, it.observacion, to_char( it.fecha_itinerario, 'yyyy-MM-DD' ) AS fecha_itinerario, it.hora_itinerario, 
-              to_char( it.fecha_alta, 'yyyy-MM-DD' ) AS fecha_alta, it.imagen, it.link, it.instructor, it.viewed, it.validado, it.finalizado,
-              ent.id as id_entidad, ent.nombre as nombre_entidad,
-              ent.descripcion as descripcion_entidad, ent.telefono as telefono_entidad,
-              ent.director as director_entidad, ent.ciudad as ciudad_entidad 
-            FROM public.itinerario as it 
-            INNER JOIN public.entidad as ent on it.id_entidad = ent.id 
-            WHERE validado = true AND finalizado = false`;
 
     for( let i = 0; i < columns.length; i++ ){
       sql += ` AND ${colums[i]} LIKE %'${values[i]}'% `;
-      //sql += i == (columns.length -1 ) ? '' : ',';
     }
 
     if( fechas.length > 0 ){
-      sql +=  ` AND fecha_itinerario =  '${ dt.getDateFormatyyyyMMDD( fechas[0] ) }' `;
+      sql +=  ` AND fecha_itinerario = '${ dt.getDateFormatyyyyMMDD( fechas[0] ) }' `;
     }
 
+    sql += 'ORDER BY it.id ASC';
     sql += ';';
 
     return sql;
