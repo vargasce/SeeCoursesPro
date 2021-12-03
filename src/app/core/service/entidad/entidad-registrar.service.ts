@@ -35,6 +35,13 @@ export class RegistrarEntidadService {
         return this.http.post<any>( environment.apiURL + this.controller, send, headers  );
     }
 
+    getNombres(){
+        let headers = { headers : environment.headers };
+        let send ={
+            'action' : "getEntidadSelect",
+        }
+        return this.http.post<any>( environment.apiURL + this.controller , send, headers );
+    }
 
     
 

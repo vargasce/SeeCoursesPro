@@ -42,7 +42,7 @@ const getDateCurrentStringCustom = () => {
  */ 
 const getDateFormatyyyyMMDD = ( fecha ) => {
 	let date = new Date( fecha );
-	return `${date.getFullYear().toString()}-${( date.getMonth()+1 ).toString()}-${date.getDate().toString()}`;
+	return `${date.getFullYear().toString()}-${( date.getMonth()+1 ).toString()}-${ (date.getDate()+1).toString()}`;
 }
 
 

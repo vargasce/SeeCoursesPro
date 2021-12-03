@@ -21,18 +21,10 @@ const controller = {
       case 'addNotificacion':
         
         try{
-
           let resultAdd = await _notificacionService.addNotificacion( req );
-
-          //try{
-            //await _emailService.sendEmail( req );
-          //}catch( e ){
-            //console.error(`Error enviando email : ${e}`);
-          //}
-
           return res.status(200).send({ 'error' : '', 'ResultSet' : resultAdd });
         }catch( err ){
-          return res.status(500).send({ 'error' : `Error : ${ err.getMessage() }` });
+          return res.status(500).send({ 'error' : `Error : ${ err }` });
         }
 
       break;

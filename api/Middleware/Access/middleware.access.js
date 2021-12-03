@@ -4,9 +4,7 @@ const usr = require('../../Custom/userSession/session');
 
 class MiddleWare{
 
-    constructor(){
-
-    }
+    constructor(){}
 
     /** MIDDLEWARE CONTROL DE TOKEN
      * @Observations => Realiza control sobre las rutas indicadas para validar correcto token.
@@ -16,57 +14,44 @@ class MiddleWare{
      * @returns {*} => Resonse response error or next.
      */
     controlAccessRoutes( req, res, next ){
-        
+
         let urlCurrent = req.originalUrl;
         let token = req.body.token ? req.body.token : null;
 
         if( urlCurrent == '/api/administrador' ){
             if( token ){
-                if( this.validoToken( token )){
-                    next();
-                }else{
-                    return res.status(403).send({ 'error' : `Error validando token : ${error}` });
-                }
+                usr.getUserValidete( token, ( error, decode ) => {
+                    if( !decode ){
+                       return res.status(403).send({ 'error' : `Error validando token => token no valido` });
+                    }
+                });
             }
         }
 
+        
         if( urlCurrent == '/api/notificacion' ){
             let action = req.body.action;
-            if( action == 'addItinerario' || action == 'updateItinerario'){
-                if( this.validoToken( token )){
-                    next();
-                }else{
-                    return res.status(403).send({ 'error' : `Error validando token : ${error}` });
-                }
+            if( action == 'addNotificacion' ){
+                usr.getUserValidete( token, ( error, decode ) => {
+                    if( !decode ){
+                       return res.status(403).send({ 'error' : `Error validando token => token no valido` });
+                    }
+                });
             }
         }
-
+        
         if( urlCurrent == '/api/itinerario'){
             let action = req.body.action;
             if( action == 'addItinerario' || action == 'updateItinerario' ){
-                if( this.validoToken( token )){
-                    next();
-                }else{
-                    return res.status(403).send({ 'error' : `Error validando token : ${error}` });
-                }
+                usr.getUserValidete( token, ( error, decode ) => {
+                    if( !decode ){
+                        return res.status(403).send({ 'error' : `Error validando token => token no valido` });
+                    }
+                });
             }
         }
 
         next();
-    }
-
-    /** VALIDA TOKEN 
-     * @Observations => Valida token enviado.
-     * @param {*} => TRUE or False;
-     */
-    validoToken( token ){
-        usr.getUserValidete( token, ( error, decode ) =>{
-            if( decode ){
-                return true;
-            }else{
-                return false;
-            }
-        });
     }
 
 }

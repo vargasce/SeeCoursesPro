@@ -30,7 +30,7 @@ app.use( ( req, res, next ) =>{
 
 //VALIDO USUARIO
 console.log('[+] Excecute middleware.');
-//app.use( middlewareAccess.controlAccessRoutes );
+app.use( middlewareAccess.controlAccessRoutes );
 
 app.use('/api', routes);
 

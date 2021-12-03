@@ -261,6 +261,23 @@ const entidadService = {
       }
 
     });
+  },
+
+  /**  GET SELECT ENTIDAD
+   * @Observations => Obtener id y nombre de entidad para completar dinamicamente los select.
+   * @return { Promise } => new Promise.
+   */
+  getSelectEntidad(){
+    return new Promise( async ( resolve, reject ) =>{
+
+      try{
+        let resultEntidad = await QueryAwait( `SELECT id, nombre FROM entidad ;` );
+        if( resultEntidad ) resolve( resultEntidad.rows );
+      }catch( err ){
+        reject( new EntidadError('Error Entidad', `Error al intentar obtener entidad : ${err}`));
+      }
+   
+    });
   }
 
 };

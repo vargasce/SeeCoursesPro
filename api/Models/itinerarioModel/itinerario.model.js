@@ -232,6 +232,7 @@ class ItinerarioModel{
     let colums = new Array();
     let values = new Array();
     let fechas = new Array();
+    let id_ent_send = null;
 
     let sql = `
       SELECT it.id AS id, it.nombre, it.titulo, it.descripcion, it.observacion, to_char( it.fecha_itinerario, 'yyyy-MM-DD' ) AS fecha_itinerario, it.hora_itinerario, 
@@ -244,26 +245,36 @@ class ItinerarioModel{
       WHERE validado = true AND finalizado = false
     `;
 
+
+    console.log(data);
     for( const [ key, value ] of Object.entries( data ) ){
-      if( key != "fecha_itinerario" ){
+      if( key != "fecha_itinerario" && key != "id_entidad" ){
         colums.push( key );
         values.push( value )
       }
       if( key == 'fecha_itinerario'){
         fechas.push( value );
       }
+
+      if( key == 'id_entidad'){
+        id_ent_send = value;
+      }
     }
 
-    for( let i = 0; i < columns.length; i++ ){
-      sql += ` AND ${colums[i]} LIKE %'${values[i]}'% `;
+    for( let i = 0; i < colums.length; i++ ){
+      sql += ` AND it.${colums[i]} LIKE '%${values[i]}%' `;
     }
 
     if( fechas.length > 0 ){
       sql +=  ` AND fecha_itinerario = '${ dt.getDateFormatyyyyMMDD( fechas[0] ) }' `;
     }
 
+    if( id_ent_send ){
+      sql +=  ` AND it.id_entidad = ${id_ent_send} `;
+    }
+
     sql += 'ORDER BY it.id ASC';
-    sql += ';';
+    sql += ' ;';
 
     return sql;
   }

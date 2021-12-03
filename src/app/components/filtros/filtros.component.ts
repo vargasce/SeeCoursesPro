@@ -1,6 +1,7 @@
 import { Component, OnInit,EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ItinerarioModel } from 'src/app/core/models/itinerario/itinerario.model';
+import { RegistrarEntidadService } from 'src/app/core/service/entidad/entidad-registrar.service';
 import { ItinerariosService } from 'src/app/core/service/home-service/home.service';
 
 @Component({
@@ -16,37 +17,47 @@ export class FiltrosComponent implements OnInit {
   filtro : FormGroup;
   itinerarioModel: ItinerarioModel;
   fechas: any;
-  cursos:any[]=[]
+  cursos:any[]=[];
+  entidades:any[]=[];
   constructor(
     private fb: FormBuilder,
-    private _itinerarioService: ItinerariosService
+    private _itinerarioService: ItinerariosService,
+    private _entidadService:RegistrarEntidadService
   ) { 
     this.filtro = this.fb.group({
       nombre:[''],
-      titulo:[''],
       descripcion:[''],
       observacion:[''],
       fecha_itinerario:[''],
-      hora_itinerario:[''],
-      hora_itinerario_fin:[''],
-      link:[''],
-      instructor:['']
+      instructor:[''],
+      titulo:[''],
+      id_entidad:['']
     });
     this.itinerarioModel = new ItinerarioModel(0,0,"","","","","","","","","","","",false,false,false,false);
   }
 
   ngOnInit(): void {
+    this.obtenerEntidades();
   }
 
-  buscarPorFiltro(){
-    alert(this.filtro.controls['nombre'].value);
-     this._itinerarioService.filtroItinerario(this.itinerarioModel).subscribe(Response=>{
-      console.log(Response);
-      Response.ResultSet.forEach((element:any) => {
+  buscarPorFiltro() {
+    
+    let dataString: { [id: string]: string } = {};
+
+    for (const [key, value] of Object.entries(this.itinerarioModel)) {
+      if (value && typeof value == "string") {
+        dataString[key.toString()] = value;
+      }
+    }
+    console.log(dataString);
+    this._itinerarioService.filtroItinerario(dataString).subscribe(Response => {
+      this.cursos=[];
+      console.log(Response.ResultSet.rows);
+      Response.ResultSet.rows.forEach((element: any) => {
         this.cursos.push({
-          ...element 
+          ...element
         });
-    });
+      });
       this.CursosFiltro.emit(this.cursos);
     });
     /*this._itinerarioService.getItinerarios().subscribe(Response=>{
@@ -57,6 +68,17 @@ export class FiltrosComponent implements OnInit {
     });
     this.CursosFiltro.emit(this.cursos);
     });*/
+  }
+
+  obtenerEntidades(){
+    this._entidadService.getNombres().subscribe(Response =>{
+      this.entidades = []
+      Response.ResultSet.forEach((element:any) => {
+        this.entidades.push({ 
+          ...element 
+        })       
+      })
+    });
   }
 
 }

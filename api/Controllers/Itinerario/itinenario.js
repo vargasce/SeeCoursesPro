@@ -51,6 +51,7 @@ const controller = {
           let resultAdd = await _itinerarioService.addItinerario( req );
           return res.status(200).send({ 'error': '', 'ResultSet': resultAdd });
         }catch( error ){
+          console.log( `Error al intentar guardar itinerario : ${error}`);
           return res.status(500).send({ 'error' : `Error al realizar el insert : ${error}` });
         }
       break;
@@ -94,8 +95,8 @@ const controller = {
       case 'getItinerarioFilter' :
 
 				try{
-					let resultAvailableDate = await _itinerarioService.getAvailabilityDate( req.body.data );
-					return res.status(200).send({ 'error': '', 'ResultSet' : resultAvailableDate });
+					let resultFilter = await _itinerarioService.getItinerarioByFilter( req.body.data );
+					return res.status(200).send({ 'error': '', 'ResultSet' : resultFilter });
 				}catch( err ){
 					return res.status(500).send({ 'error' : `${err}`});
 				}

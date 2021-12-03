@@ -49,7 +49,8 @@ export class AdministradorService {
             'data'   : {
                 'id':id,
                 'es_curso': es_curso
-            }
+            },
+            'token': localStorage.getItem('token')
         }
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }
@@ -67,7 +68,8 @@ export class AdministradorService {
         let headers = { headers : environment.headers };
         let send ={
             'action' : "addNotificacion",
-            'data'   : notificacion
+            'data'   : notificacion,
+            'token': localStorage.getItem('token')
         }
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }

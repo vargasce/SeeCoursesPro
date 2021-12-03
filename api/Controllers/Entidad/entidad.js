@@ -75,6 +75,16 @@ const controller = {
 
       break;
 
+      case 'getEntidadSelect' :
+
+        try{
+          let resultEnt = await _entidadService.getSelectEntidad();
+          return res.status(200).send({ 'error' : '', 'ResultSet' : resultEnt });
+        }catch( err ){
+          return res.status(500).send({ 'error' : `Error : ${ err.getMessage() }` });
+        }
+
+      break;
 
       default :
         return res.status(500).send({ 'error': `Accion no definida.` });

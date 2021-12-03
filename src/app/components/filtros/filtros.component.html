@@ -6,8 +6,13 @@
                 <input #nombreForm name="nombre" [(ngModel)]="itinerarioModel.nombre" type="text" class="form-control mt-2" placeholder="Nombre" formControlName="nombre">
             </div>
             <div class="col">
-                <input #NombreEntidadForm name="nombreEntidad"  type="text" class="form-control mt-2"
-                    placeholder="Nombre de Entidad" >
+                <select  #id_entidadForm name="id_entidad"  [(ngModel)]="itinerarioModel.id_entidad" class="form-select mt-2" formControlName="id_entidad">
+                    <option value="0" disabled selected>Nombre Entidad</option>
+                    <option value="{{entidad.id}}" *ngFor ="let entidad of entidades;">{{entidad.nombre}}</option>
+                </select>
+            </div>
+            <div class="col">
+                <input #tituloForm name="titulo"  [(ngModel)]="itinerarioModel.titulo" type="text" class="form-control mt-2" placeholder="Palabras clave para la busqueda" formControlName="titulo">
             </div>
         </div>
         <div class="row">

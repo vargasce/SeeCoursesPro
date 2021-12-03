@@ -46,7 +46,7 @@ export class ItinerariosService {
     filtroItinerario(filtro:object): Observable<any>{
         let headers = { headers : environment.headers };
         let send ={
-            'action' : "filtroItinerario",
+            'action' : "getItinerarioFilter",
             'data'   : filtro
         }
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );

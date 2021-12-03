@@ -5,6 +5,7 @@ const itinerarioModel = require('../../Models/itinerarioModel/itinerario.model')
 const custon = require('../../Custom/function_custom/custom');
 const itinerarioError = require('../../Error/Itinerario/itinerarioError');
 const dt = require('../../Custom/dates/dates');
+const custom = require('../../Custom/function_custom/custom');
 
 const itinerarioService = {
 
@@ -356,7 +357,7 @@ const itinerarioService = {
     return new Promise( async ( resolve, reject ) =>{
 
       try{
-        fn.validateType( 'string', fecha );
+        custom.validateType( 'string', fecha );
       }catch( err ){
         reject( new itinerarioError('Error itinerario service', `${err}`));
       }
@@ -381,7 +382,7 @@ const itinerarioService = {
     return new Promise( async ( resolve, reject ) =>{
 
       try{
-        fn.validateType('object',filter);
+        custom.validateType('object',filter);
       }catch( err ){
         reject( err );
       }
@@ -389,12 +390,13 @@ const itinerarioService = {
       let itiModel = new itinerarioModel();
       let sql = itiModel.getSqlStringFilter( filter );
 
+      console.log(sql);
       try{
 
         await con.QueryAwait('BEGIN');
         let result = con.QueryAwait( sql );
         let ok = con.QueryAwait('COMMIT');
-        if( ok ) resolve( result.rows );
+        if( ok ) resolve( result );
 
       }catch( err ){
         await con.QueryAwait('ROLLBACK');
