@@ -375,6 +375,12 @@ export class AgregarCursoComponent implements OnInit {
         });
         (<HTMLInputElement>document.getElementById('btn-submit')).disabled=false;
       }
+    },
+    error=>{
+      this.toastr.error("Ocurrio un error","Ocurrio un error",{
+        positionClass:'toast-bottom-right'
+      });
+      console.log(error);
     })
   }
 

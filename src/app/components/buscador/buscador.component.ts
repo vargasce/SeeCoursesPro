@@ -37,13 +37,15 @@ export class BuscadorComponent  {
     this.filtros= !this.filtros;
     (<HTMLInputElement>document.getElementById('buscador')).value ="";
     this.sinResultados=false;
+    this.sinResultadosFiltro= false;
+    this.cursosFiltro =[];
   }
   getCursosFiltro(cusosFiltro:any[]){
     this.cursosFiltro = cusosFiltro;
     if(this.cursosFiltro.length>0){
-      this.sinResultadosFiltro= true;
-    }else{
       this.sinResultadosFiltro= false;
+    }else{
+      this.sinResultadosFiltro= true;
     }
   }
 }

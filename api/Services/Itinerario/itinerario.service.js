@@ -72,7 +72,7 @@ const itinerarioService = {
       } 
 
       let sql = `
-        SELECT it.id AS id, it.nombre, it.titulo, it.descripcion, it.observacion, it.fecha_itinerario, it.hora_itinerario, it.hora_itinerario_fin, 
+        SELECT it.id AS id, it.nombre, it.countviewed, it.titulo, it.descripcion, it.observacion, it.fecha_itinerario, it.hora_itinerario, it.hora_itinerario_fin, 
 	             it.fecha_alta, it.imagen, it.link, it.instructor, it.viewed, it.validado, it.finalizado,
                ent.id as id_entidad, ent.nombre as nombre_entidad,
 	             ent.descripcion as descripcion_entidad, ent.telefono as telefono_entidad,
@@ -83,7 +83,7 @@ const itinerarioService = {
         AND it.finalizado = false
         AND ent.verificado = true
         AND it.rechazado = false
-	      ORDER BY it.viewed DESC
+	      ORDER BY it.countviewed DESC
         LIMIT ${limitCount}; 
       `;
 
@@ -98,6 +98,30 @@ const itinerarioService = {
           reject( `Error al obtener datos : ${error}` );
         }
       });
+    });
+  },
+
+  /** INCREMENT COUNT VIEWES.
+   * @Observations : Incrementar contador de vistos.
+   * @param { number } id => Identificador para realizar la actualizacion.
+   * @returns { Promise } => new Promise.
+   */
+  incrementViewed : async ( id )=>{
+    return new Promise( async ( resolve, reject ) =>{
+
+      try{
+        custom.validateType('number', id );
+      }catch( err ){
+        reject( err );
+      }
+
+      try{
+        let result = await con.QueryAwait( `UPDATE itinerario SET countviewed = countviewed + 1 WHERE id = ${id} ;`);
+        if( result ) resolve( result );
+      }catch( err ){
+          reject( new itinerarioError('Error in Itinerario',`Error get query itinerario by entidad : ${err}`) );
+      }
+
     });
   },
 

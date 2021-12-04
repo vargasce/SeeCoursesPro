@@ -19,7 +19,7 @@
     <app-tarjetas [items]= "cursos"></app-tarjetas> 
 </div>
 
-<div class="container"  class="mt-5">
+<div class="container">
     <h1 *ngIf="cursosFiltro.length>0">Resultados de la Busqueda</h1>
     <h3 *ngIf="sinResultadosFiltro" class="text-center mt-3">No se encontraron cursos</h3>
     <app-tarjetas [items]= "cursosFiltro"></app-tarjetas> 

@@ -245,8 +245,6 @@ class ItinerarioModel{
       WHERE validado = true AND finalizado = false
     `;
 
-
-    console.log(data);
     for( const [ key, value ] of Object.entries( data ) ){
       if( key != "fecha_itinerario" && key != "id_entidad" ){
         colums.push( key );
