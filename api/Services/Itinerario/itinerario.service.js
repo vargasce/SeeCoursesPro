@@ -27,8 +27,8 @@ const itinerarioService = {
       }
       
       let sql = `
-        SELECT it.id, it.nombre, it.titulo, it.descripcion, it.observacion, it.fecha_itinerario, it.hora_itinerario, 
-	             it.fecha_alta, it.imagen, it.link, it.instructor, it.viewed, it.validado, it.finalizado,
+        SELECT it.id, it.nombre, it.titulo, it.descripcion, it.observacion,to_char( it.fecha_itinerario, 'yyyy-MM-DD' ) AS fecha_itinerario, it.hora_itinerario, 
+               to_char( it.fecha_alta, 'yyyy-MM-DD' ) AS fecha_alta, it.imagen, it.link, it.instructor, it.viewed, it.validado, it.finalizado,
                ent.id as id_entidad, ent.nombre as nombre_entidad,
 	             ent.descripcion as descripcion_entidad, ent.telefono as telefono_entidad,
 	             ent.director as director_entidad, ent.ciudad as ciudad_entidad
@@ -72,8 +72,8 @@ const itinerarioService = {
       } 
 
       let sql = `
-        SELECT it.id AS id, it.nombre, it.countviewed, it.titulo, it.descripcion, it.observacion, it.fecha_itinerario, it.hora_itinerario, it.hora_itinerario_fin, 
-	             it.fecha_alta, it.imagen, it.link, it.instructor, it.viewed, it.validado, it.finalizado,
+        SELECT it.id AS id, it.nombre, it.countviewed, it.titulo, it.descripcion, it.observacion, to_char( it.fecha_itinerario, 'yyyy-MM-DD' ) AS fecha_itinerario, it.hora_itinerario, it.hora_itinerario_fin, 
+               to_char( it.fecha_alta, 'yyyy-MM-DD' ) AS fecha_alta, it.imagen, it.link, it.instructor, it.viewed, it.validado, it.finalizado,
                ent.id as id_entidad, ent.nombre as nombre_entidad,
 	             ent.descripcion as descripcion_entidad, ent.telefono as telefono_entidad,
 	             ent.director as director_entidad, ent.ciudad as ciudad_entidad
@@ -414,7 +414,6 @@ const itinerarioService = {
       let itiModel = new itinerarioModel();
       let sql = itiModel.getSqlStringFilter( filter );
 
-      console.log(sql);
       try{
 
         await con.QueryAwait('BEGIN');

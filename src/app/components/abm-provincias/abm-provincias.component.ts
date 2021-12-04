@@ -35,7 +35,6 @@ export class AbmProvinciasComponent implements OnInit {
   }
 
   eliminarProvincia(id:string){
-    console.log(id)
     this._provinciasService.eliminarProvincia(id).subscribe(
       Response =>{
         if(Response.error == ""){

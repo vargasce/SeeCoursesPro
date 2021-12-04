@@ -19,7 +19,6 @@ export class BuscadorComponent  {
     this.cursos =[];
     this._ItinerariosService.searchItinerarios(termino)
       .subscribe(Response =>{
-        console.log(Response);
         if(Response.ResultSet!="There is not data!!!"){
           Response.ResultSet.forEach((element:any) => {
             this.cursos.push({

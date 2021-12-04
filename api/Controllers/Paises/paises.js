@@ -121,7 +121,7 @@ module.exports = controller;
  */
 const listSqlstr = () =>{
   let sql = '';
-  sql = `SELECT * FROM pais ;`;
+  sql = `SELECT * FROM pais ORDER BY descripcion ASC ;`;
   return sql;
 }
 

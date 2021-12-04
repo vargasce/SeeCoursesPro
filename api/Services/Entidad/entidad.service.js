@@ -138,7 +138,7 @@ const entidadService = {
 
 
   /** LIST ENTIDAD
-   * @Observations : Update Entidad.
+   * @Observations : List entidad.
    * @param   { Object } req => Request del controller.
    * @returns { Promise } => new Promise.
    */

@@ -34,12 +34,11 @@ class actividadModel {
 
     getSqlUpdateActividad(){        
         let sql = `UPDATE actividad SET descripcion = '${this.getDescripcion()}' WHERE id = ${this.getId()}; `;
-        console.log(sql);
         return sql;
     }
 
     getSqlListActividad( ){
-        let sql = `SELECT * FROM actividad ;`;
+        let sql = `SELECT * FROM actividad ORDER BY descripcion ASC ;`;
         return sql;
     }
 

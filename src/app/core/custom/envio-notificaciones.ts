@@ -37,7 +37,6 @@ export class EnvioNotificaciones  {
         return new Promise( ( resolve, reject ) =>{
             this._notificacionService.addNotificacion(notificacion).subscribe(
                 Response=>{
-                    console.log("RESPONSE NEWCURSO; "+Response);
                     resolve(true);
                 },
                 Error =>{

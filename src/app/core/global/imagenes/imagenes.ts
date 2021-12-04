@@ -10,8 +10,6 @@ export class Imagenes{
 
     fileChangeEventFoto(fileInput : any){
         this.imagenFile = <Array<File>> fileInput.target.files;
-        console.log(this.imagenFile);
-        
     }
     
     

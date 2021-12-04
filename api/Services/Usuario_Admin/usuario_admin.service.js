@@ -88,7 +88,7 @@ class UsuarioAdmin{
 
             let usuarioAdmin = new UsuarioAdminModel();
             let sql = usuarioAdmin.getSqlStringUpdataCredenciales( data );
-            console.log( sql );
+
             try{
 
                 await QueryAwait('BEGIN');

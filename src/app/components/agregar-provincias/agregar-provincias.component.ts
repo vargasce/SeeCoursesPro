@@ -61,7 +61,6 @@ export class AgregarProvinciasComponent implements OnInit {
       this.titulo = 'Editar/Ver Provincias';
       this.loading=true
       this._provinciasService.getProvinciaById(this.id).subscribe(Response =>{
-        console.log(Response.ResultSet)
         this.provinciasModel = Response.ResultSet[0];
         this.loading=false
       })

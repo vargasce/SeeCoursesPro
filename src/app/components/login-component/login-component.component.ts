@@ -28,7 +28,6 @@ export class LoginComponentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.tipo)
   }
 
   loginUsuario(tipo:string){
@@ -36,7 +35,6 @@ export class LoginComponentComponent implements OnInit {
     this._LoginService.login(this.logearUsuario.value.user,this.logearUsuario.value.password,tipo).subscribe(
       response => {
         if( response.error == "" ){
-          console.log(response.Resultset);
           localStorage.setItem('token',response.Resultset.token);//token
           localStorage.setItem('user',this.logearUsuario.value.user);//user
           //this.sesionExpirada();
@@ -56,8 +54,6 @@ export class LoginComponentComponent implements OnInit {
       },
       error => {
         this.usuarioIncorrecto= true;
-        console.log('Gestionar error');
-        console.log(error);
       });
   }
 

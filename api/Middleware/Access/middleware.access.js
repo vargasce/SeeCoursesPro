@@ -28,7 +28,7 @@ class MiddleWare{
             }
         }
 
-        
+       /* 
         if( urlCurrent == '/api/notificacion' ){
             let action = req.body.action;
             if( action == 'addNotificacion' ){
@@ -39,7 +39,7 @@ class MiddleWare{
                 });
             }
         }
-        
+        */
         if( urlCurrent == '/api/itinerario'){
             let action = req.body.action;
             if( action == 'addItinerario' || action == 'updateItinerario' ){

@@ -15,7 +15,6 @@ export class InitComponent implements OnInit {
     this._ItinerariosService.getItinerarios()
       .subscribe( Response =>{
         this.itinerarios = [];
-        console.log(Response.ResultSet)
         Response.ResultSet.forEach((element:any) => {
           this.itinerarios.push({ 
             ...element 

@@ -24,7 +24,6 @@ export class TarjetasComponent implements OnInit{
       }
   }
   ngOnInit(): void {
-    console.log("items "+this.items)
   }
 
   openPopup(id:any) {

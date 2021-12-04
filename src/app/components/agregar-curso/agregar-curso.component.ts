@@ -96,8 +96,6 @@ export class AgregarCursoComponent implements OnInit {
     (<HTMLInputElement>document.getElementById('hora_itinerario_fin')).disabled=true;
     this.esEditar();
     this.adminMails= await this.getMailsAdministrador();
-    console.log(this.adminMails);
-    
   }
 
   ngAfterViewInit(): void{
@@ -106,13 +104,13 @@ export class AgregarCursoComponent implements OnInit {
   
 
   esEditar(){ 
-    if(location.href.split("/",6)[5]==undefined){
 
+    //if(location.href.split("/",6)[5]==undefined){
+    if( this.aRoute.snapshot.paramMap.get('id') == null ){
       this.id_curso = 0;
-
     }else{
-
-      this.id_curso = Number(location.href.split("/",6)[5]);
+      this.id_curso = Number( this.aRoute.snapshot.paramMap.get('id') );
+      //this.id_curso = Number(location.href.split("/",6)[5]);
     }
 
     if(this.id_curso !== 0){
@@ -268,7 +266,6 @@ export class AgregarCursoComponent implements OnInit {
             await this._emailService.enviarMail( emailObject.dataEmail ).toPromise();   
 
           }catch( err ){
-            console.log("error email");
             this.toastr.error("Ocurrio un error al enviar el email al administrador","Ocurrio un error",{
               positionClass:'toast-bottom-right'
             });            
@@ -326,7 +323,6 @@ export class AgregarCursoComponent implements OnInit {
     this.itinerarioModel.fecha_alta = this.fechas.currentDateConGuionMedio();
     this.loading=true
     this.itinerarioModel.id_entidad = Number(localStorage.getItem("id_entidad"));
-    console.log(this.itinerarioModel);
     this._itinerarioService.editarItinerario(id_curso,this.itinerarioModel).subscribe(async Response =>{
 
       if(Response.error == ""){ // el response me tiene que devolver el id del curso que se creo, asi lo uso en el service de abajo
@@ -346,7 +342,6 @@ export class AgregarCursoComponent implements OnInit {
             await this._emailService.enviarMail( emailObject.dataEmail ).toPromise();   
 
           }catch( err ){
-            console.log("error email");
             this.toastr.error("Ocurrio un error al enviar el email al administrador","Ocurrio un error",{
               positionClass:'toast-bottom-right'
             });            
@@ -380,7 +375,6 @@ export class AgregarCursoComponent implements OnInit {
       this.toastr.error("Ocurrio un error","Ocurrio un error",{
         positionClass:'toast-bottom-right'
       });
-      console.log(error);
     })
   }
 
@@ -510,7 +504,6 @@ export class AgregarCursoComponent implements OnInit {
           this.toastr.error("Ocurrio un error al obtener los mails de administrador","Ocurrio un error",{
             positionClass:'toast-bottom-right'
           });
-          console.log(error);
         });
     }) 
   }

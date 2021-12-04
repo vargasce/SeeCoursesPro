@@ -22,8 +22,6 @@ export class ImgTestComponent implements OnInit {
 
   fileChangeEventFoto(fileInput : any){
     this.imagenFile = <Array<File>> fileInput.target.files;
-    console.log(this.imagenFile);
-    
   }
 
 

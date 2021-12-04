@@ -74,8 +74,6 @@ export class RegisterAdminComponent implements OnInit {
 
   addAdmin() {
     this.submitted = true;
-    console.log(this.usuarioModel);
-    console.log(this.adminModel);
     this.confirmarContrasena();
     this.validarRoles();
     this.isMailValid();
@@ -99,7 +97,6 @@ export class RegisterAdminComponent implements OnInit {
  
   async registrarAdministrador(){
     this.loading=true;
-    console.log(this.adminModel);
       this._adminService.registrarAdmin_userAdmin(this.adminModel,this.usuarioModel).subscribe(async Response =>{
         if(Response.error == ""){         
           this.toastr.success("Administrador agregado correctamente","Administrador Agregado",{

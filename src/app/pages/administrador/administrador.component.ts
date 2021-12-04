@@ -118,10 +118,8 @@ export class AdministradorComponent implements OnInit {
     let pass = this.usuarioModel.contrasenia;
     this.passActualizado = true; localStorage.setItem('usadmin_passactualizado','true')
       this._usuarioAdminService.actualizarPassAdmin(id_administrador,pass).subscribe(Response=>{
-        console.log(Response);
         this.loading = false;
         this._usuarioAdminService.actualizarBoleanoPassAdmin(id_administrador).subscribe(Response=>{
-          console.log(Response);
         });
       });
   }
@@ -141,7 +139,6 @@ export class AdministradorComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((observacion: string) => {
-        console.log(observacion);
         if (observacion) {
           this.rechazarEntidades(id,id_entidad,id_curso,es_curso,email_entidad,observacion);
         } 
@@ -155,7 +152,6 @@ export class AdministradorComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((observacion: string) => {
-        console.log(observacion);
         if (observacion) {
           this.rechazarSolicitudesDeCursos(id,id_entidad,id_curso,es_curso,email_entidad,observacion);
         } 
@@ -283,7 +279,6 @@ export class AdministradorComponent implements OnInit {
         OBS     : ""
       }
     };
-    //console.log(emailObject);
     this._administradorService.aprobarNotificacion(id,es_curso).subscribe(Response =>{
       this._emailService.enviarMail(emailObject.dataEmail).subscribe(Response=>{
         if(Response.error !=""){

@@ -23,7 +23,7 @@ const selectQuery = ( sql, resultset ) =>{
 			}
 		});
 	}catch(error){
-		console.log( error );
+		//console.log( error );
 	}
 
 }

@@ -9,8 +9,6 @@ let d = {
 
 const test = async ( data ) => {
     let result = await _itinerarioService.getAvailabilityDate( data );
-    console.log('llegue aca');
-    console.log( result );
 }
 
 test( d );

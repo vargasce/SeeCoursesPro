@@ -49,10 +49,8 @@ export class FiltrosComponent implements OnInit {
         dataString[key.toString()] = value;
       }
     }
-    console.log(dataString);
     this._itinerarioService.filtroItinerario(dataString).subscribe(Response => {
       this.cursos=[];
-      console.log(Response.ResultSet.rows);
       Response.ResultSet.rows.forEach((element: any) => {
         this.cursos.push({
           ...element

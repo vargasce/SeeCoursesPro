@@ -20,7 +20,6 @@ class ActividadService{
 
                 let actModel = new actividadModel( data );                        
                 let sqlAddActividad = actModel.getSqlAddActividad();
-                console.log( data );
 
                 await con.QueryAwait('BEGIN');
                 let resultAdd = con.QueryAwait( sqlAddActividad );

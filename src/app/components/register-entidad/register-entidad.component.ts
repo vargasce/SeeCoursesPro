@@ -166,7 +166,6 @@ export class RegisterEntidadComponent implements OnInit {
         };
       this._registrarEntidadService.registrarEntidad(this.entidadModel).subscribe(async Response =>{
         this.loading=false
-        console.log("Response ADD ENTIDAD: "+Response)
         if(Response.error == ""){         
           try {
             await this._envioNotificacionService.newEntidad(Response.ResultSet.id, this.entidadModel.nombre);  
@@ -192,7 +191,6 @@ export class RegisterEntidadComponent implements OnInit {
             this.router.navigate(['/login']);
           }
             this._emailService.enviarMail(emailObject.dataEmail).subscribe(Response=>{
-              console.log(Response);
               if(Response.error !=""){
                 this.toastr.error("Ocurrio un error al enviar el email al administrador","Ocurrio un error",{
                   positionClass:'toast-bottom-right'
@@ -208,7 +206,6 @@ export class RegisterEntidadComponent implements OnInit {
         }
       },
       Error =>{
-        console.log("Error capturado");
         this.toastr.error(`Error interno, no se puede insertar la entidad`,"Ocurrio un error",{
           positionClass:'toast-bottom-right'
         });
@@ -416,7 +413,6 @@ export class RegisterEntidadComponent implements OnInit {
           this.toastr.error("Ocurrio un error al obtener los mails de administrador","Ocurrio un error",{
             positionClass:'toast-bottom-right'
           });
-          console.log(error);
         });
     }) 
   }
