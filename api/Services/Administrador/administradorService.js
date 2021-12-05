@@ -1,10 +1,12 @@
 'use strict'
 
 const fn  = require('../../Custom/function_custom/custom');
+const dt = require('../../Custom/dates/dates');
 const AdministradorError = require('../../Error/Administrador/administradorError');
 const AdministradorModel = require('../../Models/administradorModel/administrador.model');
 const { QueryAwaitById, QueryAwait, QueryAwaitPag } = require('../../DB-connect/connectDB');
 const usuarioAdminModel = require('../../Models/usuario_admin/usuario_admin.model');
+const _logService = require('../Log/log.service');
 
 class AdministradorService{
     
@@ -28,13 +30,15 @@ class AdministradorService{
                 reject( err.getMessage() );
             }
 
-            let admin = new AdministradorModel( dataAdmin );
-            let sqlAddAdministrador = admin.getSqlStringAddAdministrador();
-            let userAdmin = new usuarioAdminModel( dataUsuario );
-
             try{
 
+                let admin = new AdministradorModel( dataAdmin );
+                let sqlAddAdministrador = admin.getSqlStringAddAdministrador();
+                let userAdmin = new usuarioAdminModel( dataUsuario );
+
                 await QueryAwait( 'BEGIN' );
+                await _logService.addLog( {'descripcion' : 'Error addAdministrador', 'fecha' : `'${dt.getDateCurrentStringCustom()}'`, 'hora': '00:00:00', 'observacion' : 'obs' });
+
                 let resultAdmin = await QueryAwait( sqlAddAdministrador );
                 userAdmin.setIdAdministrador( resultAdmin.rows[0].id );
                 let sqlAddUserAdmin = userAdmin.getSqlStringAddAdmin(); 
@@ -44,10 +48,11 @@ class AdministradorService{
 
             }catch( err ){
                 await QueryAwait( 'ROLLBACK' );
+                await _logService.addLog( {'descripcion' : 'Error addAdministrador', 'fecha' : `'${dt.getDateCurrentStringCustom()}'`, 'hora': '00:00:00', 'observacion' : err });
                 reject( new AdministradorError( 'Error Administradir', `Error creando Admin ${ err }`));
             }
 
-        }).catch( error => { throw error; });
+        });
     }
 
     /** GET ADMIN BY ID
@@ -72,7 +77,7 @@ class AdministradorService{
                 if( ok ) resolve( result );
 
             }catch( err ){
-                await queryAwait('ROLLBACK');
+                await con.queryAwait('ROLLBACK');
                 reject( new AdministradorError( 'Error Administrador', `Error Get By ID : ${ err }`));
             }
 

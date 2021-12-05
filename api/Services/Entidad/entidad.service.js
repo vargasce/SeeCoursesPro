@@ -271,7 +271,7 @@ const entidadService = {
     return new Promise( async ( resolve, reject ) =>{
 
       try{
-        let resultEntidad = await QueryAwait( `SELECT id, nombre FROM entidad ;` );
+        let resultEntidad = await QueryAwait( `SELECT id, nombre FROM entidad ORDER BY nombre ASC ;` );
         if( resultEntidad ) resolve( resultEntidad.rows );
       }catch( err ){
         reject( new EntidadError('Error Entidad', `Error al intentar obtener entidad : ${err}`));

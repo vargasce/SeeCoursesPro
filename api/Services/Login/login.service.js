@@ -39,6 +39,32 @@ const loginService = {
     });
   },
 
+  /** LOGIN ADMIN
+   * @Observations : Realiza la consulta de usuario admin.
+   * @param { Object } req => Request del controller.
+   * @returns { Promise } => new Promise.
+   */
+  loginAdmin : ( req ) =>{
+    return new Promise( async ( resolve, reject ) =>{
+
+      let data = req.body.data;
+      let tabla = req.body.tipo;
+      let sql = getSqlLogin( tabla, data );
+
+      try{
+        let result = await con.QueryAwait( sql );
+        if( result.rowCount > 0 ){
+          resolve( result.rows[0] );
+        }else{
+          reject( `El usuario o contraseña son incorrectos !!!`);
+        }
+      }catch( err ){
+        reject(`Error al realizar la consulta : ${err}`);
+      }
+
+    });
+  }
+
 }
 
 module.exports = loginService;
