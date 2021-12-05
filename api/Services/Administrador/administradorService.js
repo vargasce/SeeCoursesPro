@@ -37,7 +37,6 @@ class AdministradorService{
                 let userAdmin = new usuarioAdminModel( dataUsuario );
 
                 await QueryAwait( 'BEGIN' );
-                await _logService.addLog( {'descripcion' : 'Error addAdministrador', 'fecha' : `'${dt.getDateCurrentStringCustom()}'`, 'hora': '00:00:00', 'observacion' : 'obs' });
 
                 let resultAdmin = await QueryAwait( sqlAddAdministrador );
                 userAdmin.setIdAdministrador( resultAdmin.rows[0].id );
@@ -48,7 +47,6 @@ class AdministradorService{
 
             }catch( err ){
                 await QueryAwait( 'ROLLBACK' );
-                await _logService.addLog( {'descripcion' : 'Error addAdministrador', 'fecha' : `'${dt.getDateCurrentStringCustom()}'`, 'hora': '00:00:00', 'observacion' : err });
                 reject( new AdministradorError( 'Error Administradir', `Error creando Admin ${ err }`));
             }
 
