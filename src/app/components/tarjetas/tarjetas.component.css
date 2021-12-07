@@ -30,15 +30,17 @@
 }
 
 .card-img-top{
-min-height: 300px;
+/*min-height: 300px;
 max-height: 300px;
 min-width: 400px;
-max-width: 500px;
+max-width: 500px;*/
+max-height: 180px;
+min-height:180px;
 }
 
 .imagen-tarjeta{
-  max-width: 242px;
-  min-height: 200px;
-  max-width: 242px;
-  max-height: 200px;
+  min-height: 300px;
+  max-height: 300px;
+  min-width: 100%;
+  max-width: 100%;
 }

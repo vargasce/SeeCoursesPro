@@ -73,7 +73,7 @@ const splitFileObject = ( files ) =>{
 
   try{    
 
-		console.table(files);
+		console.table(files.image.path);
     let platafom = os.platform();
     let filePath = files.image.path;
     let fileSplit = filePath.split('\\');
@@ -88,6 +88,33 @@ const splitFileObject = ( files ) =>{
       fileName =  fileSplit[fileSplit.length - 1];
       extensionSplit = fileName.split('.');
       extension = extensionSplit[1];
+      
+      console.group("Datos obtenidos de la imagen");
+      console.log(fileName);
+      console.log(filePath);
+      console.log(extension);
+      console.groupEnd();
+
+      return {
+        fileName,
+        filePath,
+        extension
+      }
+    }
+
+    if( platafom == 'linux'){
+      filePath = files.image.path;
+      fileSplit = filePath.split('/');
+      console.log(fileSplit);
+      fileName =  fileSplit[fileSplit.length - 1];
+      extensionSplit = fileName.split('.');
+      extension = extensionSplit[1];
+
+      console.group("Datos obtenidos de la imagen");
+      console.log(fileName);
+      console.log(filePath);
+      console.log(extension);
+      console.groupEnd();
       
       return {
         fileName,
@@ -115,13 +142,21 @@ const saveFile = ( fileName, filePath ) =>{
   }catch( err ){
     if( err.code != 'EEXIST' ) throw err;
   }
-  const is = fs.createReadStream( filePath );
-  const os = fs.createWriteStream( `./File_up/${fileName}` );
 
-  is.pipe( os );
+  try{
 
-  is.on('end', ()=>{
-    fs.unlinkSync( filePath );
-  });
+    const is = fs.createReadStream( filePath );
+    const os = fs.createWriteStream( `./File_up/${fileName}` );
+
+    is.pipe( os );
+
+    is.on('end', ()=>{
+      fs.unlinkSync( filePath );
+    });
+
+  }catch( err ){
+    console.log( err );
+    throw err;
+  }
 
 }
