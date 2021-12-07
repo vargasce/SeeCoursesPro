@@ -69,64 +69,59 @@ const uploadService = {
 
 module.exports = uploadService;
 
+
 const splitFileObject = ( files ) =>{
 
   try{    
 
-		console.table(files.image.path);
-    let platafom = os.platform();
-    let filePath = files.image.path;
-    let fileSplit = filePath.split('\\');
-    let fileName =  fileSplit[fileSplit.length - 1];
-    let extensionSplit = fileName.split('.');
-    let extension = extensionSplit[1];
-    
-    if( platafom == 'darwin' ){
-      
-      filePath = files.image.path;
-      fileSplit = filePath.split('/');
-      fileName =  fileSplit[fileSplit.length - 1];
-      extensionSplit = fileName.split('.');
-      extension = extensionSplit[1];
-      
-      console.group("Datos obtenidos de la imagen");
-      console.log(fileName);
-      console.log(filePath);
-      console.log(extension);
-      console.groupEnd();
+    switch( os.platform()){
+      case 'darwin':
+        
+        let filePath = files.image.path;
+        let fileSplit = filePath.split('/');
+        let fileName =  fileSplit[fileSplit.length - 1];
+        let extensionSplit = fileName.split('.');
+        let extension = extensionSplit[1];
 
-      return {
-        fileName,
-        filePath,
-        extension
-      }
-    }
+        return {
+          fileName,
+          filePath,
+          extension
+        }
 
-    if( platafom == 'linux'){
-      filePath = files.image.path;
-      fileSplit = filePath.split('/');
-      console.log(fileSplit);
-      fileName =  fileSplit[fileSplit.length - 1];
-      extensionSplit = fileName.split('.');
-      extension = extensionSplit[1];
+      break;
 
-      console.group("Datos obtenidos de la imagen");
-      console.log(fileName);
-      console.log(filePath);
-      console.log(extension);
-      console.groupEnd();
-      
-      return {
-        fileName,
-        filePath,
-        extension
-      }
-    }
+      case 'linux' :
 
-    return {
-      fileName,
-      filePath,
-      extension
+        let filePath = files.image.path;
+        let fileSplit = filePath.split('/');
+        let fileName =  fileSplit[fileSplit.length - 1];
+        let extensionSplit = fileName.split('.');
+        let extension = extensionSplit[1];
+        
+        return {
+          fileName,
+          filePath,
+          extension
+        }
+
+      break;
+
+      default:
+
+        let filePath = files.image.path;
+        let fileSplit = filePath.split('\\');
+        let fileName =  fileSplit[fileSplit.length - 1];
+        let extensionSplit = fileName.split('.');
+        let extension = extensionSplit[1];
+
+        return {
+          fileName,
+          filePath,
+          extension
+        }
+
+      break;
     }
 
   }catch( err ){
