@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/admin"><img src="assets/img/SeeCoursesIco.png" alt="" width="40"> 
+        <a class="navbar-brand" href="/admin"><img src="assets/img/SeeCoursesIco.png" alt="" width="40">
             SeeCourses
         </a>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -8,31 +8,44 @@
                 <li class="nav-item" routerLinkActive="active">
                     <a class="nav-link" [routerLink]="['/admin']">Solicitudes</a>
                 </li>
-                <li  *ngIf="adminGeneralRol==1" class="nav-item" routerLinkActive="active">
-                    <a class="nav-link" [routerLink]="['/registrarAdmin']">Registrar Adminitrador</a>
+                <li *ngIf="adminGeneralRol==1 || adminGeneralRol==99" class="nav-item" routerLinkActive="active">
+                    <a class="nav-link" [routerLink]="['/registrarAdmin']">Registrar Admin</a>
                 </li>
-                <li *ngIf="adminGeneralRol==1" class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      Parametrizacion
+                <li *ngIf="adminGeneralRol==1 || adminGeneralRol==99" class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Parametrizacion
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                      <li><a class="dropdown-item" href="#" [routerLink]="['/adminGeneral/paises']">Paises</a></li>
-                      <li><a class="dropdown-item" href="#" [routerLink]="['/adminGeneral/provincias']">Provincias</a></li>
-                      <li><a class="dropdown-item" href="#" [routerLink]="['/adminGeneral/actividades']">Actividades</a></li>
+                        <li><a class="dropdown-item" href="#" [routerLink]="['/adminGeneral/paises']">Paises</a></li>
+                        <li><a class="dropdown-item" href="#" [routerLink]="['/adminGeneral/provincias']">Provincias</a>
+                        </li>
+                        <li><a class="dropdown-item" href="#"
+                                [routerLink]="['/adminGeneral/actividades']">Actividades</a></li>
                     </ul>
-                  </li>
+                </li>
+                <li *ngIf="adminGeneralRol==99" class="nav-item" routerLinkActive="active">
+                    <a class="nav-link" [routerLink]="['/programadorActualizarClave']">Actualizar clave</a>
+                </li>
             </ul>
         </div>
-        <div class="container">
+    
             <ul class="navbar-nav me-auto mb-2 mb-lg-0" style=" float:right; text-align:right;">
                 <li class="nav-item">
-                    <a class="nav-link"><mat-icon  style="cursor:pointer" svgIcon="notification" matBadge="{{notificaciones.length}}" matBadgeColor="warn" matBadgeSize="small" [matBadgeHidden]="hidden" (click)="mostrarNotificaciones()"></mat-icon></a>
+                    <a class="nav-link">
+                        <mat-icon style="cursor:pointer" svgIcon="notification" matBadge="{{notificaciones.length}}"
+                            matBadgeColor="warn" matBadgeSize="small" [matBadgeHidden]="hidden"
+                            (click)="mostrarNotificaciones()"></mat-icon>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link"> <mat-icon   title="Salir"  style="cursor:pointer" svgIcon="logout" (click)="cerrarSesion();" routerLink="/home"></mat-icon></a>
+                    <a class="nav-link">
+                        <mat-icon title="Salir" style="cursor:pointer" svgIcon="logout" (click)="cerrarSesion();"
+                            routerLink="/home"></mat-icon>
+                    </a>
                 </li>
-            </ul>  
-        </div>
+            </ul>
+        
     </div>
 </nav>
 
@@ -41,18 +54,22 @@
     <div class="col-md-9">
     </div>
     <div class="col-md-3">
-        <div class="notificaciones mt-2" >
+        <div class="notificaciones mt-2">
             <div class="mt-0 ms-0"
                 style="background-color: #212529; color: white;border-bottom: 1px solid rgba(128, 128, 128, 0.192); border-top-left-radius: 10px; border-top-right-radius: 10px;">
                 <h1 class="ms-3">Notificaciones</h1>
             </div>
             <div id="{{notif.id}}" *ngFor="let notif of notificaciones" (click)="notificacionVisualizada(notif.id)"
                 [className]="notificacionVista[notif.id] ? 'notificacionVista':'notificacionNoVista'">
-                <h4 class="ms-3 my-1 mt-0" style="line-height: 4;">{{notif.descripcion}} <div  class="asterisco" *ngIf="!notificacionVista[notif.id]"><h2>*</h2></div> <div class="eliminar" *ngIf="notificacionVista[notif.id]"><h4 (click)="eliminarNotificacion(notif.id)">Eliminar</h4></div> </h4>
+                <h4 class="ms-3 my-1 mt-0" style="line-height: 4;">{{notif.descripcion}} <div class="asterisco"
+                        *ngIf="!notificacionVista[notif.id]">
+                        <h2>*</h2>
+                    </div>
+                    <div class="eliminar" *ngIf="notificacionVista[notif.id]">
+                        <h4 (click)="eliminarNotificacion(notif.id)">Eliminar</h4>
+                    </div>
+                </h4>
             </div>
         </div>
     </div>
 </div>
-
-
-

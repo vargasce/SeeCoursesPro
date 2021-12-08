@@ -33,6 +33,17 @@ const controller = {
            
             break;
 
+            case 'update_password_forget' :
+
+                try{
+                    let result = await _usuario_adminService.updateUsuarioAdminOlvidado( req.body.data );
+                    return res.status( 200 ).send({ 'error' : '', 'ResultSet' : result });
+                }catch( error ){
+                    return res.status( 500 ).send({ 'error' : error });
+                }
+
+            break;
+
         }
     }
 

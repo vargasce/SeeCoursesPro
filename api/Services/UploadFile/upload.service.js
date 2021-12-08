@@ -93,32 +93,32 @@ const splitFileObject = ( files ) =>{
 
       case 'linux' :
 
-        let filePath = files.image.path;
-        let fileSplit = filePath.split('/');
-        let fileName =  fileSplit[fileSplit.length - 1];
-        let extensionSplit = fileName.split('.');
-        let extension = extensionSplit[1];
+        let filePathLi = files.image.path;
+        let fileSplitLi = filePathLi.split('/');
+        let fileNameLi =  fileSplitLi[fileSplit.length - 1];
+        let extensionSplitLi = fileNameLi.split('.');
+        let extensionLi = extensionSplitLi[1];
         
         return {
-          fileName,
-          filePath,
-          extension
+          fileNameLi,
+          filePathLi,
+          extensionLi
         }
 
       break;
 
       default:
 
-        let filePath = files.image.path;
-        let fileSplit = filePath.split('\\');
-        let fileName =  fileSplit[fileSplit.length - 1];
-        let extensionSplit = fileName.split('.');
-        let extension = extensionSplit[1];
+        let filePathWi = files.image.path;
+        let fileSplitWi = filePathWi.split('\\');
+        let fileNameWi =  fileSplitWi[fileSplit.length - 1];
+        let extensionSplitWi = fileNameWi.split('.');
+        let extensionWi = extensionSplitWi[1];
 
         return {
-          fileName,
-          filePath,
-          extension
+          fileNameWi,
+          filePathWi,
+          extensionWi
         }
 
       break;

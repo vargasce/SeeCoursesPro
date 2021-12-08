@@ -25,8 +25,22 @@ const controller = {
 
 			break;
 
+			case 'loginAdmin' :
+
+				try{
+
+					let resultLoginAdmin = await _loginService.loginAdmin( req.body.data );
+					let decode = usr.getSession( resultLoginAdmin );
+					return res.status(200).send({ 'error' : '', 'Resultset' : decode });
+
+				}catch( error ){
+					return res.status(500).send({ 'error': `${error}` });
+				}
+
+			break;
+
 			case 'close' : 
-				
+
 			break;
 
 			default :

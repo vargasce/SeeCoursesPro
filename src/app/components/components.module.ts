@@ -29,6 +29,7 @@ import { DialogoFechasComponent } from './dialogo-fechas/dialogo-fechas.componen
 import { AbmActividadesComponent } from './abm-actividades/abm-actividades.component';
 import { AgregarActividadesComponent } from './agregar-actividades/agregar-actividades.component';
 import { FiltrosComponent } from './filtros/filtros.component';
+import { ActualizarClaveComponent } from './actualizar-clave/actualizar-clave.component';
 
 
 
@@ -56,6 +57,7 @@ import { FiltrosComponent } from './filtros/filtros.component';
         AbmActividadesComponent,
         AgregarActividadesComponent,
         FiltrosComponent,
+        ActualizarClaveComponent,
         
 
        
@@ -90,6 +92,7 @@ import { FiltrosComponent } from './filtros/filtros.component';
         AbmActividadesComponent,
         AgregarActividadesComponent,
         FiltrosComponent,
+        ActualizarClaveComponent
 
     ],
     entryComponents: [

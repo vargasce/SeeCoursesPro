@@ -9,6 +9,8 @@ import { PaisesComponent } from '../paises/paises.component';
 import { AgregarProvinciasComponent } from 'src/app/components/agregar-provincias/agregar-provincias.component';
 import { ActividadesComponent } from '../actividades/actividades.component';
 import { AgregarActividadesComponent } from 'src/app/components/agregar-actividades/agregar-actividades.component';
+import { ActualizarClaveProgramadorComponent } from '../actualizar-clave-programador/actualizar-clave-programador.component';
+
 
 
 const routes: Routes = [
@@ -24,6 +26,7 @@ const routes: Routes = [
         { path : 'provincias/editarProvincias/:id', component : AgregarProvinciasComponent },
         { path : 'agregarActividades', component : AgregarActividadesComponent },
         { path : 'actividades/editarActividades/:id', component : AgregarActividadesComponent },
+        { path : 'programadorActualizarClave', component : ActualizarClaveProgramadorComponent },
 
       ]}
   ];

@@ -24,4 +24,14 @@ export class LoginService {
         }
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }
+
+    loginProgramador(user:string,password:string,tipo:string){
+        let headers = { headers : environment.headers };
+        let send ={
+            'action' : "loginAdmin",
+            'data'   : {"usuario":user,"pass":password},
+            'tipo'   : tipo
+        }
+        return this.http.post<any>( environment.apiURL + this.controller , send, headers );
+    }
 }

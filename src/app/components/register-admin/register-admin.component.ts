@@ -30,6 +30,7 @@ export class RegisterAdminComponent implements OnInit {
   roles:any[]=[];
   validarRol:boolean = true;
   mailValido:boolean = true;
+  usuarioExistente=false;
 
 
 
@@ -110,6 +111,10 @@ export class RegisterAdminComponent implements OnInit {
           });
           this.router.navigate(['/admin']);
         }
+      },
+      error=>{
+        this.usuarioExistente=true;
+        this.loading= false;
       });
   }
 

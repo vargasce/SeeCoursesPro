@@ -27,6 +27,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { DialogoConfirmacionComponent } from "../components/dialogo-confirmacion/dialogo-confirmacion.component";
 import { AddActividadesComponent } from './add-actividades/add-actividades.component';
 import { ActividadesComponent } from './actividades/actividades.component';
+import { ActualizarClaveProgramadorComponent } from './actualizar-clave-programador/actualizar-clave-programador.component';
 
 
 //IMPORTS YOUR PAGES MAIN FOR SYSTEM 
@@ -49,6 +50,7 @@ import { ActividadesComponent } from './actividades/actividades.component';
         AddProvinciasComponent,
         AddActividadesComponent,
         ActividadesComponent,
+        ActualizarClaveProgramadorComponent,
 
 
     ],

@@ -43,11 +43,20 @@ export class NavbarAdminComponent implements OnInit {
     this.verRol();
   }
 
-  verRol(){
-    if(localStorage.getItem('rol')=="1"){
-      this.adminGeneralRol= 1;
-    }else{
-      this.adminGeneralRol= 2;
+  verRol() {
+    switch (localStorage.getItem('rol')) {
+      
+      case '1':
+        this.adminGeneralRol = 1;
+        break;
+
+      case '2':
+        this.adminGeneralRol = 2;
+        break;
+
+      case '99':
+        this.adminGeneralRol = 99;
+        break;
     }
   }
   getNotificaciones() {

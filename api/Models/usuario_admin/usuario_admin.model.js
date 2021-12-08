@@ -92,6 +92,20 @@ class UsuarioModel{
         return sql;
     }
 
+    /** UPDATE NUEVAS CREDENCIALES PARA PASS OLVIDADO.
+     * @Observations => Realizar nuevas actualizacion de contraseñas,
+     * @param { object } data => Objecto con las nuevas credenciales.
+     * @returns { string } => sql string.
+     */
+    getSqlStringUpdataCredencialesOlvidado( data ){
+        let sql = `
+            UPDATE usuario_admin SET contrasenia = '${md5(data.contrasenia)}' , pass_actualizado = false 
+            WHERE id_administrador = ${data.id} ;
+        `;
+
+        return sql;
+    }
+
 }
 
 module.exports = UsuarioModel;

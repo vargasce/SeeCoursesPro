@@ -104,6 +104,39 @@ class UsuarioAdmin{
         });
     }
 
+    /** UPDATE USUARIO ADMIN OLVIDADO
+     * @Observations => Actualizar contraseña
+     * @param { object } data => Nuevos datos a actualizar.
+     * @returns { Promise } => new Prmise.
+     */
+    async updateUsuarioAdminOlvidado ( data ){
+        return new Promise( async ( resolve, reject ) =>{
+
+            try{
+                fn.validateType( 'object', data );
+            }catch( err ){
+                reject( err );
+            }
+
+            let usuarioAdmin = new UsuarioAdminModel();
+            let sql = usuarioAdmin.getSqlStringUpdataCredencialesOlvidado( data );
+
+            try{
+
+                await QueryAwait('BEGIN');
+                let result = await QueryAwait( sql );
+                let ok = await QueryAwait('COMMIT');
+                if( ok ) resolve("Contraseña actualizada con exito!!!");
+
+            }catch( err ){
+                await QueryAwait('ROLLBACK');
+                reject( new UsuarioError( 'Error Usuario Admin', `Erro al actualizar nuevas credenciales : ${err}` ) );
+            }
+            
+        });
+    }
+
+
 }
 
 module.exports = new UsuarioAdmin();

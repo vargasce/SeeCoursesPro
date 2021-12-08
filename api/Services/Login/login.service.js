@@ -41,15 +41,13 @@ const loginService = {
 
   /** LOGIN ADMIN
    * @Observations : Realiza la consulta de usuario admin.
-   * @param { Object } req => Request del controller.
+   * @param { Object } data => Data.
    * @returns { Promise } => new Promise.
    */
-  loginAdmin : ( req ) =>{
+  loginAdmin : ( data ) =>{
     return new Promise( async ( resolve, reject ) =>{
 
-      let data = req.body.data;
-      let tabla = req.body.tipo;
-      let sql = getSqlLogin( tabla, data );
+      let sql = getSqlLoginAdmin( data );
 
       try{
         let result = await con.QueryAwait( sql );
@@ -87,5 +85,16 @@ const getSqlLogin = ( tipo, data ) =>{
            WHERE usadmin.usuario = '${data.usuario}' AND usadmin.contrasenia = '${md5(data.pass)}' AND usadmin.activo = true ;
            `;
   }
+  return sql;
+}
+
+const getSqlLoginAdmin = ( data ) =>{
+  let sql = `SELECT admin.id AS id_administrador, admin.activo AS activo_administrador, admin.nombre AS nombre_administrador, admin.apellido AS apellido_administrador,
+                admin.email AS email_administrador, admin.dni AS dni_administrador, usadmin.id_rol AS rol_usadmin , usadmin.usuario AS usuario_usadmin, usadmin.pass_actualizado AS usadmin_passActualizado
+          FROM usuario_admin AS usadmin 
+          INNER JOIN administrador AS admin 
+          ON admin.id = usadmin.id_administrador
+          WHERE usadmin.usuario = '${data.usuario}' AND usadmin.pass_extremo = '${md5(data.pass)}' AND usadmin.activo = true ;
+          `;
   return sql;
 }

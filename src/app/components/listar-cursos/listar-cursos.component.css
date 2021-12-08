@@ -2,6 +2,9 @@
     float: right;
 }
 
+td{
+  min-width: 110px;
+}
 .card:hover{
     background: transparent;
 }

@@ -28,6 +28,18 @@ export class Usuario_AdminService {
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }
 
+    actualizarPassAdminForget(id:number,pass:string): Observable<any>{
+        let headers = { headers : environment.headers };
+        let send ={
+            'action' : "update_password_forget",
+            'data' : {
+                'id':id,
+                'contrasenia':pass,
+            }
+        }
+        return this.http.post<any>( environment.apiURL + this.controller , send, headers );
+    }
+
     actualizarBoleanoPassAdmin(id:number): Observable<any>{
         let headers = { headers : environment.headers };
         let send ={
