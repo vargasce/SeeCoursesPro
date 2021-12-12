@@ -39,7 +39,6 @@ export class ActualizarClaveComponent implements OnInit {
     let pass = this.usuarioModel.contrasenia;
       this._usuarioAdminService.actualizarPassAdminForget(id_administrador,pass).subscribe(Response=>{
         this.loading = false;
-        console.log(Response)
         if(Response.error==""){
           this.toastr.success("La Contraseña fue cambiada con exito!","Contraseña Cambiada",{
             positionClass:'toast-bottom-right'

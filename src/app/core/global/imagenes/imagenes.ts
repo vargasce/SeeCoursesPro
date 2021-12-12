@@ -22,7 +22,6 @@ export class Imagenes{
           }
         };
         this._uploadFileService.makeFileRequest(send,"image").then(Result=>{
-          console.log(Result)
         }).catch(
           error =>{
             console.log(error);

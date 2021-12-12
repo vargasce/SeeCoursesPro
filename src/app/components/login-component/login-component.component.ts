@@ -46,7 +46,6 @@ export class LoginComponentComponent implements OnInit {
         this._LoginService.login(this.logearUsuario.value.user,this.logearUsuario.value.password,tipo).subscribe(
           response => {
             if( response.error == "" ){
-              console.log(response);
               localStorage.setItem('token',response.Resultset.token);//token
               localStorage.setItem('user',this.logearUsuario.value.user);//user
               //this.sesionExpirada();
@@ -107,6 +106,5 @@ export class LoginComponentComponent implements OnInit {
 
   checkbox(){
     this.cheked = !this.cheked;
-    console.log(this.cheked);
   }
 }

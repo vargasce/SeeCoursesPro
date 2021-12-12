@@ -145,13 +145,10 @@ class UsuarioAdmin{
     async verificaUsuarioAdmin ( token ){
         return new Promise( async ( resolve, reject ) =>{
 
-            console.log( token );
-
             try{
 
                 usr.getUserValidete( token, ( error, decode ) =>{
                     if( decode ){
-                        console.log(decode);
                         resolve( true );
                     }else{
                         resolve( false );
