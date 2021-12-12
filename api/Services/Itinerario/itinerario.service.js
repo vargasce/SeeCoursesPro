@@ -76,9 +76,11 @@ const itinerarioService = {
                to_char( it.fecha_alta, 'yyyy-MM-DD' ) AS fecha_alta, it.imagen, it.link, it.instructor, it.viewed, it.validado, it.finalizado,
                ent.id as id_entidad, ent.nombre as nombre_entidad,
 	             ent.descripcion as descripcion_entidad, ent.telefono as telefono_entidad,
-	             ent.director as director_entidad, ent.ciudad as ciudad_entidad
+	             ent.director as director_entidad, ent.ciudad as ciudad_entidad,
+               act.id AS id_actividad, act.descripcion AS descripcion_actividad
 	      FROM public.itinerario as it 
 	      INNER JOIN public.entidad as ent on it.id_entidad = ent.id
+        INNER JOIN public.actividad AS act ON act.id = ent.id_actividad
 	      WHERE it.validado = true
         AND it.finalizado = false
         AND ent.verificado = true

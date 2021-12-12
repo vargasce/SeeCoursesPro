@@ -64,6 +64,20 @@ const controller = {
 
       break;
 
+      case 'verifyUserToken' :
+
+          try{
+
+              let result = await _usuarioService.verificaUsuarioEntidad( req.body.token );
+              if( result ) res.status( 200 ).send({ 'error' : '', 'ResultSet' : result });
+              return res.status( 200 ).send({ 'error' : 'No se pudo Autenticar el usuario.', 'ResultSet' : result });
+
+          }catch( error ){
+              return res.status( 500 ).send({ 'error' : error });
+          }
+          
+      break;
+
       default :
         return res.status(500).send({ 'error': `Accion no definida.` });
     };

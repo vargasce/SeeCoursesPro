@@ -4,6 +4,7 @@ const con = require('../../DB-connect/connectDB');
 const User = require('../../Models/usuario/usuario.model');
 const fn = require('../../Custom/function_custom/custom');
 const UserError = require('../../Error/usuario/usuarioError');
+const usr = require('../../Custom/userSession/session');
 
 const usuarioService = {
 
@@ -145,7 +146,39 @@ const usuarioService = {
       }
 
     });
+  },
+
+    /** VALIDAR USUARIO ENTIDAD
+     * @Observations => Verifica auth access del usuario.
+     * @param { string } token => Token control de usuario.
+     * @returns { Promise } => new Prmise boolean.
+     */
+    verificaUsuarioEntidad : ( token ) =>{
+      return new Promise( async ( resolve, reject ) =>{
+
+          try{
+              fn.validateType( 'string', token );
+          }catch( err ){
+              reject( err );
+          }
+
+          try{
+
+              usr.getUserValidete( token, ( error, decode ) =>{
+                  if( decode ){
+                      resolve( true );
+                  }else{
+                      reject( false );
+                  }
+              });
+
+          }catch( err ){
+              reject( new UserError( 'Error Usuario Admin', `Error usuario no valido : ${err}` ) );
+          }
+          
+      });
   }
+
 };
 
 module.exports = usuarioService;

@@ -44,6 +44,23 @@ const controller = {
 
             break;
 
+            case 'verifyUserToken' :
+
+                try{
+
+                    let result = await _usuario_adminService.verificaUsuarioAdmin( req.body.token ? req.body.token : '' );
+                    if( result ){
+                        return res.status( 200 ).send({ 'error' : '', 'ResultSet' : result });
+                    }else{
+                        return res.status( 200 ).send({ 'error' : 'No se pudo Autenticar el usuario.', 'ResultSet' : result, 'ResultSet' : false });
+                    }
+
+                }catch( error ){
+                    return res.status( 500 ).send({ 'error' : error });
+                }
+               
+            break;
+
         }
     }
 

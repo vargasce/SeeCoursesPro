@@ -52,5 +52,13 @@ export class Usuario_AdminService {
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }
     
+    public verifyUserToken ( token: string | null ): Observable<any>{
+        let headers = { headers : environment.headers };
+        let send ={
+            'action' : "verifyUserToken",
+            'token' : token,
+        }
+        return this.http.post<any>( environment.apiURL + this.controller , send, headers );
+    }
 
 }

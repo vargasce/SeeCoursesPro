@@ -4,6 +4,7 @@ const { QueryAwait } = require('../../DB-connect/connectDB');
 const UsuarioAdminModel = require('../../Models/usuario_admin/usuario_admin.model');
 const UsuarioError = require('../../Error/UsuarioAdmin/usuario_admin.error');
 const fn = require('../../Custom/function_custom/custom');
+const usr = require('../../Custom/userSession/session');
 
 class UsuarioAdmin{
 
@@ -136,6 +137,33 @@ class UsuarioAdmin{
         });
     }
 
+    /** VALIDAR USUARIO ADMIN
+     * @Observations => Verifica auth access del usuario.
+     * @param { string } token => Token control de usuario.
+     * @returns { Promise } => new Prmise boolean.
+     */
+    async verificaUsuarioAdmin ( token ){
+        return new Promise( async ( resolve, reject ) =>{
+
+            console.log( token );
+
+            try{
+
+                usr.getUserValidete( token, ( error, decode ) =>{
+                    if( decode ){
+                        console.log(decode);
+                        resolve( true );
+                    }else{
+                        resolve( false );
+                    }
+                });
+
+            }catch( err ){
+                reject( new UsuarioError( 'Error Usuario Admin', `Error usuario no valido : ${err}` ) );
+            }
+            
+        });
+    }
 
 }
 
