@@ -52,14 +52,14 @@ export class AdministradorComponent implements OnInit {
       })
       this.img  = new Imagenes(this._uploadFileService);
       this.usuarioModel = new Usuario_AdminModel(0,0,0,"","","",false,true);
-      this.rol=localStorage.getItem('rol');
+      this.rol=sessionStorage.getItem('rol');
   }
 
 
   ngOnInit(): void {
     this.getNotificaciones();
     this.comprobarPassActualizado();
-    this.emailAdministrador= localStorage.getItem('email_administrador');
+    this.emailAdministrador= sessionStorage.getItem('email_administrador');
 
   }
 
@@ -87,7 +87,7 @@ export class AdministradorComponent implements OnInit {
   }
 
   comprobarPassActualizado(){
-    if(localStorage.getItem('usadmin_passactualizado') == "false"){
+    if(sessionStorage.getItem('usadmin_passactualizado') == "false"){
       this.passActualizado = false;
     }else{
       this.passActualizado = true;
@@ -114,9 +114,9 @@ export class AdministradorComponent implements OnInit {
   
   actualizarPass(){
     this.loading=true;
-    let id_administrador = Number(localStorage.getItem('id_administrador'));
+    let id_administrador = Number(sessionStorage.getItem('id_administrador'));
     let pass = this.usuarioModel.contrasenia;
-    this.passActualizado = true; localStorage.setItem('usadmin_passactualizado','true')
+    this.passActualizado = true; sessionStorage.setItem('usadmin_passactualizado','true')
       this._usuarioAdminService.actualizarPassAdmin(id_administrador,pass).subscribe(Response=>{
         this.loading = false;
         this._usuarioAdminService.actualizarBoleanoPassAdmin(id_administrador).subscribe(Response=>{

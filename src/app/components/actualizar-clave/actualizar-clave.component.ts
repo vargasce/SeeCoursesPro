@@ -35,7 +35,7 @@ export class ActualizarClaveComponent implements OnInit {
   
   actualizarPass(){
     this.loading=true;
-    let id_administrador = Number(localStorage.getItem('id_administrador'));
+    let id_administrador = Number(sessionStorage.getItem('id_administrador'));
     let pass = this.usuarioModel.contrasenia;
       this._usuarioAdminService.actualizarPassAdminForget(id_administrador,pass).subscribe(Response=>{
         this.loading = false;

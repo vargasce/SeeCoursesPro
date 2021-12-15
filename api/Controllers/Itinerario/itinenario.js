@@ -2,6 +2,8 @@
 
 const _itinerarioService = require('../../Services/Itinerario/itinerario.service');
 const fn = require('../../Custom/function_custom/custom');
+const log = require('../../Services/Log/log.service');
+const dt = require('../../Custom/dates/dates');
 
 const controller = {
 
@@ -51,6 +53,7 @@ const controller = {
           let resultAdd = await _itinerarioService.addItinerario( req );
           return res.status(200).send({ 'error': '', 'ResultSet': resultAdd });
         }catch( error ){
+          await log.addLog( { id : 0, descripcion : 'Error add itinerario', fecha : dt.getDateCurrentStringCustom() , hora : dt.getHourMinuteCurrent(), observacion : error } );
           return res.status(500).send({ 'error' : `Error al realizar el insert : ${error}` });
         }
       break;
@@ -59,8 +62,9 @@ const controller = {
         try{
           let resultAdd = await _itinerarioService.updateItinerario( req );
           return res.status(200).send({ 'error': '', 'ResultSet': resultAdd });
-        }catch( e ){
-          return res.status(500).send({ 'error' : `Error al realizar el insert : ${e}` });
+        }catch( error ){
+          await log.addLog( { id : 0, descripcion : 'Error update itinerario', fecha : dt.getDateCurrentStringCustom() , hora : dt.getHourMinuteCurrent(), observacion : error } );
+          return res.status(500).send({ 'error' : `Error al realizar el insert : ${error}` });
         }
       break;
 
@@ -68,8 +72,9 @@ const controller = {
         try{
           let resultAdd = await _itinerarioService.updateValidate( req );
           return res.status(200).send({ 'error': '', 'ResultSet': resultAdd });
-        }catch( e ){
-          return res.status(500).send({ 'error' : `Error al realizar el insert : ${e}` });
+        }catch( error ){
+          await log.addLog( { id : 0, descripcion : 'Error validando itinerario', fecha : dt.getDateCurrentStringCustom() , hora : dt.getHourMinuteCurrent(), observacion : error } );
+          return res.status(500).send({ 'error' : `Error al realizar el insert : ${error}` });
         }
       break;
 
@@ -87,6 +92,7 @@ const controller = {
 					let resultAvailableDate = await _itinerarioService.getAvailabilityDate( req.body.data );
 					return res.status(200).send({ 'error': '', 'ResultSet' : resultAvailableDate });
 				}catch( err ){
+          await log.addLog( { id : 0, descripcion : 'Error getAvailabilityDate itinerario', fecha : dt.getDateCurrentStringCustom() , hora : dt.getHourMinuteCurrent(), observacion : err } );
 					return res.status(500).send({ 'error' : `${err}`});
 				}
 			break;
@@ -97,6 +103,7 @@ const controller = {
 					let resultFilter = await _itinerarioService.getItinerarioByFilter( req.body.data );
 					return res.status(200).send({ 'error': '', 'ResultSet' : resultFilter });
 				}catch( err ){
+          await log.addLog( { id : 0, descripcion : 'Error get itinerario filter', fecha : dt.getDateCurrentStringCustom() , hora : dt.getHourMinuteCurrent(), observacion : err } );
 					return res.status(500).send({ 'error' : `${err}`});
 				}
 
@@ -108,6 +115,7 @@ const controller = {
           let resultCounterViewed = await _itinerarioService.incrementViewed( req.body.data.id );
           return res.status(200).send({ 'error' : '', 'ResultSet' : resultCounterViewed });
         }catch( err ){
+          await log.addLog( { id : 0, descripcion : 'Error IncrementViewed.', fecha : dt.getDateCurrentStringCustom() , hora : dt.getHourMinuteCurrent(), observacion : `Error : ${ err }` } );
           return res.status(500).send({ 'error' : `${err}`});
         }
 

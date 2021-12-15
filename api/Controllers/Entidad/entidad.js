@@ -2,6 +2,8 @@
 
 const _entidadService = require('../../Services/Entidad/entidad.service');
 const fn = require('../../Custom/function_custom/custom');
+const dt = require('../../Custom/dates/dates');
+const log = require('../../Services/Log/log.service');
 
 const controller = {
   
@@ -23,6 +25,7 @@ const controller = {
           let resultAdd = await _entidadService.AddEntidad( req );
           return res.status(200).send({ 'error' : '', 'ResultSet' : resultAdd });
         }catch( err ){
+          await log.addLog( { id : 0, descripcion : 'Error addEndtidad.', fecha : dt.getDateCurrentStringCustom() , hora : dt.getHourMinuteCurrent(), observacion : `Error : ${ err }` } );
           return res.status(500).send({ 'error' : `${ err }` });
         }
 
@@ -56,6 +59,7 @@ const controller = {
           let resultAdd = await _entidadService.UpdateEntidad( req );
           return res.status(200).send({ 'error' : '', 'ResultSet' : resultAdd });
         }catch( err ){
+          await log.addLog( { id : 0, descripcion : 'Error updateEntidad.', fecha : dt.getDateCurrentStringCustom() , hora : dt.getHourMinuteCurrent(), observacion : `Error : ${ err }` } );
           return res.status(500).send({ 'error' : `Error : ${ err.getMessage() }` });
         }
 
@@ -70,6 +74,7 @@ const controller = {
           return res.status(500).send({ 'error' : 'El cuit que se intenta ingresar ya existe.' });
 
         }catch( err ){
+          await log.addLog( { id : 0, descripcion : 'Error verifyCuit entidad.', fecha : dt.getDateCurrentStringCustom() , hora : dt.getHourMinuteCurrent(), observacion : `Error : ${ err }` } );
           return res.status(500).send({ 'error' : `${err}`});
         }
 

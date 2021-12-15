@@ -87,8 +87,8 @@ export class AgregarCursoComponent implements OnInit {
       {id:'2',descripcion:'imagen default 3'},
   ];
     
-    this.id = Number(localStorage.getItem('id_entidad')) //capturo el id del registro que quiero modificar
-    this.itinerarioModel = new ItinerarioModel(0,Number(localStorage.getItem('id_entidad')),"","","","","","","",this.fechas.currentDate(),"","","",false,false,false,false);
+    this.id = Number(sessionStorage.getItem('id_entidad')) //capturo el id del registro que quiero modificar
+    this.itinerarioModel = new ItinerarioModel(0,Number(sessionStorage.getItem('id_entidad')),"","","","","","","",this.fechas.currentDate(),"","","",false,false,false,false);
     this.img  = new Imagenes(this._uploadFileService);
   }
 
@@ -236,8 +236,8 @@ export class AgregarCursoComponent implements OnInit {
     let  emailObject = {
       dataEmail : {
         TO      : this.adminMails, // get de todos los mails de admins
-        FROM    : localStorage.getItem("nombre_entidad"),
-        EMAIL   : localStorage.getItem("email_entidad"),
+        FROM    : sessionStorage.getItem("nombre_entidad"),
+        EMAIL   : sessionStorage.getItem("email_entidad"),
         SUBJECT : "Solicitud de nuevo Curso",
         TITULO  : "Solicitud de nuevo Curso",
         MESSAGE : "Le informamos que se ha generado una nueva solicitud de incorporación de curso, por favor verifique la misma en el sistema.",
@@ -246,13 +246,13 @@ export class AgregarCursoComponent implements OnInit {
     };
     let id_curso: number;
     this.loading=true
-    this.itinerarioModel.id_entidad = Number(localStorage.getItem("id_entidad"));
+    this.itinerarioModel.id_entidad = Number(sessionStorage.getItem("id_entidad"));
     this._itinerarioService.guardarItinerario(this.itinerarioModel).subscribe(async Response =>{
 
       if(Response.error == ""){ // el response me tiene que devolver el id del curso que se creo, asi lo uso en el service de abajo
         try {
 
-          let result = await this._envioNotificacionService.newCurso(Number(localStorage.getItem("id_entidad")),Response.ResultSet.id, this.itinerarioModel.observacion,this.itinerarioModel.nombre);
+          let result = await this._envioNotificacionService.newCurso(Number(sessionStorage.getItem("id_entidad")),Response.ResultSet.id, this.itinerarioModel.observacion,this.itinerarioModel.nombre);
           if( result ){
             this.toastr.success("La solicitud de curso fue registrada con exito!","Solicitud de Curso Registrada",{
               positionClass:'toast-bottom-right'
@@ -311,8 +311,8 @@ export class AgregarCursoComponent implements OnInit {
     let  emailObject = {
       dataEmail : {
         TO      : this.adminMails, // get de todos los mails de admins
-        FROM    : localStorage.getItem("nombre_entidad"),
-        EMAIL   : localStorage.getItem("email_entidad"),
+        FROM    : sessionStorage.getItem("nombre_entidad"),
+        EMAIL   : sessionStorage.getItem("email_entidad"),
         SUBJECT : "Solicitud de nuevo Curso",
         TITULO  : "Solicitud de nuevo Curso",
         MESSAGE : "Le informamos que se ha generado una nueva solicitud de incorporación de curso, por favor verifique la misma en el sistema.",
@@ -322,13 +322,13 @@ export class AgregarCursoComponent implements OnInit {
     let id_curso = this.id_curso;
     this.itinerarioModel.fecha_alta = this.fechas.currentDateConGuionMedio();
     this.loading=true
-    this.itinerarioModel.id_entidad = Number(localStorage.getItem("id_entidad"));
+    this.itinerarioModel.id_entidad = Number(sessionStorage.getItem("id_entidad"));
     this._itinerarioService.editarItinerario(id_curso,this.itinerarioModel).subscribe(async Response =>{
 
       if(Response.error == ""){ // el response me tiene que devolver el id del curso que se creo, asi lo uso en el service de abajo
         try {
 
-          let result = await this._envioNotificacionService.newCurso(Number(localStorage.getItem("id_entidad")),id_curso, this.itinerarioModel.observacion,this.itinerarioModel.nombre);
+          let result = await this._envioNotificacionService.newCurso(Number(sessionStorage.getItem("id_entidad")),id_curso, this.itinerarioModel.observacion,this.itinerarioModel.nombre);
           if( result ){
             this.toastr.success("La solicitud de curso fue registrada con exito!","Solicitud de Curso Registrada",{
               positionClass:'toast-bottom-right'

@@ -15,7 +15,7 @@ export class CanActivateAdmin implements CanActivate {
 
     async canActivate():Promise<boolean>{
 
-        let result = await this._serviceUserAdmin.verifyUserToken( String(localStorage.getItem('token')) ).toPromise();
+        let result = await this._serviceUserAdmin.verifyUserToken( String(sessionStorage.getItem('token')) ).toPromise();
 
         if( result.ResultSet == false ){
             this._router.navigate(['/home']);

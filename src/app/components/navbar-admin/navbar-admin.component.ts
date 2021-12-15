@@ -44,7 +44,7 @@ export class NavbarAdminComponent implements OnInit {
   }
 
   verRol() {
-    switch (localStorage.getItem('rol')) {
+    switch (sessionStorage.getItem('rol')) {
       
       case '1':
         this.adminGeneralRol = 1;
@@ -107,7 +107,7 @@ export class NavbarAdminComponent implements OnInit {
   }
 
   cerrarSesion(){
-    localStorage.clear();
+    sessionStorage.clear();
     environment.id_entidad = null;
     environment.token = null;
   }

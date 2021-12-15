@@ -36,29 +36,24 @@ export class LoginComponentComponent implements OnInit {
 
   loginUsuario(tipo:string){
     this.submitted = true; 
-    let user = localStorage.getItem('user');
-    if(user!=null){
-      this.toastr.error("Por favor cierre la sesion anterior para iniciar una nueva","Ya hay un usuario logeado en esta pc",{
-        positionClass:'toast-bottom-right'
-      });
-    }else{
+    let user = sessionStorage.getItem('user');
       if(!this.cheked){
         this._LoginService.login(this.logearUsuario.value.user,this.logearUsuario.value.password,tipo).subscribe(
           response => {
             if( response.error == "" ){
-              localStorage.setItem('token',response.Resultset.token);//token
-              localStorage.setItem('user',this.logearUsuario.value.user);//user
+              sessionStorage.setItem('token',response.Resultset.token);//token
+              sessionStorage.setItem('user',this.logearUsuario.value.user);//user
               //this.sesionExpirada();
               if(tipo == "admin"){
-                localStorage.setItem('rol',response.Resultset.user.rol_usadmin);
-                localStorage.setItem('email_administrador',response.Resultset.user.email_administrador); // rol
-                localStorage.setItem('usadmin_passactualizado',response.Resultset.user.usadmin_passactualizado)
-                localStorage.setItem('id_administrador',response.Resultset.user.id_administrador) 
+                sessionStorage.setItem('rol',response.Resultset.user.rol_usadmin);
+                sessionStorage.setItem('email_administrador',response.Resultset.user.email_administrador); // rol
+                sessionStorage.setItem('usadmin_passactualizado',response.Resultset.user.usadmin_passactualizado);
+                sessionStorage.setItem('id_administrador',response.Resultset.user.id_administrador) ;
                 this._navegador.navigate(['/admin']);
               }else{
-                localStorage.setItem('id_entidad',response.Resultset.user.id_entidad)//user
-                localStorage.setItem('nombre_entidad',response.Resultset.user.nombre_entidad); //nombre 
-                localStorage.setItem('email_entidad',response.Resultset.user.email); // email
+                sessionStorage.setItem('id_entidad',response.Resultset.user.id_entidad)//user
+                sessionStorage.setItem('nombre_entidad',response.Resultset.user.nombre_entidad); //nombre 
+                sessionStorage.setItem('email_entidad',response.Resultset.user.email); // email
                 this._navegador.navigate(['/entidad/listarCursos']);
               }
             }
@@ -70,19 +65,20 @@ export class LoginComponentComponent implements OnInit {
         this._LoginService.loginProgramador(this.logearUsuario.value.user,this.logearUsuario.value.password,tipo).subscribe(
           response => {
             if( response.error == "" ){
-              localStorage.setItem('token',response.Resultset.token);//token
-              localStorage.setItem('user',this.logearUsuario.value.user);//user
+              //let sesionObject = {'token': response.Resultset.token, 'user':this.logearUsuario.value.user,}
+              sessionStorage.setItem('token',response.Resultset.token);//token
+              sessionStorage.setItem('user',this.logearUsuario.value.user);//user
               //this.sesionExpirada();
               if(tipo == "admin"){
-                localStorage.setItem('rol',"99");
-                localStorage.setItem('email_administrador',response.Resultset.user.email_administrador); // rol
-                localStorage.setItem('usadmin_passactualizado',response.Resultset.user.usadmin_passactualizado)
-                localStorage.setItem('id_administrador',response.Resultset.user.id_administrador) 
+                sessionStorage.setItem('rol',"99");
+                sessionStorage.setItem('email_administrador',response.Resultset.user.email_administrador); // rol
+                sessionStorage.setItem('usadmin_passactualizado',response.Resultset.user.usadmin_passactualizado)
+                sessionStorage.setItem('id_administrador',response.Resultset.user.id_administrador) 
                 this._navegador.navigate(['/admin']);
               }else{
-                localStorage.setItem('id_entidad',response.Resultset.user.id_entidad)//user
-                localStorage.setItem('nombre_entidad',response.Resultset.user.nombre_entidad); //nombre 
-                localStorage.setItem('email_entidad',response.Resultset.user.email); // email
+                sessionStorage.setItem('id_entidad',response.Resultset.user.id_entidad)//user
+                sessionStorage.setItem('nombre_entidad',response.Resultset.user.nombre_entidad); //nombre 
+                sessionStorage.setItem('email_entidad',response.Resultset.user.email); // email
                 this._navegador.navigate(['/entidad/listarCursos']);
               }
             }
@@ -91,7 +87,6 @@ export class LoginComponentComponent implements OnInit {
             this.usuarioIncorrecto= true;
           });
       }
-    }
     
     
   }
@@ -99,7 +94,7 @@ export class LoginComponentComponent implements OnInit {
   sesionExpirada(){
     setTimeout(() => {
       alert("La Sesión expiró")
-     // localStorage.clear();
+     // sessionStorage.clear();
       this._navegador.navigate(['/']);
      }, 60000);//3600000ms = 1hs
   }

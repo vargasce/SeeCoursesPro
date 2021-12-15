@@ -1,7 +1,8 @@
 'use strict'
 
 const _usuario_adminService = require('../../Services/Usuario_Admin/usuario_admin.service');
-
+const dt = require('../../Custom/dates/dates');
+const log = require('../../Services/Log/log.service');
 
 const controller = {
 
@@ -47,11 +48,13 @@ const controller = {
             case 'verifyUserToken' :
 
                 try{
-
+                    
                     let result = await _usuario_adminService.verificaUsuarioAdmin( req.body.token ? req.body.token : '' );
+                    console.log( result )
                     if( result ){
                         return res.status( 200 ).send({ 'error' : '', 'ResultSet' : result });
                     }else{
+                        await log.addLog( { id : 0, descripcion : 'Error verificando token, acceso forzado a rutas.', fecha : dt.getDateCurrentStringCustom() , hora : dt.getHourMinuteCurrent(), observacion : `Token : ${ req.body.token }` } );
                         return res.status( 200 ).send({ 'error' : 'No se pudo Autenticar el usuario.', 'ResultSet' : result, 'ResultSet' : false });
                     }
 

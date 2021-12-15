@@ -149,7 +149,7 @@ export class RegisterEntidadComponent implements OnInit {
       }
     }
     this.loading=true;
-    localStorage.clear();
+    sessionStorage.clear();
 
     this._usuarioService.registrarUsuario(this.usuarioModel).subscribe(Response=>{
       this.entidadModel.id_usuario= Response.ResultSet.id

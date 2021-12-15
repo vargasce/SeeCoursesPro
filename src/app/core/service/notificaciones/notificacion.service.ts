@@ -22,7 +22,7 @@ export class NotificacionService {
         let send ={
             'action' : "addNotificacion",
             'data'   : notificacion,
-            'token'  : localStorage.getItem('token')
+            'token'  : sessionStorage.getItem('token')
         }
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }

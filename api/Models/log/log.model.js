@@ -5,10 +5,10 @@ class Log{
     constructor( data ){
         if( data ){
             this.id = data.id;
-            this.description = data.description;
+            this.descripcion = data.descripcion;
             this.fecha = data.fecha;
             this.hora = data.hora;
-            this.obeservacion = data.obeservacion;
+            this.observacion = data.observacion;
         }
     }
 
@@ -16,7 +16,7 @@ class Log{
     getDescripcion(){ return this.descripcion; }
     getFecha(){ return this.fecha; }
     getHora(){ return this.hora; }
-    getObservacion(){ return this.obeservacion; }
+    getObservacion(){ return this.observacion; }
 
     setId( id ){ this.id = id; }
     setDescripcion( descripcion ){ this.descripcion = descripcion; }

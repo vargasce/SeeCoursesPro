@@ -30,7 +30,7 @@ export class ItinerarioEntidadService {
         let headers = { headers : environment.headers };
         let send ={
             'action' : "getItinerarioByIdEntidad",
-            'data'   : localStorage.getItem('id_entidad')
+            'data'   : sessionStorage.getItem('id_entidad')
         }
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }
@@ -39,7 +39,7 @@ export class ItinerarioEntidadService {
         let headers = { headers : environment.headers };
         let send ={
             'action' : "updateItinerario",
-            'token'  : localStorage.getItem('token'),  
+            'token'  : sessionStorage.getItem('token'),  
             'data'   : {
                 'id' : id,
                 'data': data
@@ -52,7 +52,7 @@ export class ItinerarioEntidadService {
         let headers = { headers : environment.headers };
         let send ={
             'action' : "addItinerario",
-            'token'  : localStorage.getItem('token'),  
+            'token'  : sessionStorage.getItem('token'),  
             'data'   : data
         }
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );

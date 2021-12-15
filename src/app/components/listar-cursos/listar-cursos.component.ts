@@ -31,7 +31,7 @@ export class ListarCursosComponent implements OnInit {
 
 
   getCursos(){
-    let id = Number(localStorage.getItem("id_entidad"));
+    let id = Number(sessionStorage.getItem("id_entidad"));
     if(id != null){
       this._itinerariosService.getItinerariosByIdEntidad(id).subscribe(
         Response =>{

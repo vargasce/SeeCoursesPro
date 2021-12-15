@@ -9,7 +9,7 @@ class MiddleWare{
     /** MIDDLEWARE CONTROL DE TOKEN
      * @Observations => Realiza control sobre las rutas indicadas para validar correcto token.
      * @param { obeject } req => Request api 
-     * @param { object } res => Resobse api
+     * @param { object } res => Response api
      * @param { object } next => Next api
      * @returns {*} => Resonse response error or next.
      */

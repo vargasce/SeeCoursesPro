@@ -23,7 +23,7 @@ export class UsuarioService {
         let headers = { headers : environment.headers };
         let send ={
             'action' : "addUsuario",
-            'token'  : localStorage.getItem('token'),  
+            'token'  : sessionStorage.getItem('token'),  
             'data'   : usuario
         }
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );

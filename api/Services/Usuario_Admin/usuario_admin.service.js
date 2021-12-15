@@ -148,7 +148,7 @@ class UsuarioAdmin{
             try{
 
                 usr.getUserValidete( token, ( error, decode ) =>{
-                    if( decode ){
+                    if( !error ){
                         resolve( true );
                     }else{
                         resolve( false );

@@ -20,7 +20,7 @@ export class RegistrarEntidadService {
         let headers = { headers : environment.headers };
         let send ={
             'action' : "addEntidad",
-            'token'  : localStorage.getItem('token'),  
+            'token'  : sessionStorage.getItem('token'),  
             'data'   : entidad
         }
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );

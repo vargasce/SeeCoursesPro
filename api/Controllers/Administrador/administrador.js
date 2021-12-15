@@ -1,6 +1,8 @@
 'use strict'
 
 const _administradorService = require('../../Services/Administrador/administradorService');
+const dt = require('../../Custom/dates/dates');
+const log = require('../../Services/Log/log.service');
 
 const controller = {
 
@@ -16,6 +18,7 @@ const controller = {
                     let resultAdd = await _administradorService.addAdministrador( req.body.data );
                     return res.status(200).send({ 'error' : '', 'ResultSet' : resultAdd });
                 }catch( err ){
+                    await log.addLog( { id : 0, descripcion : 'Error addAdministrador.', fecha : dt.getDateCurrentStringCustom() , hora : dt.getHourMinuteCurrent(), observacion : `Error : ${ err }` } );
                     return res.status(500).send({ 'error' : `${err}`});
                 }
 

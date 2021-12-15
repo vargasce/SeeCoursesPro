@@ -50,7 +50,7 @@ export class AdministradorService {
                 'id':id,
                 'es_curso': es_curso
             },
-            'token': localStorage.getItem('token')
+            'token': sessionStorage.getItem('token')
         }
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }
@@ -69,7 +69,7 @@ export class AdministradorService {
         let send ={
             'action' : "addNotificacion",
             'data'   : notificacion,
-            'token': localStorage.getItem('token')
+            'token': sessionStorage.getItem('token')
         }
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }
