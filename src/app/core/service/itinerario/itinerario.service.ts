@@ -79,4 +79,15 @@ export class ItinerarioEntidadService {
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }
 
+    incrementViewed(id:number):  Observable<any>{ 
+        let headers = { headers : environment.headers };
+        let send ={
+            'action' : "incrementViewed",
+            'data'   : {
+                'id': id
+            }
+        }
+        return this.http.post<any>( environment.apiURL + this.controller , send, headers );
+    }
+
 }

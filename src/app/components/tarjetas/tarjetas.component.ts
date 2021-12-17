@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { UploadFileService } from 'src/app/core/service/uploadFile/uploadFile.service';
 import { environment } from 'src/environments/environment';
 import { Imagenes } from 'src/app/core/global/imagenes/imagenes';
+import { ItinerarioEntidadService } from 'src/app/core/service/itinerario/itinerario.service';
 
 @Component({
   selector: 'app-tarjetas',
@@ -15,7 +16,8 @@ export class TarjetasComponent implements OnInit{
   img: Imagenes;
   @Input() items: any[] = [];
   constructor(
-    private _uploadFileService : UploadFileService
+    private _uploadFileService : UploadFileService,
+    private _itinerarioService : ItinerarioEntidadService
     ) 
     { 
       this.img  = new Imagenes(this._uploadFileService);
@@ -29,6 +31,13 @@ export class TarjetasComponent implements OnInit{
   openPopup(id:any) {
     this.displayStyle[id] = "block";
     this.color = "red;"
+    this._itinerarioService.incrementViewed(Number(id)).subscribe(Response=>{
+      console.log(Response);
+    },
+    reject=>{
+
+    })
+
   }
   closePopup(id:any) {
     this.displayStyle[id] = "none";

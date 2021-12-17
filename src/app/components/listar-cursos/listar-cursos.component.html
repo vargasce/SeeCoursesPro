@@ -12,6 +12,7 @@
                     <tr class="noHover">
                         <th>Nombre</th>
                         <th>Descripcion</th>
+                        <th>Actividad</th>
                         <th>Observacion</th>
                         <th>Fecha del Curso</th>
                         <th>Hora inicio</th>
@@ -19,13 +20,13 @@
                         <th>Fecha de Alta</th>
                         <th>Link</th>
                         <th>Disertantes/Profesores</th>
-                        
                     </tr>
                 </thead>
                 <tbody>
                     <tr id="{{curso.id}}" *ngFor="let curso of cursos">
                         <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.nombre}} </td>
                         <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.descripcion}} </td>
+                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.descripcion_actividad}} </td>
                         <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.observacion}} </td>
                         <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.fecha_itinerario}} </td>
                         <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.hora_itinerario}} </td>
@@ -53,6 +54,7 @@
                     <tr class="noHover">
                         <th>Nombre</th>
                         <th>Descripcion</th>
+                        <th>Actividad</th>
                         <th>Observacion</th>
                         <th>Fecha del Curso</th>
                         <th>Hora inicio</th>
@@ -67,6 +69,7 @@
                     <tr  id="{{curso.id}}" *ngFor="let curso of cursosPendientes">
                         <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.nombre}} </td>
                         <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.descripcion}} </td>
+                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.descripcion_actividad}} </td>
                         <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.observacion}} </td>
                         <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.fecha_itinerario}} </td>
                         <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.hora_itinerario}} </td>
@@ -91,6 +94,7 @@
                     <tr class="noHover">
                         <th>Nombre</th>
                         <th>Descripcion</th>
+                        <th>Actividad</th>
                         <th>Observacion</th>
                         <th>Fecha del Curso</th>
                         <th>Hora inicio</th>
@@ -104,6 +108,7 @@
                     <tr  id="{{curso.id}}" *ngFor="let curso of cursosRechazados">
                         <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.nombre}} </td>
                         <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.descripcion}} </td>
+                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.descripcion_actividad}} </td>
                         <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.observacion}} </td>
                         <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.fecha_itinerario}} </td>
                         <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.hora_itinerario}} </td>
@@ -128,6 +133,7 @@
                   <tr class="noHover">
                       <th>Nombre</th>
                       <th>Descripcion</th>
+                      <th>Actividad</th>
                       <th>Observacion</th>
                       <th>Fecha del Curso</th>
                       <th>Hora inicio</th>
@@ -141,6 +147,7 @@
                   <tr  id="{{curso.id}}" *ngFor="let curso of cursosFinalizados">
                       <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.nombre}} </td>
                       <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.descripcion}} </td>
+                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.descripcion_actividad}} </td>
                       <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.observacion}} </td>
                       <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.fecha_itinerario}} </td>
                       <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.hora_itinerario}} </td>
@@ -165,6 +172,7 @@
           <div class="modal-body">
             <p> <b>Nombre: </b>{{curso.nombre}}</p>
             <p> <b>Descripcion: </b>{{curso.descripcion}}</p>
+            <p> <b>Actividad: </b>{{curso.descripcion_actividad}}</p>
             <p> <b>Observacion: </b>{{curso.observacion}}</p>
             <p> <b>Fecha del Curso: </b>{{curso.fecha_itinerario}}</p>
             <p> <b>Hora inicio: </b>{{curso.hora_itinerario}}</p>
@@ -192,6 +200,7 @@
           <div class="modal-body">
             <p> <b>Nombre: </b>{{curso.nombre}}</p>
             <p> <b>Descripcion: </b>{{curso.descripcion}}</p>
+            <p> <b>Actividad: </b>{{curso.descripcion_actividad}}</p>
             <p> <b>Observacion: </b>{{curso.observacion}}</p>
             <p> <b>Fecha del Curso: </b>{{curso.fecha_itinerario}}</p>
             <p> <b>Hora inicio: </b>{{curso.hora_itinerario}}</p>
@@ -220,6 +229,7 @@
           <div class="modal-body">
             <p> <b>Nombre: </b>{{curso.nombre}}</p>
             <p> <b>Descripcion: </b>{{curso.descripcion}}</p>
+            <p> <b>Actividad: </b>{{curso.descripcion_actividad}}</p>
             <p> <b>Observacion: </b>{{curso.observacion}}</p>
             <p> <b>Fecha del Curso: </b>{{curso.fecha_itinerario}}</p>
             <p> <b>Hora inicio: </b>{{curso.hora_itinerario}}</p>
@@ -247,6 +257,7 @@
           <div class="modal-body">
             <p> <b>Nombre: </b>{{curso.nombre}}</p>
             <p> <b>Descripcion: </b>{{curso.descripcion}}</p>
+            <p> <b>Actividad: </b>{{curso.descripcion_actividad}}</p>
             <p> <b>Observacion: </b>{{curso.observacion}}</p>
             <p> <b>Fecha del Curso: </b>{{curso.fecha_itinerario}}</p>
             <p> <b>Hora inicio: </b>{{curso.hora_itinerario}}</p>
