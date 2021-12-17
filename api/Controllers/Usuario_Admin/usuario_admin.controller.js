@@ -50,7 +50,6 @@ const controller = {
                 try{
                     
                     let result = await _usuario_adminService.verificaUsuarioAdmin( req.body.token ? req.body.token : '' );
-                    console.log( result )
                     if( result ){
                         return res.status( 200 ).send({ 'error' : '', 'ResultSet' : result });
                     }else{

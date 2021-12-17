@@ -32,7 +32,6 @@ export class TarjetasComponent implements OnInit{
     this.displayStyle[id] = "block";
     this.color = "red;"
     this._itinerarioService.incrementViewed(Number(id)).subscribe(Response=>{
-      console.log(Response);
     },
     reject=>{
 
