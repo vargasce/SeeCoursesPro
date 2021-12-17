@@ -25,7 +25,7 @@ const uploadService = {
       }
       
       let obj = splitFileObject( files );
-
+      console.log( obj );
       if( obj.extension == 'jpg' || obj.extension == 'png' || obj.extension == 'gif' || obj.extension == 'icon' || obj.extension == 'jpeg' ){
         
         let sql = `UPDATE ${table} SET imagen = '${obj.fileName}' WHERE id = ${id}`;
@@ -74,6 +74,7 @@ const splitFileObject = ( files ) =>{
 
   try{    
 
+    console.log( os.platform());
     switch( os.platform()){
       case 'darwin':
         
@@ -95,14 +96,14 @@ const splitFileObject = ( files ) =>{
 
         let filePathLi = files.image.path;
         let fileSplitLi = filePathLi.split('/');
-        let fileNameLi =  fileSplitLi[fileSplit.length - 1];
+        let fileNameLi =  fileSplitLi[fileSplitLi.length - 1];
         let extensionSplitLi = fileNameLi.split('.');
         let extensionLi = extensionSplitLi[1];
         
         return {
-          fileNameLi,
-          filePathLi,
-          extensionLi
+          'fileName' : fileNameLi,
+          'filePath' : filePathLi,
+          'extension' : extensionLi
         }
 
       break;
@@ -116,9 +117,9 @@ const splitFileObject = ( files ) =>{
         let extensionWi = extensionSplitWi[1];
 
         return {
-          fileNameWi,
-          filePathWi,
-          extensionWi
+          'fileName' : fileNameWi,
+          'filePath' : filePathWi,
+          'extension' : extensionWi
         }
 
       break;
