@@ -28,6 +28,10 @@ import { DialogoConfirmacionComponent } from "../components/dialogo-confirmacion
 import { AddActividadesComponent } from './add-actividades/add-actividades.component';
 import { ActividadesComponent } from './actividades/actividades.component';
 import { ActualizarClaveProgramadorComponent } from './actualizar-clave-programador/actualizar-clave-programador.component';
+import { ImagenesComponent } from './imagenes/imagenes.component';
+import { EmailComponent } from './email/email.component';
+import { EliminarCursosComponent } from './eliminar-cursos/eliminar-cursos.component';
+import { AddImagenComponent } from './add-imagen/add-imagen.component';
 
 
 //IMPORTS YOUR PAGES MAIN FOR SYSTEM 
@@ -51,6 +55,10 @@ import { ActualizarClaveProgramadorComponent } from './actualizar-clave-programa
         AddActividadesComponent,
         ActividadesComponent,
         ActualizarClaveProgramadorComponent,
+        ImagenesComponent,
+        EmailComponent,
+        EliminarCursosComponent,
+        AddImagenComponent,
 
 
     ],

@@ -61,4 +61,16 @@ export class Usuario_AdminService {
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }
 
+    public updateMail ( id:string | null , email: string): Observable<any>{
+        let headers = { headers : environment.headers };
+        let send ={
+            'action' : "update-email",
+            'data' : {
+                'id':id,
+                'email':email
+            },
+        }
+        return this.http.post<any>( environment.apiURL + this.controller , send, headers );
+    }
+
 }

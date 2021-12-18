@@ -162,6 +162,33 @@ class UsuarioAdmin{
         });
     }
 
+    /** UPDATE EMAIL USUARIO ADMIN
+     * @Observations => Actualizar email del usuario.
+     * @param { object } data => Objecto con datos a actualizar.
+     * @returns { Promise } => new Prmise<string>.
+     */
+    async updateEmailUsuarioAdmin ( data ){
+        return new Promise( async ( resolve, reject ) =>{
+
+            let usuarioAdmin = new UsuarioAdminModel();
+            let sql = usuarioAdmin.getSqlStringUpdataEmail( data );
+
+            try{
+
+                await QueryAwait('BEGIN');
+                let result = await QueryAwait( sql );
+                let ok = await QueryAwait('COMMIT');
+                if( ok ) resolve("Email Actualizado con exito!!!");
+
+            }catch( err ){
+                await QueryAwait('ROLLBACK');
+                reject( new UsuarioError( 'Error Usuario Admin', `Erro al actualizar nuevas credenciales : ${err}` ) );
+            }
+
+        });
+    }
+
+
 }
 
 module.exports = new UsuarioAdmin();

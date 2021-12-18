@@ -25,6 +25,14 @@ export class ItinerariosService {
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }
 
+    getItinerariosTotal(): Observable<any>{
+        let headers = { headers : environment.headers };
+        let send ={
+            'action' : "getItinerarioListTotal",
+        }
+        return this.http.post<any>( environment.apiURL + this.controller , send, headers );
+    }
+
     searchItinerarios(termino:string): Observable<any>{
         let headers = { headers : environment.headers };
         let send ={
@@ -48,6 +56,17 @@ export class ItinerariosService {
         let send ={
             'action' : "getItinerarioFilter",
             'data'   : filtro
+        }
+        return this.http.post<any>( environment.apiURL + this.controller , send, headers );
+    }
+
+    finalizarItinerario(id:number): Observable<any>{
+        let headers = { headers : environment.headers };
+        let send ={
+            'action' : "finalizarItinerario",
+            'data'   : {
+                'id': id
+            }
         }
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }

@@ -106,6 +106,21 @@ class UsuarioModel{
         return sql;
     }
 
+    /** UPDATE EMAIL .
+     * @Observations => Sql actualizar email de user admin.
+     * @param { object } data => Objecto.
+     * @returns { string } => sql string.
+     */
+    getSqlStringUpdataEmail( data ){
+        let sql = `
+            UPDATE administrador SET email = '${data.email}' 
+            WHERE id = ${data.id} ;
+        `;
+
+        return sql;
+    }
+
+
 }
 
 module.exports = UsuarioModel;

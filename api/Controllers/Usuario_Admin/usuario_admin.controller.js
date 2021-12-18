@@ -63,6 +63,18 @@ const controller = {
                
             break;
 
+            case 'update-email' :
+
+                try{
+                    let result = await _usuario_adminService.updateEmailUsuarioAdmin( req.body.data );
+                    return res.status( 200 ).send({ 'error' : '', 'ResultSet' : result });
+                }catch( error ){
+                    return res.status( 500 ).send({ 'error' : error });
+                }
+
+            break;
+
+
         }
     }
 

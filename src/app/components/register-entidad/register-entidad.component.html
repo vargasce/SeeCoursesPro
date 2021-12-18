@@ -100,7 +100,7 @@
 
                         <select (change)="onChangeSelect($event)" *ngIf="imagenPorDefecto" id ="img-default"class="form-select mt-3">
                             <option value="0" disabled selected>Imagen</option>
-                            <option value="{{img.id}}" *ngFor ="let img of imagenDefault;">{{img.descripcion}}</option>
+                            <option value="{{img.imagen}}" *ngFor ="let img of imagenDefault;">{{img.descripcion}}</option>
                         </select>
 
                         <div *ngIf="imagenPropia" id ="img-propia" class="row" style="margin-bottom:5px;">

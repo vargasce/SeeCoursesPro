@@ -13,6 +13,7 @@ const Email = require('../Controllers/Email/email');
 const Administrador = require('../Controllers/Administrador/administrador');
 const UsuarioAdmin = require('../Controllers/Usuario_Admin/usuario_admin.controller');
 const Actividad = require('../Controllers/Actividad/actividad');
+const Imagen = require('../Controllers/Imagen/imagen');
 
 const router = express.Router();
 
@@ -32,6 +33,7 @@ router.post('/email', Email.emailController );                        // CONTROL
 router.post('/administrador', Administrador.administradorController ) // CONTROLLER ADMINISTRADOR
 router.post('/usuario_admin', UsuarioAdmin.usuario_admin );           // CONTROLLER USUARIO ADMIN
 router.post('/actividad', Actividad.actividad );                      // CONTROLLER ACTIVIDAD
+router.post('/imagen', Imagen.imagen );                               // CONTROLER IMAGEN
 
 module.exports = router;
 

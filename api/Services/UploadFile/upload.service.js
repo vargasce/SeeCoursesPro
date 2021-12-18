@@ -3,6 +3,7 @@
 const con = require('../../DB-connect/connectDB');
 const os = require('os');
 const fn = require('../../Custom/function_custom/custom');
+const dt = require('../../Custom/dates/dates');
 const UploadError = require('../../Error/Upload/uploadError');
 const fs = require('fs');
 const path = require('path');
@@ -25,10 +26,11 @@ const uploadService = {
       }
       
       let obj = splitFileObject( files );
-      console.log( obj );
+
       if( obj.extension == 'jpg' || obj.extension == 'png' || obj.extension == 'gif' || obj.extension == 'icon' || obj.extension == 'jpeg' ){
-        
-        let sql = `UPDATE ${table} SET imagen = '${obj.fileName}' WHERE id = ${id}`;
+
+        let fecha = dt.getDateCurrentStringCustom();
+        let sql = `UPDATE ${table} SET imagen = '_${table}_${id}_${fecha}_${obj.fileName}' WHERE id = ${id}`;
 
         try{
 
@@ -36,7 +38,7 @@ const uploadService = {
           let result = await con.QueryAwait( sql );
           let ok = await con.QueryAwait('COMMIT');
           if( ok ) {
-            saveFile( obj.fileName, obj.filePath );
+            saveFile( obj.fileName, obj.filePath, id, table );
             resolve( result.rows );
           }
         }catch( err ){
@@ -74,7 +76,6 @@ const splitFileObject = ( files ) =>{
 
   try{    
 
-    console.log( os.platform());
     switch( os.platform()){
       case 'darwin':
         
@@ -112,7 +113,7 @@ const splitFileObject = ( files ) =>{
 
         let filePathWi = files.image.path;
         let fileSplitWi = filePathWi.split('\\');
-        let fileNameWi =  fileSplitWi[fileSplit.length - 1];
+        let fileNameWi =  fileSplitWi[fileSplitWi.length - 1];
         let extensionSplitWi = fileNameWi.split('.');
         let extensionWi = extensionSplitWi[1];
 
@@ -131,7 +132,7 @@ const splitFileObject = ( files ) =>{
 
 }
 
-const saveFile = ( fileName, filePath ) =>{
+const saveFile = ( fileName, filePath, id, tabla ) =>{
 
   try{
     fs.mkdirSync('./File_up/');
@@ -140,9 +141,9 @@ const saveFile = ( fileName, filePath ) =>{
   }
 
   try{
-
+    let fecha = dt.getDateCurrentStringCustom();
     const is = fs.createReadStream( filePath );
-    const os = fs.createWriteStream( `./File_up/${fileName}` );
+    const os = fs.createWriteStream( `./File_up/_${tabla}_${id}_${fecha}_${fileName}` );
 
     is.pipe( os );
 

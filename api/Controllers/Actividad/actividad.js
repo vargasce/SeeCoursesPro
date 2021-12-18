@@ -1,7 +1,6 @@
 'use strict'
 
 const fn = require('../../Custom/function_custom/custom');
-const { delteActividad } = require('../../Services/Actividad/actividad.service');
 const _actividadService = require('../../Services/Actividad/actividad.service');
 
 const controller = {

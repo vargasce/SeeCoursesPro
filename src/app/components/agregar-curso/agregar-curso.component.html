@@ -21,16 +21,16 @@
                         <input #observacionForm name="observacion"  [(ngModel)]="itinerarioModel.observacion" type="text" class="form-control mt-3" placeholder="Observacion" formControlName="observacion">
                         <div class="row" style="margin-bottom:5px;">
                             <div class="col">
-                                <input id ="fecha" #fecha_itinerarioForm name="fecha_itinerario"  [(ngModel)]="itinerarioModel.fecha_itinerario" type="text" class="form-control mt-3" placeholder="Fecha del Curso" 
+                                <input id ="fecha" #fecha_itinerarioForm name="fecha_itinerario"  [(ngModel)]="itinerarioModel.fecha_itinerario" type="text" class="form-control mt-3" placeholder="Fecha actividad" 
                                 onfocus="(this.type='date')" onblur="(this.type='text')" formControlName="fecha_itinerario" style="margin-bottom:5px;" min="{{today}}">  
                             </div>
                             <div class="col">
-                                <input id="hora_itinerario"(change)="onChangeHora($event)"#hora_itinerarioForm name="hora_itinerario"  [(ngModel)]="itinerarioModel.hora_itinerario"  class="form-control mt-3" placeholder="Hora del Curso" formControlName="hora_itinerario" style="margin-bottom:5px;"
+                                <input id="hora_itinerario"(change)="onChangeHora($event)"#hora_itinerarioForm name="hora_itinerario"  [(ngModel)]="itinerarioModel.hora_itinerario"  class="form-control mt-3" placeholder="Hora actividad" formControlName="hora_itinerario" style="margin-bottom:5px;"
                                 onfocus="(this.type='time')" onblur="(this.type='text')">
                             </div>
 
                             <div class="col">
-                                <input id="hora_itinerario_fin" (change)="onChangeHoraFin($event)" #hora_itinerario_finForm name="hora_itinerario_fin"  type="text" [(ngModel)]="itinerarioModel.hora_itinerario_fin"  class="form-control mt-3" placeholder="Finalización del Curso" formControlName="hora_itinerario_fin" style="margin-bottom:5px;"
+                                <input id="hora_itinerario_fin" (change)="onChangeHoraFin($event)" #hora_itinerario_finForm name="hora_itinerario_fin"  type="text" [(ngModel)]="itinerarioModel.hora_itinerario_fin"  class="form-control mt-3" placeholder="Finalización actividad" formControlName="hora_itinerario_fin" style="margin-bottom:5px;"
                                 onfocus="(this.type='time')" onblur="(this.type='text')"  max="10:00:00">
                             </div>
                             <h3 class="text-danger text-center mt-3" *ngIf="errorFechas">La hora final no puede ser menor a la hora de inicio</h3>
@@ -50,7 +50,7 @@
 
                         <select (change)="onChangeSelect($event)" *ngIf="imagenPorDefecto" id ="img-default"class="form-select mt-3">
                             <option value="0" disabled selected>Imagen</option>
-                            <option value="{{img.id}}" *ngFor ="let img of imagenDefault;">{{img.descripcion}}</option>
+                            <option value="{{img.imagen}}" *ngFor ="let img of imagenDefault;">{{img.descripcion}}</option>
                         </select>
 
                         <div *ngIf="imagenPropia" id ="img-propia" class="row" style="margin-bottom:5px;">

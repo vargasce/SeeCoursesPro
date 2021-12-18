@@ -30,12 +30,12 @@
 <div *ngIf="passActualizado" class="container mt-5">
     <div class="card">
         <div class="card-body">
-            <span class="h3">Solicitudes de Cursos</span>
+            <span class="h3">Solicitudes de Actividades</span>
             <h1 class="mt-3"  *ngIf="notificaciones.length==0">No hay Notificaciones nuevas</h1>                
             <table *ngIf ="notificaciones.length > 0" class="table table-striped mt-2">
                 <thead>
                     <tr class="noHover">
-                        <th>Nombre curso</th>
+                        <th>Nombre Actividad</th>
                         <th>Descripcion</th>
                         <th>Observacion</th>
                         <th>fecha</th>
@@ -134,7 +134,6 @@
             <p> <b>Email: </b>{{entidad.email_entidad}}</p>
             <p> <b>Web: </b>{{entidad.web_entidad}}</p>
             <p> <b>Fecha: </b>{{entidad.fecha}}</p>
-            <p> <b>imagen: </b>{{entidad.imagen_entidad}}</p>
             <img src="{{getStringImg(entidad.imagen_entidad)}}"  class="card-img-top"alt="">
           </div>
           <div class="modal-footer">

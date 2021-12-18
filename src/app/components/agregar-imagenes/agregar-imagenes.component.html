@@ -1,0 +1,39 @@
+<app-navbar-admin></app-navbar-admin>
+<div class="container pt-4">
+    <div class="row">
+        <div class="col-lg-6 offset-lg-3">
+            <div class="card">
+                <div class="card-body">
+                    <h1 style="text-align: center;">{{titulo}}
+                        <div *ngIf ="loading"class="spinner-border" role="status" style="float: right;"></div>
+                    </h1>
+                    <h4 class="text-danger text-center mt-3" *ngIf="submitted && agregarImagen.invalid">TODOS LOS CAMPOS SON OBLIGATORIOS</h4>
+                    <h3 class="text-danger text-center mt-3" *ngIf="!imagenValidada">Debe seleccionar al menos una imagen</h3> 
+                    <form name ="agregarImagenDataForm"  #agregarPaisesDataForm="ngForm" class="mt-4"[formGroup]="agregarImagen" (ngSubmit)="addEditImagen()" >   
+                        <input #imagenForm name="descripcion"  [(ngModel)]="imagenModel.descripcion" type="text" class="form-control mt-3" placeholder="Nombre"  formControlName="descripcion">            
+                        
+                        <div  id ="img-propia" class="row" style="margin-bottom:5px;">
+                            <div class="col">
+                                <input #imagenForm name="imagen"   type="file" class="form-control mt-3" placeholder="Imagen"(change)="fileChangeEventFoto($event)">
+                            </div>
+                        </div>
+
+                        <div  *ngIf="img_foto">
+                            <img class="previewImagen mt-3" src="{{img_foto}}">
+                        </div>
+
+                        <div  *ngIf="editarImagen">
+                            <img class="previewImagen mt-3" src="{{getStringImg(imagenModel.imagen)}}">
+                        </div>
+
+                        <div class="mt-3 text-center">
+                            <button type="text" class="btn btn-secundary mr-3" [routerLink]="['/adminGeneral/imagenes']"
+                                routerLinkActive="active"> Volver </button>
+                            <button type="sumbit" class="btn btn-dark"> Agregar </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

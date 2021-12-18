@@ -13,6 +13,7 @@ import { Imagenes } from 'src/app/core/global/imagenes/imagenes';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogoFechasComponent } from '../dialogo-fechas/dialogo-fechas.component';
 import { RegistrarAdminService } from 'src/app/core/service/administrador/admin-registrar.service';
+import { ImagenesService } from 'src/app/core/service/imagenes/imagenes.service';
 
 
 
@@ -33,7 +34,7 @@ export class AgregarCursoComponent implements OnInit {
   submitted= false;
   id: number = -1;
   id_curso: number =-1;
-  titulo ="Agregar Curso";
+  titulo ="Agregar Actividad";
   itinerarioModel: ItinerarioModel;
   loading :boolean = false;
   imagenFile: Array<File>=[];
@@ -68,7 +69,8 @@ export class AgregarCursoComponent implements OnInit {
     private fechas :fechas,
     public renderer:Renderer2,
     public dialogo: MatDialog,
-    private _adminService:RegistrarAdminService
+    private _adminService:RegistrarAdminService,
+    private _imagenService:ImagenesService
     ) {
     this.agregarCurso = this.fb.group({
       nombre:['',Validators.required],
@@ -81,11 +83,6 @@ export class AgregarCursoComponent implements OnInit {
       link:['',Validators.required],
       instructor:['',Validators.required]
     });
-    this.imagenDefault=[
-      {id:'0',descripcion:'imagen default 0'},
-      {id:'1',descripcion:'imagen default 1'},
-      {id:'2',descripcion:'imagen default 3'},
-  ];
     
     this.id = Number(sessionStorage.getItem('id_entidad')) //capturo el id del registro que quiero modificar
     this.itinerarioModel = new ItinerarioModel(0,Number(sessionStorage.getItem('id_entidad')),"","","","","","","",this.fechas.currentDate(),"","","",false,false,false,false);
@@ -94,6 +91,7 @@ export class AgregarCursoComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     (<HTMLInputElement>document.getElementById('hora_itinerario_fin')).disabled=true;
+    this.getImagenes();
     this.esEditar();
     this.adminMails= await this.getMailsAdministrador();
   }
@@ -102,6 +100,7 @@ export class AgregarCursoComponent implements OnInit {
     this.eventChange();
   }
   
+
 
   esEditar(){ 
 
@@ -115,7 +114,7 @@ export class AgregarCursoComponent implements OnInit {
 
     if(this.id_curso !== 0){
 
-      this.titulo = 'Editar Curso';
+      this.titulo = 'Editar Actividad';
       this.loading=true;
       (<HTMLInputElement>document.getElementById('hora_itinerario_fin')).disabled=false;
 
@@ -123,9 +122,9 @@ export class AgregarCursoComponent implements OnInit {
 
         this.itinerarioModel = Response.ResultSet;
         this.loading= false;
-        let slipt:any = this.itinerarioModel.imagen.split(" ",1);
-
-        if(slipt[0] =="defaultImageItinerario"){ // verifico si la imagen que tenia guardada es una imagen por defecto
+        let split:number = this.itinerarioModel.imagen.indexOf("imagen");
+        console.log(split);
+        if(split >0){ // verifico si la imagen que tenia guardada es una imagen por defecto
 
           (<HTMLInputElement>document.getElementById('selectorDeImagen')).value = "2";
           this.imagenPorDefecto = true;
@@ -238,9 +237,9 @@ export class AgregarCursoComponent implements OnInit {
         TO      : this.adminMails, // get de todos los mails de admins
         FROM    : sessionStorage.getItem("nombre_entidad"),
         EMAIL   : sessionStorage.getItem("email_entidad"),
-        SUBJECT : "Solicitud de nuevo Curso",
-        TITULO  : "Solicitud de nuevo Curso",
-        MESSAGE : "Le informamos que se ha generado una nueva solicitud de incorporación de curso, por favor verifique la misma en el sistema.",
+        SUBJECT : "Solicitud de nueva Actividad",
+        TITULO  : "Solicitud de nueva Actividad",
+        MESSAGE : "Le informamos que se ha generado una nueva solicitud de incorporación de Actividad, por favor verifique la misma en el sistema.",
         OBS     : ""
       }
     };
@@ -254,7 +253,7 @@ export class AgregarCursoComponent implements OnInit {
 
           let result = await this._envioNotificacionService.newCurso(Number(sessionStorage.getItem("id_entidad")),Response.ResultSet.id, this.itinerarioModel.observacion,this.itinerarioModel.nombre);
           if( result ){
-            this.toastr.success("La solicitud de curso fue registrada con exito!","Solicitud de Curso Registrada",{
+            this.toastr.success("La solicitud de Actividad fue registrada con exito!","Solicitud de Actividad Registrada",{
               positionClass:'toast-bottom-right'
             });
           } 
@@ -283,13 +282,13 @@ export class AgregarCursoComponent implements OnInit {
           this.router.navigate(['/entidad/listarCursos']);
 
         } catch (error) {
-          this.toastr.error("Ocurrio un error al registrar la solicitud de curso","Ocurrio un error",{
+          this.toastr.error("Ocurrio un error al registrar la solicitud de Actividad","Ocurrio un error",{
             positionClass:'toast-bottom-right'
           });
         }
 
       }else{
-        this.toastr.error("Ocurrio un error al enviar la solicitud de curso","Ocurrio un error",{
+        this.toastr.error("Ocurrio un error al enviar la solicitud de Actividad","Ocurrio un error",{
           positionClass:'toast-bottom-right'
         });
         (<HTMLInputElement>document.getElementById('btn-submit')).disabled=false;
@@ -313,9 +312,9 @@ export class AgregarCursoComponent implements OnInit {
         TO      : this.adminMails, // get de todos los mails de admins
         FROM    : sessionStorage.getItem("nombre_entidad"),
         EMAIL   : sessionStorage.getItem("email_entidad"),
-        SUBJECT : "Solicitud de nuevo Curso",
-        TITULO  : "Solicitud de nuevo Curso",
-        MESSAGE : "Le informamos que se ha generado una nueva solicitud de incorporación de curso, por favor verifique la misma en el sistema.",
+        SUBJECT : "Solicitud de nueva Actividad",
+        TITULO  : "Solicitud de nueva Actividad",
+        MESSAGE : "Le informamos que se ha generado una nueva solicitud de incorporación de Actividad, por favor verifique la misma en el sistema.",
         OBS     : ""
       }
     };
@@ -330,7 +329,7 @@ export class AgregarCursoComponent implements OnInit {
 
           let result = await this._envioNotificacionService.newCurso(Number(sessionStorage.getItem("id_entidad")),id_curso, this.itinerarioModel.observacion,this.itinerarioModel.nombre);
           if( result ){
-            this.toastr.success("La solicitud de curso fue registrada con exito!","Solicitud de Curso Registrada",{
+            this.toastr.success("La solicitud de Actividad fue registrada con exito!","Solicitud de Actividad Registrada",{
               positionClass:'toast-bottom-right'
             });
           } 
@@ -359,13 +358,13 @@ export class AgregarCursoComponent implements OnInit {
           this.router.navigate(['/entidad/listarCursos']);
 
         } catch (error) {
-          this.toastr.error("Ocurrio un error al registrar la solicitud de curso","Ocurrio un error",{
+          this.toastr.error("Ocurrio un error al registrar la solicitud de Actividad","Ocurrio un error",{
             positionClass:'toast-bottom-right'
           });
         }
 
       }else{
-        this.toastr.error("Ocurrio un error al enviar la solicitud de curso","Ocurrio un error",{
+        this.toastr.error("Ocurrio un error al enviar la solicitud de Actividad","Ocurrio un error",{
           positionClass:'toast-bottom-right'
         });
         (<HTMLInputElement>document.getElementById('btn-submit')).disabled=false;
@@ -413,30 +412,16 @@ export class AgregarCursoComponent implements OnInit {
     });
   }
 
+  getImagenes(){ 
+    this.imagenDefault = [];
+    this._imagenService.getImagenes().subscribe( response =>{
+      console.log(response) 
+      this.imagenDefault.push( ... response.ResultSet ) });     
+  }
+
   onChangeSelect(event: any) {
-
     this.imagenExist = true;
-    switch (event.target.value) {
-      case "0":
-        this.itinerarioModel.imagen = "defaultImageItinerario 1.jpg";
-        break;
-      case "1":
-        this.itinerarioModel.imagen = "defaultImageItinerario 2.jpg";
-        break;
-      case "2":
-        this.itinerarioModel.imagen = "defaultImageItinerario 3.jpg";
-        break;
-      case "3":
-        this.itinerarioModel.imagen = "defaultImageItinerario 4.jpg";
-        break;
-      case "4":
-        this.itinerarioModel.imagen = "defaultImageItinerario 5.jpg";
-        break;
-      case "5":
-        this.itinerarioModel.imagen = "defaultImageItinerario 6.jpg";
-        break;
-
-    }
+   this.itinerarioModel.imagen = event.target.value;
   }
 
   onChangeHora(event:any){

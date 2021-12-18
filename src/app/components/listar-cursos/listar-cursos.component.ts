@@ -61,7 +61,7 @@ export class ListarCursosComponent implements OnInit {
                 })
               }
             }
-            if(element.finalizado && element.noti_pendiente){
+            if(element.finalizado && element.noti_pendiente && !element.rechazado){
               if(this.cursosFinalizados.find(curso => curso.id === element.id)){
               }else{
                 this.cursosFinalizados.push({
@@ -69,7 +69,7 @@ export class ListarCursosComponent implements OnInit {
                 })
               }
             }
-            if(element.rechazado && element.noti_pendiente){
+            if(element.rechazado && element.noti_pendiente ){
                 if(this.cursosRechazados.find(curso => curso.id === element.id)){
                 }else{
                   this.cursosRechazados.push({

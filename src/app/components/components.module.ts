@@ -30,6 +30,11 @@ import { AbmActividadesComponent } from './abm-actividades/abm-actividades.compo
 import { AgregarActividadesComponent } from './agregar-actividades/agregar-actividades.component';
 import { FiltrosComponent } from './filtros/filtros.component';
 import { ActualizarClaveComponent } from './actualizar-clave/actualizar-clave.component';
+import { ImagenesPorDefectoComponent } from './imagenes-por-defecto/imagenes-por-defecto.component';
+import { DeleteCursosComponent } from './delete-cursos/delete-cursos.component';
+import { ChangeEmailComponent } from './change-email/change-email.component';
+import { AgregarImagenesComponent } from './agregar-imagenes/agregar-imagenes.component';
+import { DialogEliminarCursoComponent } from './dialog-eliminar-curso/dialog-eliminar-curso.component';
 
 
 
@@ -58,6 +63,11 @@ import { ActualizarClaveComponent } from './actualizar-clave/actualizar-clave.co
         AgregarActividadesComponent,
         FiltrosComponent,
         ActualizarClaveComponent,
+        ImagenesPorDefectoComponent,
+        DeleteCursosComponent,
+        ChangeEmailComponent,
+        AgregarImagenesComponent,
+        DialogEliminarCursoComponent,
         
 
        
@@ -92,7 +102,10 @@ import { ActualizarClaveComponent } from './actualizar-clave/actualizar-clave.co
         AbmActividadesComponent,
         AgregarActividadesComponent,
         FiltrosComponent,
-        ActualizarClaveComponent
+        ActualizarClaveComponent,
+        ImagenesPorDefectoComponent,
+        ChangeEmailComponent,
+        DeleteCursosComponent
 
     ],
     entryComponents: [

@@ -26,6 +26,7 @@ export class UploadFileService {
    */
   
   makeFileRequest( data : any , name : string){
+      console.log(data);
 	let files = <Array<File>> data.data.file;
     return new Promise(function(resolve, reject){
 

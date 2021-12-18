@@ -15,6 +15,23 @@
                 <li *ngIf="adminGeneralRol==1 || adminGeneralRol==99" class="nav-item" routerLinkActive="active">
                     <a class="nav-link" [routerLink]="['/registrarAdmin']">Registrar Admin</a>
                 </li>
+
+                <li *ngIf="adminGeneralRol==99" class="nav-item" routerLinkActive="active">
+                    <a class="nav-link" [routerLink]="['/programadorActualizarClave']">Actualizar clave</a>
+                </li>
+
+                <li *ngIf="adminGeneralRol==1 || adminGeneralRol==99" class="nav-item" routerLinkActive="active">
+                    <a class="nav-link" [routerLink]="['/adminGeneral/imagenes']">Imagenes</a>
+                </li>
+
+                <li *ngIf="adminGeneralRol==1 || adminGeneralRol==99" class="nav-item" routerLinkActive="active">
+                    <a class="nav-link" [routerLink]="['/adminGeneral/email']">Datos personales</a>
+                </li>
+
+                <li *ngIf="adminGeneralRol==1 || adminGeneralRol==99 || adminGeneralRol== 2" class="nav-item" routerLinkActive="active">
+                    <a class="nav-link" [routerLink]="['/adminGeneral/eliminarCurso']">Eliminar Actividad</a>
+                </li>
+
                 <li *ngIf="adminGeneralRol==1 || adminGeneralRol==99" class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
@@ -27,9 +44,6 @@
                         <li><a class="dropdown-item" href="#"
                                 [routerLink]="['/adminGeneral/actividades']">Actividades</a></li>
                     </ul>
-                </li>
-                <li *ngIf="adminGeneralRol==99" class="nav-item" routerLinkActive="active">
-                    <a class="nav-link" [routerLink]="['/programadorActualizarClave']">Actualizar clave</a>
                 </li>
             </ul>
         </div>

@@ -172,7 +172,7 @@ export class AdministradorComponent implements OnInit {
        false,
        false,
        true,
-       "Curso aprobado",
+       "Actividad aprobada",
        "Sin Observaciones",
        today,
     );
@@ -182,9 +182,9 @@ export class AdministradorComponent implements OnInit {
         TO      : [email_entidad], // get de todos los mails de admins
         FROM    : "Administrador",
         EMAIL   : this.emailAdministrador,
-        SUBJECT : "Solicitud de curso aprobada",
-        TITULO  : "Solicitud de curso aprobada",
-        MESSAGE : "Le informamos que se ha aprobado la solicitud de incorporación de curso.",
+        SUBJECT : "Solicitud de Actividad aprobada",
+        TITULO  : "Solicitud de Actividad aprobada",
+        MESSAGE : "Le informamos que se ha aprobado la solicitud de incorporación de Actividad.",
         OBS     : ""
       }
     };
@@ -219,7 +219,7 @@ export class AdministradorComponent implements OnInit {
        false,
        true,
        true,
-       "Curso rechazado",
+       "Actividad rechazada",
        observacion,
        today,
     );
@@ -228,9 +228,9 @@ export class AdministradorComponent implements OnInit {
         TO      : [email_entidad], // get de todos los mails de entidad
         FROM    : "Administrador",
         EMAIL   : this.emailAdministrador,
-        SUBJECT : "Solicitud de curso rechazada",
-        TITULO  : "Solicitud de curso rechazada",
-        MESSAGE : "Le informamos que se ha rechazado la solicitud de incorporación de curso.",
+        SUBJECT : "Solicitud de Actividad rechazada",
+        TITULO  : "Solicitud de Actividad rechazada",
+        MESSAGE : "Le informamos que se ha rechazado la solicitud de incorporación de Actividad.",
         OBS     : observacion
       }
     };

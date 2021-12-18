@@ -429,7 +429,80 @@ const itinerarioService = {
       }
 
     });
-  }
+  },
+
+  /** FINALIZAR ITINERARIO FORZADO
+   * @Observations => Forzar finalizacion de curso para que se muestre en el home.
+   * @param { numbre } id => identificador del itinerario.
+   * @returns { Promise } => new Promise<string> 
+   */
+  finalizarItinerario : ( id ) =>{
+    return new Promise( async ( resolve, reject ) =>{
+
+      try{
+        custom.validateType('number', id);
+      }catch( err ){
+        reject( err );
+      }
+
+      let itiModel = new itinerarioModel();
+      let sql = itiModel.finalizarItinerarioSqlStrin( id );
+
+      try{
+
+        await con.QueryAwait('BEGIN');
+        let result = con.QueryAwait( sql );
+        let ok = con.QueryAwait('COMMIT');
+        if( ok ) resolve( result );
+
+      }catch( err ){
+        await con.QueryAwait('ROLLBACK');
+        reject( new itinerarioError('Error Itinerario', `Error al finalizar itinerario: ${err}` ) );
+      }
+
+    });
+  },
+
+   /** GET LIST ITINERARIO TOTAL
+   * @Observations : Obtiene todos las actividades.
+   * @param   { Object } req => Request controller.
+   * @returns { Promise } => new Promise.
+   */
+  getTotalList : ( ) => {
+    return new Promise( ( resolve, reject ) =>{
+
+      let sql = `
+        SELECT it.id AS id, it.nombre, it.countviewed, it.titulo, it.descripcion, it.observacion, to_char( it.fecha_itinerario, 'yyyy-MM-DD' ) AS fecha_itinerario, it.hora_itinerario, it.hora_itinerario_fin, 
+               to_char( it.fecha_alta, 'yyyy-MM-DD' ) AS fecha_alta, it.imagen, it.link, it.instructor, it.viewed, it.validado, it.finalizado,
+               ent.id as id_entidad, ent.nombre as nombre_entidad,
+	             ent.descripcion as descripcion_entidad, ent.telefono as telefono_entidad,
+	             ent.director as director_entidad, ent.ciudad as ciudad_entidad,
+               act.id AS id_actividad, act.descripcion AS descripcion_actividad
+	      FROM public.itinerario as it 
+	      INNER JOIN public.entidad as ent on it.id_entidad = ent.id
+        INNER JOIN public.actividad AS act ON act.id = ent.id_actividad
+	      WHERE it.validado = true
+        AND it.finalizado = false
+        AND ent.verificado = true
+        AND it.rechazado = false
+	      ORDER BY it.countviewed DESC
+      `;
+
+      con.select( sql, ( error, result ) =>{
+        if( !error ){
+          if( result.rows ){
+            resolve( result.rows );
+          }else{
+            reject(`There is no data.`);
+          }
+        }else{
+          reject( `Error al obtener datos : ${error}` );
+        }
+      });
+    });
+
+  },
+
 
 };
 

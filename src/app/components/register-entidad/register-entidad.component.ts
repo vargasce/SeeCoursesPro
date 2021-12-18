@@ -20,6 +20,7 @@ import { Imagenes } from 'src/app/core/global/imagenes/imagenes';
 import { ActividadesService } from 'src/app/core/service/actividades/actividades.service';
 import { Usuario_AdminService } from 'src/app/core/service/user_admin/user_admin.service';
 import { RegistrarAdminService } from 'src/app/core/service/administrador/admin-registrar.service';
+import { ImagenesService } from 'src/app/core/service/imagenes/imagenes.service';
 
 
 
@@ -78,7 +79,8 @@ export class RegisterEntidadComponent implements OnInit {
     private toastr: ToastrService,
     private _envioNotificacionService: EnvioNotificaciones,
     private _emailService: EmailService,
-    public renderer:Renderer2
+    public renderer:Renderer2,
+    public _imagenService:ImagenesService
     ) {
 
     this.registrarEntidad = this.fb.group({
@@ -95,11 +97,6 @@ export class RegisterEntidadComponent implements OnInit {
       director:['',Validators.required],
       id_actividad:['', Validators.required]
     });
-    this.imagenDefault=[
-      {id:'0',descripcion:'imagen default 0'},
-      {id:'1',descripcion:'imagen default 1'},
-      {id:'2',descripcion:'imagen default 3'},
-  ];
 
     this.registrarUsuario = this.fb.group({
       usuario:['',Validators.required],
@@ -113,6 +110,7 @@ export class RegisterEntidadComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.getPaises();
     this.getActividades();
+    this.getImagenes();
     this.adminMails= await this.getMailsAdministrador();
     (<HTMLInputElement>document.getElementById('provincias')).disabled=true;
   }
@@ -276,29 +274,17 @@ export class RegisterEntidadComponent implements OnInit {
 
   }
 
-  onChangeSelect(event:any){
-    this.imagenExist=true;
-    switch (event.target.value) {
-      case "0":
-        this.entidadModel.imagen = "defaultImageItinerario 1.jpg";
-        break;
-      case "1":
-        this.entidadModel.imagen = "defaultImageItinerario 2.jpg";
-        break;
-      case "2":
-        this.entidadModel.imagen = "defaultImageItinerario 3.jpg";
-        break;
-      case "3":
-        this.entidadModel.imagen = "defaultImageItinerario 4.jpg";
-        break;
-      case "4":
-        this.entidadModel.imagen = "defaultImageItinerario 5.jpg";
-        break;
-      case "5":
-        this.entidadModel.imagen = "defaultImageItinerario 6.jpg";
-        break;
+  getImagenes(){ 
+    this.imagenDefault = [];
+    this._imagenService.getImagenes().subscribe( response =>{
+      console.log(response) 
+      this.imagenDefault.push( ... response.ResultSet ) });     
+  }
 
-    }
+  onChangeSelect(event:any){
+    this.imagenExist = true;
+    this.entidadModel.imagen = event.target.value;
+    
   }
   validarCargaImagen(){
 

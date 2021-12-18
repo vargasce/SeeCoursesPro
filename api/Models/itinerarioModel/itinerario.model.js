@@ -283,6 +283,16 @@ class ItinerarioModel{
     return sql;
   }
 
+  /** GET SQL STRING FINALIZAR ITINERARIO
+   * @Observations : Retorna sql string consulta.
+   * @param { string } id => id de la entidad para la consulta.
+   * @returns { string } => Sql string.
+   */
+  finalizarItinerarioSqlStrin( id ){
+    let sql = `UPDATE itinerario SET finalizado = true WHERE id = ${id} ;`;
+    return sql;
+  }
+
 };
 
 module.exports = ItinerarioModel;
