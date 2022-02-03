@@ -5,6 +5,11 @@ const fn = require('../../Custom/function_custom/custom');
 const dt = require('../../Custom/dates/dates');
 const log = require('../../Services/Log/log.service');
 
+process.on('unhandledRejection', (reason, p) => {
+  console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
+  // application specific logging, throwing an error, or other logic here
+});
+
 const controller = {
   
   entidad : async ( req, res ) =>{

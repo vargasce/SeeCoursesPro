@@ -128,7 +128,8 @@ class AdministradorService{
                 let emailList = resultEmailList.rows.map( ( value, index ) =>{ return value.email });
                 if( resultEmailList ) resolve( emailList );
             }catch( err ){
-                reject( new AdministradorError('Error Administrador', `Error list email Administrador : ${err}`) );
+                throw err;
+                //reject( new AdministradorError('Error Administrador', `Error list email Administrador : ${err}`) );
             }
             
         });

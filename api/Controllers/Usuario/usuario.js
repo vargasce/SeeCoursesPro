@@ -7,8 +7,8 @@ const controller = {
 
   usuario : async ( req, res ) => {
     
-    let action = req.body. action;
-
+    let action = req.body.action;
+    console.log(action)
     try{
       fn.validateType( 'string', action );
     }catch( e ){
@@ -67,7 +67,7 @@ const controller = {
       case 'verifyUserToken' :
 
           try{
-
+              console.log( req.body.token );
               let result = await _usuarioService.verificaUsuarioEntidad( req.body.token );
               if( result ) res.status( 200 ).send({ 'error' : '', 'ResultSet' : result });
               return res.status( 200 ).send({ 'error' : 'No se pudo Autenticar el usuario.', 'ResultSet' : result });

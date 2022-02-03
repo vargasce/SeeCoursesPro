@@ -98,7 +98,6 @@ class ActividadService{
                 await con.QueryAwait('BEGIN');
                 let resultAdd = con.QueryAwait( sqlGetList );
                 let ok = await con.QueryAwait('COMMIT');
-                console.table( resultAdd );
                 if( ok ) resolve( resultAdd );
 
             }catch( err ){

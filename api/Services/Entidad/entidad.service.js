@@ -21,7 +21,7 @@ const entidadService = {
       try{
         fn.validateType( 'object', data );
       }catch( err ){
-        reject( err.getMessage() );
+        throw err;
       }
 
       let entidad = new Entidad( data );
@@ -29,17 +29,29 @@ const entidadService = {
 
       try{
 
+        con.select( sqlAdd, ( error, result ) =>{
+          if( !error ){
+            if( result.rowCount > 0 ){
+              resolve( result.rows[0] );
+            }else{
+              resolve('There is not data!!!');
+            }
+          }else{
+            reject( new EntidadError( 'Error Entidad', `Error in add Entidad : ${err}` ) );
+          }
+        });
+/*
         await con.QueryAwait('BEGIN');
         let resultAdd = await con.QueryAwait( sqlAdd ).catch( err => { throw err } );
         let ok = await con.QueryAwait('COMMIT');
         if ( ok ) resolve( resultAdd.rows[0] );
-
+        //await con.QueryAwait('ROLLBACK');
+*/
       }catch( err ){
-        await con.QueryAwait('ROLLBACK');
-        reject( new EntidadError( 'Error Entidad', `Error in add Entidad : ${err}` ) );
+        throw new EntidadError( 'Error Entidad', `Error in add Entidad : ${err}` );
       }
 
-    }).catch( error => { throw error; } );
+    });
   },
 
   /** UPDATE VERIFICADO

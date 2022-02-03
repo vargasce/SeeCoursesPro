@@ -18,25 +18,38 @@ const usuarioService = {
       
       let data = req.body.data;
 
-      //try{
+      try{
         fn.validateType( 'object', data );
-      //}catch( e ){
+      }catch( error ){
+        throw error;
         //reject( e.getMessage() );
-      //}
+      }
 
       let Usuario = new User( data );
       let sqlAdd = Usuario.getSqlString();
-      //try{
+      try{
 
-      await con.QueryAwait('BEGIN').catch( error => { throw error; } );
+        con.select( sqlAdd, ( error, result ) =>{
+          if( !error ){
+            if( result.rowCount > 0 ){
+              resolve( result.rows[0] );
+            }else{
+              resolve('There is not data!!!');
+            }
+          }else{
+            reject( `Error al realizar la consulta : ${error}` );
+          }
+        });
+/*
+        await con.QueryAwait('BEGIN').catch( error => { throw error; } );
         let resultUser = await con.QueryAwait( sqlAdd ).catch( error => { throw error; } );
         let ok = await con.QueryAwait('COMMIT').catch( error => { throw error; } );
         if( ok ) resolve( resultUser.rows[0] );
-
-      //}catch( err ){
+*/
+      }catch( err ){
         //await con.QueryAwait('ROLLBACK');
-        //throw err;
-      //}
+        throw err;
+      }
 
     }).catch( error => { throw error; } );
   },
@@ -156,11 +169,14 @@ const usuarioService = {
     verificaUsuarioEntidad : ( token ) =>{
       return new Promise( async ( resolve, reject ) =>{
 
+          console.log(token);
           try{
               fn.validateType( 'string', token );
           }catch( err ){
               reject( err );
           }
+
+          console.log("pase");
 
           try{
 

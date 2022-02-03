@@ -23,7 +23,7 @@ const selectQuery = ( sql, resultset ) =>{
 			}
 		});
 	}catch(error){
-		//console.log( error );
+		resultset( error, null );
 	}
 
 }
@@ -38,7 +38,7 @@ const selectQuery = ( sql, resultset ) =>{
  * @param { Array } valuesArray => Valores de la consulta, [id,'name','last_name', ...]. format sql  ( INERT INTO table (id, name) 	VALUES($1,$2) RETURNING * ; )
  * @returns resultset : Promise => ( async ).
  */ 
-const QueryAwait = async ( sql, valuesArray = null ) =>{
+const QueryAwait = ( sql, valuesArray = null ) =>{
 	return new Promise( async ( resolve, reject ) =>{
 		try{
 
@@ -51,9 +51,9 @@ const QueryAwait = async ( sql, valuesArray = null ) =>{
 			}
 
 		}catch( error ){
-			reject( new ConnectError( 'Error.', `Error al realizar la consulta DB, connecDB.js line 60 ( . catch() ) . Result : ${error}` ) );
+			throw new ConnectError( 'Error.', `Error al realizar la consulta DB, connecDB.js line 60 ( . catch() ) . Result : ${error}` );
 		}
-	}).catch( error => { throw error } );
+	});
 }
 
 /** SELECT QUERY AWAIT BY ID

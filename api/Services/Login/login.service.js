@@ -23,7 +23,6 @@ const loginService = {
       let tabla = req.body.tipo == 'admin' ? 'usuario_admin' : 'usuario';
 
       let sql = getSqlLogin( tabla, data )
-
       con.select( sql, ( error, result ) =>{
         if( !error ){
           if( result.rowCount > 0 ){
