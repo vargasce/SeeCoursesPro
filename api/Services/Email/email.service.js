@@ -52,10 +52,11 @@ class Email {
         if ( ok ) resolve( ok );
 
       }catch( err ){
-        reject( new EmailError( 'Error Send Email', `Error intentando enviar email : ${err}` ) )
+        throw err;
+        //reject( new EmailError( 'Error Send Email', `Error intentando enviar email : ${err}` ) )
       }
 
-    }).catch( error => { throw error; } );
+    });
   }
 
   /** NEW TRANSPORTER

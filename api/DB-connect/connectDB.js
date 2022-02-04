@@ -51,7 +51,7 @@ const QueryAwait = ( sql, valuesArray = null ) =>{
 			}
 
 		}catch( error ){
-			throw new ConnectError( 'Error.', `Error al realizar la consulta DB, connecDB.js line 60 ( . catch() ) . Result : ${error}` );
+			throw new ConnectError( 'Error.', `Error al realizar la consulta DB, connecDB.js line 54 ( . catch() ) . Result : ${error}` );
 		}
 	});
 }

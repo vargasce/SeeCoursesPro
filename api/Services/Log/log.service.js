@@ -33,7 +33,8 @@ class LogSistem{
                 if( ok ) resolve( result.rows );
             }catch( err ){
                 await QueryAwait('CALLBACK');
-                reject( new logError('Error log', `Error la insertar log del sistema : ${err}`));
+                throw err;
+                //reject( new logError('Error log', `Error la insertar log del sistema : ${err}`));
             }
 
         });
