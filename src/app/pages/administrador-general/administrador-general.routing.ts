@@ -14,6 +14,7 @@ import { ImagenesComponent } from '../imagenes/imagenes.component';
 import { EmailComponent } from '../email/email.component';
 import { EliminarCursosComponent } from '../eliminar-cursos/eliminar-cursos.component';
 import { AgregarImagenesComponent } from 'src/app/components/agregar-imagenes/agregar-imagenes.component';
+import { EntidadesListComponent } from '../entidades-list/entidades-list.component';
 
 
 
@@ -34,6 +35,7 @@ const routes: Routes = [
         { path : 'imagenes', component : ImagenesComponent },
         { path : 'email', component : EmailComponent },
         { path : 'eliminarCurso', component : EliminarCursosComponent },
+        { path : 'entidades', component : EntidadesListComponent },
         { path : 'agregarImagenes', component : AgregarImagenesComponent },
         { path : 'imagenes/editarImagenes/:id', component : AgregarImagenesComponent },
 

@@ -86,23 +86,23 @@ export class RegisterEntidadComponent implements OnInit {
     this.registrarEntidad = this.fb.group({
       id_provincia:['',Validators.required],
       id_pais:['',Validators.required],
-      descripcion:['',Validators.required],
+     // descripcion:['',Validators.required],
       web:['',Validators.required],
       email:['',Validators.required],
       nombre:['',Validators.required],
       direccion:['',Validators.required],
       telefono:['',Validators.required],
-      cuit:['',Validators.required],
+     // cuit:['',Validators.required],
       ciudad:['',Validators.required],
-      director:['',Validators.required],
-      id_actividad:['', Validators.required]
+     // director:['',Validators.required],
+     // id_actividad:['', Validators.required]
     });
 
     this.registrarUsuario = this.fb.group({
       usuario:['',Validators.required],
       pass:['',Validators.required],
     })
-    this.entidadModel = new EntidadModel(0,0,0,0,"","","",false,"","","","","","","",0);
+    this.entidadModel = new EntidadModel(0,0,0,0,"","","",false,"","","","","","","",1);
     this.usuarioModel = new UsuarioModel(0,"","","",true);
     this.img  = new Imagenes(this._uploadFileService);
    }
@@ -128,7 +128,7 @@ export class RegisterEntidadComponent implements OnInit {
     this.validarProvincias();
     this.validarCargaImagen();
     this.confirmarContrasena();
-    if (this.cuitValido && this.mailValido &&this.validarProv && this.validarPais && this.validarImagen &&!this.usuarioExistente){
+    if (/*this.cuitValido &&*/ this.mailValido &&this.validarProv && this.validarPais && this.validarImagen &&!this.usuarioExistente){
       if (!this.registrarEntidad.invalid && !this.registrarUsuario.invalid && this.validarPass) {
         this.registrarComoEntidad();
       } else {

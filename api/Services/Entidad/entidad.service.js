@@ -31,11 +31,7 @@ const entidadService = {
 
         con.select( sqlAdd, ( error, result ) =>{
           if( !error ){
-            if( result.rowCount > 0 ){
-              resolve( result.rows[0] );
-            }else{
-              resolve('There is not data!!!');
-            }
+            resolve( result.rows[0] );
           }else{
             reject( new EntidadError( 'Error Entidad', `Error in add Entidad : ${err}` ) );
           }
@@ -290,6 +286,55 @@ const entidadService = {
       }
    
     });
+  },
+
+  /** LIST ENTIDAD PAGINADO
+   * @Observations : List entidad paginado.
+   * @param   { Object } req => Request del controller.
+   * @returns { Promise } => new Promise.
+   */
+  ListEntidadPaginado : ( req ) => {
+    return new Promise( ( resolve, reject ) =>{
+      
+      let pag = req.body.data;
+
+      try{
+        fn.validateType( 'object', pag );
+      }catch( err ){
+        reject( err.getMessage() );
+      }
+
+      let entidad = new Entidad();
+      let sql;
+
+      try{
+        sql = entidad.getSqlStringListPaginado( pag );
+      }catch( err ){
+        reject( err.getMessage() );
+      }
+
+      con.select( sql, ( error, resultRows ) =>{
+
+        if( !error ){
+
+          con.select(`SELECT Count(*) FROM entidad WHERE verificado = true ;`, ( error, resultCount )=>{
+
+            if( !error ){
+              resolve({ 'count': resultCount.rows[0].count , 'rows': resultRows.rows});
+            }else{
+              reject([]);
+            }
+
+          });
+
+        }else{
+          resolve( error );
+        }
+
+      });
+
+    });
+
   }
 
 };

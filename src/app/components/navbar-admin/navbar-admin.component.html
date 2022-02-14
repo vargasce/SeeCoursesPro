@@ -32,6 +32,10 @@
                     <a class="nav-link" [routerLink]="['/adminGeneral/eliminarCurso']">Eliminar Actividad</a>
                 </li>
 
+                <li *ngIf="adminGeneralRol==1 || adminGeneralRol==99 || adminGeneralRol== 2" class="nav-item" routerLinkActive="active">
+                    <a class="nav-link" [routerLink]="['/adminGeneral/entidades']">Entidades</a>
+                </li>
+
                 <li *ngIf="adminGeneralRol==1 || adminGeneralRol==99" class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">

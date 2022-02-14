@@ -96,6 +96,18 @@ const controller = {
 
       break;
 
+      case 'listEntidadPaginado':
+
+        try{
+          let resultAdd = await _entidadService.ListEntidadPaginado( req );
+          return res.status(200).send({ 'error' : '', 'ResultSet' : resultAdd });
+        }catch( err ){
+          return res.status(500).send({ 'error' : `Error : ${ err }` });
+        }
+
+      break;
+
+
       default :
         return res.status(500).send({ 'error': `Accion no definida.` });
     }

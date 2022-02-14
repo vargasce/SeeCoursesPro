@@ -1,0 +1,31 @@
+<app-navbar-admin></app-navbar-admin>
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-body">
+            <span class="h3">Entidades
+            </span>
+            <h1 class="mt-3"  *ngIf="entidades.length==0">No hay Entidades</h1>                
+            <table id="tabla-responsiva" *ngIf ="entidades.length > 0" class="table table-striped mt-2 tablaLab">
+                <thead>
+                    <tr class="noHover">
+                        <th>Nombre</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let entidad of entidades">
+                        <td> {{entidad.nombre}} </td>
+                    </tr>
+                </tbody>
+                <nav aria-label="Page navigation example" style="align-content: center;">
+                    <ul class="pagination">
+                      <li class="page-item"><a class="page-link" (click)="previous()">Previous</a></li>
+                      <li class="page-item" *ngFor="let item of vector" (click)="indexPagina(item)">
+                         <a class="page-link">{{item}}</a>
+                     </li>
+                      <li class="page-item"><a class="page-link" (click)="next()">Next</a></li>
+                    </ul>
+                  </nav>
+            </table>
+        </div>
+    </div>
+</div>

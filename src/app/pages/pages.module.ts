@@ -32,6 +32,7 @@ import { ImagenesComponent } from './imagenes/imagenes.component';
 import { EmailComponent } from './email/email.component';
 import { EliminarCursosComponent } from './eliminar-cursos/eliminar-cursos.component';
 import { AddImagenComponent } from './add-imagen/add-imagen.component';
+import { EntidadesListComponent } from './entidades-list/entidades-list.component';
 
 
 //IMPORTS YOUR PAGES MAIN FOR SYSTEM 
@@ -59,6 +60,7 @@ import { AddImagenComponent } from './add-imagen/add-imagen.component';
         EmailComponent,
         EliminarCursosComponent,
         AddImagenComponent,
+        EntidadesListComponent,
 
 
     ],

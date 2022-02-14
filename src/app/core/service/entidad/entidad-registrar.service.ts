@@ -44,6 +44,17 @@ export class RegistrarEntidadService {
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }
 
+    getEntidades(skip:number,take:number){
+        let headers = { headers : environment.headers };
+        let send ={
+            'action' : "listEntidadPaginado",
+            'data'   : {
+                Skip:skip,
+                Take:take
+            }
+        }
+        return this.http.post<any>( environment.apiURL + this.controller , send, headers ); 
+    }
     
 
 }

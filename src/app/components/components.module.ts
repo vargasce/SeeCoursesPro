@@ -35,6 +35,7 @@ import { DeleteCursosComponent } from './delete-cursos/delete-cursos.component';
 import { ChangeEmailComponent } from './change-email/change-email.component';
 import { AgregarImagenesComponent } from './agregar-imagenes/agregar-imagenes.component';
 import { DialogEliminarCursoComponent } from './dialog-eliminar-curso/dialog-eliminar-curso.component';
+import { ListarEntidadesComponent } from './listar-entidades/listar-entidades.component';
 
 
 
@@ -68,6 +69,7 @@ import { DialogEliminarCursoComponent } from './dialog-eliminar-curso/dialog-eli
         ChangeEmailComponent,
         AgregarImagenesComponent,
         DialogEliminarCursoComponent,
+        ListarEntidadesComponent,
         
 
        
@@ -105,6 +107,7 @@ import { DialogEliminarCursoComponent } from './dialog-eliminar-curso/dialog-eli
         ActualizarClaveComponent,
         ImagenesPorDefectoComponent,
         ChangeEmailComponent,
+        ListarEntidadesComponent,
         DeleteCursosComponent
 
     ],

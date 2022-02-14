@@ -145,6 +145,12 @@ class Entidad{
       paginador : pag
     };
   }
+
+  getSqlStringListPaginado( pag ){
+    let sql = `SELECT * FROM entidad WHERE verificado = true LIMIT ${pag.Take} OFFSET ${pag.Skip} ;`;
+    return sql;
+  }
+
   
   getSqlStringById(){
     let sql = `SELECT * FROM entidad WHERE id = ${this.getId()}`;
