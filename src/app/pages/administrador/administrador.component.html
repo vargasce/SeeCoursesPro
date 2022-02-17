@@ -102,6 +102,12 @@
             <p> <b>Hora: </b>{{notificacion.hora_itinerario}}</p>
             <p> <b>Fecha de alta: </b>{{notificacion.fecha_alta_itinerario}}</p>
             <p> <b>Link: </b>{{notificacion.link_itinerario}}</p>
+            <p> <b>Tipo de actividad: </b>{{notificacion.actividad_entidad}}</p>
+            <p> <b>Pais: </b>{{notificacion.pais_entidad}}</p>
+            <p> <b>Provincia: </b>{{notificacion.provincia_entidad}}</p>
+            <p> <b>Localidad: </b>{{notificacion.descripcion_localidad}}</p>
+            <p> <b>Telefono: </b>{{notificacion.telefono_consulta}}</p>
+            <p> <b>Email: </b>{{notificacion.email_consulta}}</p>
             <img src="{{getStringImg(notificacion.imagen_itinerario)}}"  class="card-img-top"alt="">
           </div>
           <div class="modal-footer">
@@ -123,12 +129,8 @@
           </div>
           <div class="modal-body">
             <p> <b>Nombre entidad: </b>{{entidad.nombre_entidad}}</p>
-            <p> <b>Cuit: </b>{{entidad.cuit_entidad}}</p>
-            <p> <b>Actividad: </b>{{entidad.actividad_entidad}}</p>
             <p> <b>Dirección: </b>{{entidad.direccion_entidad}}</p>
             <p> <b>Telefono: </b>{{entidad.telefono_entidad}}</p>
-            <p> <b>Pais: </b>{{entidad.pais_entidad}}</p>
-            <p> <b>Provincia: </b>{{entidad.provincia_entidad}}</p>
             <p> <b>Ciudad: </b>{{entidad.cuit_entidad}}</p>
             <p> <b>Director: </b>{{entidad.director_entidad}}</p>
             <p> <b>Email: </b>{{entidad.email_entidad}}</p>

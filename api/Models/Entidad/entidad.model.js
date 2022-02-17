@@ -147,7 +147,15 @@ class Entidad{
   }
 
   getSqlStringListPaginado( pag ){
-    let sql = `SELECT * FROM entidad WHERE verificado = true LIMIT ${pag.Take} OFFSET ${pag.Skip} ;`;
+    let sql = `SELECT 
+              ent.id, ent.nombre, ent.descripcion, ent.web, ent.email, ent.verificado, ent.direccion, ent.telefono, ent.ciudad, ent.director,
+              pa.descripcion AS pais_entidad,
+              pro.descripcion AS provincia_entidad
+              FROM entidad AS ent   
+              INNER JOIN pais AS pa ON pa.id = ent.id_pais 
+              INNER JOIN provincia AS pro ON pro.id = ent.id_provincia
+              WHERE verificado = true 
+              LIMIT ${pag.Take} OFFSET ${pag.Skip} ;`;
     return sql;
   }
 

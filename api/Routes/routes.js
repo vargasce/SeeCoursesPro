@@ -14,6 +14,7 @@ const Administrador = require('../Controllers/Administrador/administrador');
 const UsuarioAdmin = require('../Controllers/Usuario_Admin/usuario_admin.controller');
 const Actividad = require('../Controllers/Actividad/actividad');
 const Imagen = require('../Controllers/Imagen/imagen');
+const Localidad = require('../Controllers/Localidad/localidades');
 
 const router = express.Router();
 
@@ -34,6 +35,7 @@ router.post('/administrador', Administrador.administradorController ) // CONTROL
 router.post('/usuario_admin', UsuarioAdmin.usuario_admin );           // CONTROLLER USUARIO ADMIN
 router.post('/actividad', Actividad.actividad );                      // CONTROLLER ACTIVIDAD
 router.post('/imagen', Imagen.imagen );                               // CONTROLER IMAGEN
+router.post('/localidad', Localidad.localidad );                               // CONTROLER LOCALIDADES
 
 module.exports = router;
 

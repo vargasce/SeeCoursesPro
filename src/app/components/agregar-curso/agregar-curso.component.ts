@@ -14,6 +14,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogoFechasComponent } from '../dialogo-fechas/dialogo-fechas.component';
 import { RegistrarAdminService } from 'src/app/core/service/administrador/admin-registrar.service';
 import { ImagenesService } from 'src/app/core/service/imagenes/imagenes.service';
+import { ActividadesService } from 'src/app/core/service/actividades/actividades.service';
+import { PaisService } from 'src/app/core/service/paises/paises.service';
+import { ProvinciasService } from 'src/app/core/service/provincias/provincias.service';
+import { LocalidadesService } from 'src/app/core/service/localidades/localidades.service';
 
 
 
@@ -29,6 +33,8 @@ export class AgregarCursoComponent implements OnInit {
   @ViewChild('hora_itinerario') hora_itinerario:ElementRef | undefined;
   @ViewChild('hora_itinerario_fin') hora_itinerario_fin:ElementRef | undefined;
   @ViewChild('selectorDeImagenPorDefecto') selectorDeImagenPorDefecto:ElementRef | undefined;
+  @ViewChild('id_paisForm') id_paisForm:ElementRef | undefined;
+  @ViewChild('id_provinciasForm') id_provinciasForm:ElementRef | undefined;
 
   agregarCurso : FormGroup;
   submitted= false;
@@ -54,6 +60,14 @@ export class AgregarCursoComponent implements OnInit {
   errorFechas:boolean= false;
   editImagen:boolean= false;
   adminMails:string[]=[];
+  actividades:any[]=[];
+  paises:any[]=[];
+  provincias:any[]=[];
+  localidades:any[]=[];
+  validarPais:boolean = true;
+  validarProv:boolean = true;
+  validarActividad:boolean = true;
+  validarLocalidad:boolean = true;
 
 
   constructor(
@@ -70,7 +84,11 @@ export class AgregarCursoComponent implements OnInit {
     public renderer:Renderer2,
     public dialogo: MatDialog,
     private _adminService:RegistrarAdminService,
-    private _imagenService:ImagenesService
+    private _imagenService:ImagenesService,
+    private _actividadesService:ActividadesService,
+    private _paisesService: PaisService,
+    private _provinciasService: ProvinciasService,
+    private _localidadesService: LocalidadesService,
     ) {
     this.agregarCurso = this.fb.group({
       nombre:['',Validators.required],
@@ -81,18 +99,28 @@ export class AgregarCursoComponent implements OnInit {
       hora_itinerario:['',Validators.required],
       hora_itinerario_fin:['',Validators.required],
       link:['',Validators.required],
-      instructor:['',Validators.required]
+      instructor:['',Validators.required],
+      id_actividad:['',Validators.required],
+      id_pais:['',Validators.required],
+      id_provincia:['',Validators.required],
+      id_localidad:['',Validators.required],
+      telefono_consulta:['',Validators.required],
+      email_consulta:['',Validators.required],
     });
     
     this.id = Number(sessionStorage.getItem('id_entidad')) //capturo el id del registro que quiero modificar
-    this.itinerarioModel = new ItinerarioModel(0,Number(sessionStorage.getItem('id_entidad')),"","","","","","","",this.fechas.currentDate(),"","","",false,false,false,false);
+    this.itinerarioModel = new ItinerarioModel(0,Number(sessionStorage.getItem('id_entidad')),"","","","","","","",this.fechas.currentDate(),"","","",false,false,false,false,0,0,0,0,"","");
     this.img  = new Imagenes(this._uploadFileService);
   }
 
   async ngOnInit(): Promise<void> {
     (<HTMLInputElement>document.getElementById('hora_itinerario_fin')).disabled=true;
+    (<HTMLInputElement>document.getElementById('provincias')).disabled=true;
+    (<HTMLInputElement>document.getElementById('localidades')).disabled=true;
     this.getImagenes();
     this.esEditar();
+    this.getActividades();
+    this.getPaises();
     this.adminMails= await this.getMailsAdministrador();
   }
 
@@ -202,8 +230,12 @@ export class AgregarCursoComponent implements OnInit {
 
       this.submitted = true;
       this.validarCargaImagen();
+      this.validarPaises();
+      this.validarProvincias();
+      this.validarLocalidades();
+      this.validarActividades();
     
-      if (!this.agregarCurso.invalid && this.validarImagen && !this.errorFechas ) {
+      if (!this.agregarCurso.invalid && this.validarImagen && !this.errorFechas &&this.validarProv && this.validarPais && this.validarActividad && this.validarLocalidad) {
         let fechasVerificadas = await this.verificarFechaCurso();
         if(fechasVerificadas && this.conservarHorario){
           if (this.id_curso == 0) { // si el id es 0 agrego un nuevo laboratorio, sino lo edito
@@ -410,8 +442,21 @@ export class AgregarCursoComponent implements OnInit {
         this.editImagen = false;
       }
     });
+
+    this.renderer.listen(this.id_paisForm?.nativeElement,'change',event =>{
+      (<HTMLInputElement>document.getElementById('provincias')).disabled=false;
+      this.getProvincias(Number(this.itinerarioModel.id_pais));
+
+    });
+
+    this.renderer.listen(this.id_provinciasForm?.nativeElement,'change',event =>{
+      (<HTMLInputElement>document.getElementById('localidades')).disabled=false;
+      this.getLocalidades(Number(this.itinerarioModel.id_provincia));
+
+    });
   }
 
+  
   getImagenes(){ 
     this.imagenDefault = [];
     this._imagenService.getImagenes().subscribe( response =>{
@@ -491,6 +536,76 @@ export class AgregarCursoComponent implements OnInit {
           });
         });
     }) 
+  }
+  getActividades(){
+    this._actividadesService.getActividades().subscribe(Response=>{
+      this.actividades.push( ... Response.ResultSet.rows )
+    })
+  }
+
+  getPaises(){
+    this._paisesService.getPaises().subscribe(Response=>{
+      this.paises = [];
+      Response.Resultset.forEach((element:any) => {
+        this.paises.push({ // guardo la lista de laboratorios en el array laboratorios
+          ...element
+        })
+      });
+      this.itinerarioModel.id_pais=0;
+    })
+  }
+
+  getProvincias(id_pais:number){
+    this._provinciasService.getProvinciasByIdPais(id_pais).subscribe(Response=>{
+      this.provincias = [];
+      Response.Resultset.forEach((element:any) => {
+        this.provincias.push({ // guardo la lista de laboratorios en el array laboratorios
+          ...element
+        })
+      });
+    })
+  }
+
+  getLocalidades(id_provincia:number){
+    this._localidadesService.getLocalidadesByIdProvincia(id_provincia).subscribe(Response=>{
+      this.localidades = [];
+      Response.Resultset.forEach((element:any) => {
+        this.localidades.push({ // guardo la lista de laboratorios en el array laboratorios
+          ...element
+        })
+      });
+    })
+  }
+
+  validarPaises(){
+    if(this.itinerarioModel.id_pais==0){
+      this.validarPais = false;
+    }else{
+      this.validarPais = true;
+    }
+  }
+
+  validarProvincias(){
+    if(this.itinerarioModel.id_provincia==0){
+      this.validarProv = false;
+    }else{
+      this.validarProv = true;
+    }
+  }
+  validarActividades(){
+    if(this.itinerarioModel.id_actividad==0){
+      this.validarActividad = false;
+    }else{
+      this.validarActividad = true;
+    }
+  }
+
+  validarLocalidades(){
+    if(this.itinerarioModel.id_localidad==0){
+      this.validarLocalidad = false;
+    }else{
+      this.validarLocalidad = true;
+    }
   }
     
 }

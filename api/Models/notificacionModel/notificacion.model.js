@@ -141,119 +141,103 @@ class Notificacion {
   getSqlStringById( filtro = null ){
     let sql;
 
-    if( filtro.id ){ // POR ENTIDAD
+    if( filtro.es_entidad == false ){ // POR ENTIDAD
       sql = `
-        SELECT noti.id,
-               noti.id_entidad,
-               noti.id_estado,
-               noti.visto,
-               noti.es_admin,
-               noti.pendiente,
-               noti.descripcion,
-               noti.observacion,
-               to_char(noti.fecha, 'yyyy-MM-DD') AS fecha,
-               noti.es_curso,
-               noti.id_curso,
-               it.id AS id_itinerario,
-               it.id_entidad AS id_entidad_itinerario,
-               it.nombre AS nombre_itinerario,
-               it.titulo AS titulo_itinerario,
-               it.descripcion AS descripcion_itinerario,
-               it.observacion AS observacion_itinerario,
-               to_char( it.fecha_itinerario, 'yyyy-MM-DD' ) AS fecha_itinerario,
-               it.hora_itinerario,
-               to_char( it.fecha_alta, 'yyyy-MM-DD' ) AS fecha_alta_itinerario,
-               it.imagen AS imagen_itinerario,
-               it.link AS link_itinerario,
-               it.instructor AS instructor_itinerario, 
-               it.viewed AS viewed_itinerario,
-               it.validado AS validado_itinerario,
-               it.finalizado AS finalizado_itinerario,
-               enti.nombre AS nombre_entidad,
-               enti.email AS email_entidad,
-               enti.id AS id_entidad_table,
-               enti.id_provincia AS provincia_entidad,
-               enti.id_pais AS pais_entidad,
-               enti.descripcion AS descripcion_entidad,
-               enti.web AS web_entidad,
-               enti.direccion AS direccion_entidad,
-               enti.telefono AS telefono_entidad,
-               enti.imagen AS imagen_entidad,
-               enti.cuit AS cuit_entidad,
-               enti.ciudad AS ciudad_entidad,
-               enti.director AS director_entidad,
-               pas.descripcion AS pais_entidad,
-               prov.descripcion as provincia_entidad,
-               act.descripcion AS actividad_entidad
-        FROM notificacion AS noti
-        FULL OUTER JOIN itinerario AS it 
-        ON noti.id_curso = it.id
-        INNER JOIN entidad AS enti 
-        ON enti.id = noti.id_entidad
-        INNER JOIN pais AS pas 
-        ON pas.id = enti.id_pais
-        INNER JOIN provincia AS prov
-        ON prov.id = enti.id_provincia
-        INNER JOIN actividad AS act 
-        ON act.id = enti.id_actividad
-        WHERE noti.id_entidad = ${filtro.id}
-        ORDER BY noti.id DESC
-      ;`;
+      SELECT noti.id,
+      noti.id_entidad,
+      noti.id_estado,
+      noti.visto,
+      noti.es_admin,
+      noti.pendiente,
+      noti.descripcion,
+      noti.observacion,
+      to_char( noti.fecha, 'yyyy-MM-DD' ) AS fecha,
+      noti.es_curso,
+      noti.id_curso,
+      it.id AS id_itinerario,
+      it.id_entidad AS id_entidad_itinerario,
+      it.nombre AS nombre_itinerario,
+      it.titulo AS titulo_itinerario,
+      it.descripcion AS descripcion_itinerario,
+      it.observacion AS observacion_itinerario,
+      to_char( it.fecha_itinerario, 'yyyy-MM-DD' ) AS fecha_itinerario,
+      it.hora_itinerario,
+      to_char( it.fecha_alta, 'yyyy-MM-DD' ) AS fecha_alta_itinerario,
+      it.imagen AS imagen_itinerario,
+      it.link AS link_itinerario,
+      it.instructor AS instructor_itinerario, 
+      it.viewed AS viewed_itinerario,
+      it.validado AS validado_itinerario,
+      it.finalizado AS finalizado_itinerario,
+      enti.id AS id_entidad_table,
+      enti.verificado AS verificado_entidad_table,
+      enti.nombre AS nombre_entidad_table,
+      enti.nombre AS nombre_entidad,
+      enti.email AS email_entidad,
+      enti.id AS id_entidad_table,
+      enti.id_provincia AS provincia_entidad,
+      enti.id_pais AS pais_entidad,
+      enti.descripcion AS descripcion_entidad,
+      enti.web AS web_entidad,
+      enti.direccion AS direccion_entidad,
+      enti.telefono AS telefono_entidad,
+      enti.imagen AS imagen_entidad,
+      enti.cuit AS cuit_entidad,
+      enti.ciudad AS ciudad_entidad,
+      enti.director AS director_entidad,
+      pas.descripcion AS pais_entidad,
+      prov.descripcion as provincia_entidad,
+      act.descripcion AS actividad_entidad,
+      loca.id AS id_localidad,
+      loca.descripcion AS descripcion_localidad,
+      it.email_consulta,
+      it.telefono_consulta
+FROM notificacion AS noti
+FULL OUTER JOIN itinerario AS it ON noti.id_curso = it.id
+INNER JOIN entidad AS enti ON enti.id = noti.id_entidad
+INNER JOIN pais AS pas ON pas.id = it.id_pais
+INNER JOIN provincia AS prov ON prov.id = it.id_provincia
+INNER JOIN localidad AS loca ON loca.id = it.id_localidad
+INNER JOIN actividad AS act ON act.id = it.id_actividad
+WHERE enti.verificado = true AND noti.pendiente = true and noti.es_admin = true
+AND noti.es_curso = true
+ORDER BY noti.id DESC
+      `;
     }else{
       sql = `
-        SELECT noti.id,
-               noti.id_entidad,
-               noti.id_estado,
-               noti.visto,
-               noti.es_admin,
-               noti.pendiente,
-               noti.descripcion,
-               noti.observacion,
-               to_char( noti.fecha, 'yyyy-MM-DD' ) AS fecha,
-               noti.es_curso,
-               noti.id_curso,
-               it.id AS id_itinerario,
-               it.id_entidad AS id_entidad_itinerario,
-               it.nombre AS nombre_itinerario,
-               it.titulo AS titulo_itinerario,
-               it.descripcion AS descripcion_itinerario,
-               it.observacion AS observacion_itinerario,
-               to_char( it.fecha_itinerario, 'yyyy-MM-DD' ) AS fecha_itinerario,
-               it.hora_itinerario,
-               to_char( it.fecha_alta, 'yyyy-MM-DD' ) AS fecha_alta_itinerario,
-               it.imagen AS imagen_itinerario,
-               it.link AS link_itinerario,
-               it.instructor AS instructor_itinerario, 
-               it.viewed AS viewed_itinerario,
-               it.validado AS validado_itinerario,
-               it.finalizado AS finalizado_itinerario,
-               enti.id AS id_entidad_table,
-               enti.verificado AS verificado_entidad_table,
-               enti.nombre AS nombre_entidad_table,
-               enti.nombre AS nombre_entidad,
-               enti.email AS email_entidad,
-               enti.id AS id_entidad_table,
-               enti.id_provincia AS provincia_entidad,
-               enti.id_pais AS pais_entidad,
-               enti.descripcion AS descripcion_entidad,
-               enti.web AS web_entidad,
-               enti.direccion AS direccion_entidad,
-               enti.telefono AS telefono_entidad,
-               enti.imagen AS imagen_entidad,
-               enti.cuit AS cuit_entidad,
-               enti.ciudad AS ciudad_entidad,
-               enti.director AS director_entidad,
-               pas.descripcion AS pais_entidad,
-               prov.descripcion as provincia_entidad,
-               act.descripcion AS actividad_entidad
-        FROM notificacion AS noti
-        FULL OUTER JOIN itinerario AS it ON noti.id_curso = it.id
-        INNER JOIN entidad AS enti       ON enti.id = noti.id_entidad
-        INNER JOIN pais as pas ON pas.id = enti.id_pais
-        INNER JOIN provincia AS prov ON prov.id = enti.id_provincia
-        INNER JOIN actividad AS act ON act.id = enti.id_actividad
-        ;`;
+       
+      SELECT
+      noti.id,
+      noti.descripcion,
+      noti.fecha,
+    enti.id AS id_entidad_table,
+        enti.verificado AS verificado_entidad_table,
+        enti.nombre AS nombre_entidad_table,
+        enti.nombre AS nombre_entidad,
+        enti.email AS email_entidad,
+        enti.id AS id_entidad_table,
+        enti.id_provincia AS provincia_entidad,
+        enti.id_pais AS pais_entidad,
+        enti.descripcion AS descripcion_entidad,
+        enti.web AS web_entidad,
+        enti.direccion AS direccion_entidad,
+        enti.telefono AS telefono_entidad,
+        enti.imagen AS imagen_entidad,
+        enti.cuit AS cuit_entidad,
+        enti.ciudad AS ciudad_entidad,
+        enti.director AS director_entidad,
+      pas.id AS id_pais,
+      pas.descripcion AS descripcion_pais,
+      prov.id AS id_provincia,
+      prov.descripcion AS descripcion_provincia
+          FROM notificacion AS noti
+          INNER JOIN entidad AS enti ON enti.id = noti.id_entidad
+      INNER JOIN pais AS pas ON pas.id = enti.id_pais
+          INNER JOIN provincia AS prov ON prov.id = enti.id_provincia
+      WHERE enti.verificado = false AND noti.pendiente = true AND noti.es_admin = true AND noti.es_curso = false
+          ORDER BY noti.id DESC;;`;
     }
+
 
     return sql;
   }
@@ -300,7 +284,94 @@ class Notificacion {
     return sql;
   }
 
+  /** OBTENER LISTA DE NOTIFICACIONES PARA ENTIDAD
+   * @Observations => Lista de notificaciones
+   * @returns { string }
+   */
+  getSqlStringListNotiEntidad(){
+
+    let sql = `
+      SELECT id, id_entidad, id_estado, visto, es_admin, pendiente, descripcion, observacion, fecha, es_curso, id_curso
+	    FROM public.notificacion
+	    WHERE visto = false AND pendiente = true AND es_admin = true
+      ORDER BY id ASC;
+    `;
+
+    return sql;
+  }
+
 }
 
 
 module.exports = Notificacion;
+
+/**
+ *  SELECT noti.id,
+               noti.id_entidad,
+               noti.id_estado,
+               noti.visto,
+               noti.es_admin,
+               noti.pendiente,
+               noti.descripcion,
+               noti.observacion,
+               to_char( noti.fecha, 'yyyy-MM-DD' ) AS fecha,
+               noti.es_curso,
+               noti.id_curso,
+               it.id AS id_itinerario,
+               it.id_entidad AS id_entidad_itinerario,
+               it.nombre AS nombre_itinerario,
+               it.titulo AS titulo_itinerario,
+               it.descripcion AS descripcion_itinerario,
+               it.observacion AS observacion_itinerario,
+               to_char( it.fecha_itinerario, 'yyyy-MM-DD' ) AS fecha_itinerario,
+               it.hora_itinerario,
+               to_char( it.fecha_alta, 'yyyy-MM-DD' ) AS fecha_alta_itinerario,
+               it.imagen AS imagen_itinerario,
+               it.link AS link_itinerario,
+               it.instructor AS instructor_itinerario, 
+               it.viewed AS viewed_itinerario,
+               it.validado AS validado_itinerario,
+               it.finalizado AS finalizado_itinerario,
+               enti.id AS id_entidad_table,
+               enti.verificado AS verificado_entidad_table,
+               enti.nombre AS nombre_entidad_table,
+               enti.nombre AS nombre_entidad,
+               enti.email AS email_entidad,
+               enti.id AS id_entidad_table,
+               enti.id_provincia AS provincia_entidad,
+               enti.id_pais AS pais_entidad,
+               enti.descripcion AS descripcion_entidad,
+               enti.web AS web_entidad,
+               enti.direccion AS direccion_entidad,
+               enti.telefono AS telefono_entidad,
+               enti.imagen AS imagen_entidad,
+               enti.cuit AS cuit_entidad,
+               enti.ciudad AS ciudad_entidad,
+               enti.director AS director_entidad,
+               pas.descripcion AS pais_entidad,
+               prov.descripcion as provincia_entidad,
+               act.descripcion AS actividad_entidad,
+               loca.id AS id_localidad,
+               loca.descripcion AS descripcion_localidad,
+               it.email_consulta,
+               it.telefono_consulta
+        FROM notificacion AS noti
+        FULL OUTER JOIN itinerario AS it ON noti.id_curso = it.id
+        INNER JOIN entidad AS enti ON enti.id = noti.id_entidad
+        INNER JOIN pais AS pas ON pas.id = it.id_pais
+        INNER JOIN provincia AS prov ON prov.id = it.id_provincia
+        INNER JOIN localidad AS loca ON loca.id = it.id_localidad
+        INNER JOIN actividad AS act ON act.id = it.id_actividad
+		WHERE enti.verificado = true AND noti.pendiente = true and noti.es_admin = true
+			   AND noti.es_curso = true
+        ORDER BY noti.id DESC
+
+
+
+
+  SELECT id, id_entidad, id_estado, visto, es_admin, pendiente, descripcion, observacion, fecha, es_curso, id_curso
+	FROM public.notificacion
+	where visto = false AND pendiente = true AND es_admin = true;
+
+
+ */

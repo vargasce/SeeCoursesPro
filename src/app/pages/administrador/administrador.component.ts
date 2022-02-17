@@ -57,30 +57,34 @@ export class AdministradorComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.getNotificaciones();
+    this.getNotificacionesEntidad(); 
+    this.getNotificacionesActividad();
     this.comprobarPassActualizado();
     this.emailAdministrador= sessionStorage.getItem('email_administrador');
 
   }
 
-  getNotificaciones(){
-    this.notificaciones=[];
-    this.entidades=[];
-   this._administradorService.getNotificaciones().subscribe(
+  getNotificacionesEntidad(){
+  this.entidades=[];
+   this._administradorService.getNotificacionesEntidad().subscribe(
       Response =>{
         Response.ResultSet.forEach((element:any) => {
-          if(element.pendiente && element.es_admin){
-            if(element.es_curso && element.verificado_entidad_table){
-              this.notificaciones.push({
-                ...element 
-              })
-            }
-            if(!element.es_curso && !element.verificado_entidad_table){
               this.entidades.push({
                 ...element 
               })
-            }
-          }
+        });
+      }); 
+
+  }
+
+  getNotificacionesActividad(){
+    this.notificaciones=[];
+   this._administradorService.getNotificacionesActividad().subscribe(
+      Response =>{
+        Response.ResultSet.forEach((element:any) => {
+          this.notificaciones.push({
+            ...element 
+          })
         });
       }); 
 
@@ -198,7 +202,8 @@ export class AdministradorComponent implements OnInit {
         }
       })
       this._administradorService.enviarNotificacionEntidad(notif).subscribe(Response =>{
-        this.getNotificaciones();
+        this.getNotificacionesActividad();
+        this.getNotificacionesEntidad();
       });
     });
 
@@ -243,7 +248,8 @@ export class AdministradorComponent implements OnInit {
         }
       })
       this._administradorService.enviarNotificacionEntidad(notif).subscribe(Response =>{
-        this.getNotificaciones();
+        this.getNotificacionesActividad();
+        this.getNotificacionesEntidad();
       });
     });
     
@@ -288,7 +294,8 @@ export class AdministradorComponent implements OnInit {
         }
       });
       this._administradorService.enviarNotificacionEntidad(notif).subscribe(Response =>{
-        this.getNotificaciones();
+        this.getNotificacionesActividad();
+        this.getNotificacionesEntidad();
       });
     });
 
@@ -333,7 +340,8 @@ export class AdministradorComponent implements OnInit {
         }
       });
       this._administradorService.enviarNotificacionEntidad(notif).subscribe(Response =>{
-        this.getNotificaciones();
+        this.getNotificacionesActividad();
+        this.getNotificacionesEntidad();
       });
     });
 
@@ -348,7 +356,8 @@ export class AdministradorComponent implements OnInit {
  * 
  */
  public updateGrid(){
-  this.getNotificaciones();
+  this.getNotificacionesActividad();
+  this.getNotificacionesEntidad();
  }
 
  public getStringImg(imagen:string):string{

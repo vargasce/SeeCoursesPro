@@ -16,12 +16,23 @@ export class AdministradorService {
 
     }
 
-    getNotificaciones(): Observable<any>{
+    getNotificacionesEntidad(): Observable<any>{
         let headers = { headers : environment.headers };
         let send ={
             'action' : "getNotificacion",
             'filtro' : {
-                id:null
+                es_entidad:true
+            }
+        }
+        return this.http.post<any>( environment.apiURL + this.controller , send, headers );
+    }
+
+    getNotificacionesActividad(): Observable<any>{
+        let headers = { headers : environment.headers };
+        let send ={
+            'action' : "getNotificacion",
+            'filtro' : {
+                es_entidad:false
             }
         }
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );

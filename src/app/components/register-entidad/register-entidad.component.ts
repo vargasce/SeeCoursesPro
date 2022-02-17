@@ -122,7 +122,7 @@ export class RegisterEntidadComponent implements OnInit {
   async addEntidad() {
     this.submitted = true;
     this.validarUserName();
-    this.cuitValido = await this.isCuitValid();
+    //this.cuitValido = await this.isCuitValid();
     this.mailValido = this.isMailValid();
     this.validarPaises();
     this.validarProvincias();
@@ -241,6 +241,7 @@ export class RegisterEntidadComponent implements OnInit {
       });
     })
   }
+
   getActividades(){
     this._actividadesService.getActividades().subscribe(Response=>{
       this.actividades.push( ... Response.ResultSet.rows )

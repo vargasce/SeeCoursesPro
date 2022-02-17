@@ -254,6 +254,32 @@ const ItinerarioService = {
     });
   },
 
+  /** OBTENER LISTA DE NOTIFICAIONES PENDIENTES.
+   * @Observations : Obtiene lista de notificaciones pendientes.
+   * @param   { Object } req => Request del controller.
+   * @returns { Promise } => new Promise.
+   */
+  getListNotificacionEntidad : ( ) =>{
+    return new Promise( async ( resolve, reject ) =>{
+      
+      let noti = new Notificacion();
+      let sql = noti.getSqlStringListNotiEntidad();
+
+      try{
+
+        await con.QueryAwait('BEGIN');
+        const result = await con.QueryAwait( sql );
+        let ok = await con.QueryAwait('COMMIT');
+        if( ok ) resolve( result );
+
+      }catch( err ){
+        await con.QueryAwait('ROLLBACK');
+        reject( new NotificacionError( 'Error', `Error en la transaccion de list notificacion entidad., ${err}` ) );
+      }
+
+    });
+  },
+
 }
 
 module.exports = ItinerarioService;

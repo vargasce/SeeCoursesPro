@@ -60,7 +60,8 @@ export class NavbarAdminComponent implements OnInit {
     }
   }
   getNotificaciones() {
-        this._administradorService.getNotificaciones().subscribe(
+    /*
+        this._administradorService.getNotificacionesEntidad().subscribe(
       Response =>{
         this.notificaciones=[];
         Response.ResultSet.forEach((element:any) => {
@@ -72,6 +73,7 @@ export class NavbarAdminComponent implements OnInit {
         });
         this.contadorDeNotificaciones();
       });
+      */
   }
   contadorDeNotificaciones(){
     if(this.notificaciones.length==0){

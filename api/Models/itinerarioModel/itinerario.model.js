@@ -6,6 +6,7 @@ class ItinerarioModel{
 	
   constructor( data ){
     if( data ){
+      console.log(data);
       this.id = data.id;
       this.id_entidad = data.id_entidad;
       this.nombre = data.nombre;
@@ -23,6 +24,12 @@ class ItinerarioModel{
       this.finalizado = data.finalizado;
       this.rechazado = data.rechazado;
       this.hora_itinerario_fin = data.hora_itinerario_fin;
+      this.id_actividad = data.id_actividad;
+      this.id_pais = data.id_pais,
+      this.id_provincia = data.id_provincia,
+      this.id_localidad = data.id_localidad;
+      this.email_consulta = data.email_consulta,
+      this.telefono_consulta = data.telefono_consulta
     }
   }
 
@@ -43,6 +50,13 @@ class ItinerarioModel{
   getValidado(){ return this.validado; }
   getFinalizado(){ return this.finalizado; }
   getRechazado(){ return this.rechazado; }
+  getId_Actividad(){ return this.id_actividad; }
+  getId_Pais(){ return this.id_pais; }
+  getId_Provincia(){ return this.id_provincia; }
+  getId_Localidad(){ return this.id_localidad; }
+  getEmail_Consulto(){ return this.email_consulta; }
+  getTelefono_Consulta(){ return this.telefono_consulta; }
+
 
   setId ( id ){ this.id = id; }
   setIdEntidad ( id_entidad ){ this.id_entidad = id_entidad; }
@@ -60,6 +74,15 @@ class ItinerarioModel{
   setViewed ( viewed ){ this.viewed = viewed; }
   setValidado( validado ){ this.validado = validado; }
   setRechazado( rechazado ){ this.rechazado = rechazado; }
+
+  setId_Actividad( id_actividad ){ this.id_actividad = id_actividad; }
+  setId_Pais( id_pais ){ this.id_pais = id_pais; }
+  setId_Provincia( id_provincia ){ this.id_provincia = id_provincia; }
+  setId_Localidad( id_localidad ){ this.id_localidad = id_localidad; }
+  setEmail_Consulto( email_consulta ){ this.email_consulta = email_consulta; }
+  setTelefono_Consulta( telefono_consulta ){ this.telefono_consulta = telefono_consulta; }
+
+
 
   /** GET STRING INSERT
    * @Observations : Construye string para insert a base de datos.
@@ -83,7 +106,13 @@ class ItinerarioModel{
         validado,
         finalizado,
         rechazado,
-        hora_itinerario_fin
+        hora_itinerario_fin,
+        id_actividad,
+        id_localidad,
+        id_pais,
+        id_provincia,
+        telefono_consulta,
+        email_consulta
     )
     VALUES(
         ${this.getIdEntidad()},
@@ -101,9 +130,18 @@ class ItinerarioModel{
         ${this.getValidado()},
         ${this.getFinalizado()},
         ${this.getRechazado()},
-        '${this.getHoraItinerarioFin()}'
+        '${this.getHoraItinerarioFin()}',
+        ${this.getId_Actividad()},
+        ${this.getId_Localidad()},
+        ${this.getId_Pais()},
+        ${this.getId_Provincia()},
+        '${this.getTelefono_Consulta()}',
+        '${this.getEmail_Consulto()}'
+
     ) RETURNING id ;
     `;
+
+    console.log(sql);
 
     return sql;
   }
@@ -132,6 +170,12 @@ class ItinerarioModel{
         finalizado = false,
         rechazado = false,
         hora_itinerario_fin = '${this.getHoraItinerarioFin()}'
+        id_actividad = ${this.getId_Actividad()},
+        id_localidad = ${this.getId_Localidad()},
+        id_pais = ${this.getId_Pais()},
+        id_provincia = ${this.getId_Provincia()},
+        telefono_consulta = '${this.getTelefono_Consulta()}',
+        email_consulta = '${this.getEmail_Consulto()}'
       WHERE id = ${this.getId()} ;`;
 
     return sql;
@@ -169,7 +213,7 @@ class ItinerarioModel{
              act.id AS id_actividad, act.descripcion AS descripcion_actividad
       FROM public.itinerario as it 
       INNER JOIN public.entidad as ent on it.id_entidad = ent.id
-      INNER JOIN public.actividad AS act ON act.id = ent.id_actividad
+      INNER JOIN public.actividad AS act ON act.id = it.id_actividad
       WHERE it.validado = true
       AND it.finalizado = false
       ORDER BY it.viewed DESC
@@ -193,11 +237,18 @@ class ItinerarioModel{
              ent.descripcion as descripcion_entidad, ent.telefono as telefono_entidad,
              ent.director as director_entidad, ent.ciudad as ciudad_entidad,
              noti.observacion AS observacion_notificacion, noti.pendiente AS noti_pendiente,
-             act.id AS id_actividad, act.descripcion AS descripcion_actividad
+             act.id AS id_actividad, act.descripcion AS descripcion_actividad,
+             pa.id AS id_pais, pa.descripcion AS descripcion_pais,
+             pro.id AS id_provincia, pro.descripcion AS descripcion_provincia,
+             loca.id AS id_localidad, loca.descripcion AS descripcion_localidad,
+             it.email_consulta, it.telefono_consulta
       FROM public.itinerario as it 
       INNER JOIN public.entidad as ent on it.id_entidad = ent.id
       INNER JOIN public.notificacion AS noti ON noti.id_curso = it.id
-      INNER JOIN public.actividad AS act ON act.id = ent.id_actividad
+      INNER JOIN public.actividad AS act ON act.id = it.id_actividad
+      INNER JOIN public.pais AS pa ON pa.id = it.id_pais
+      INNER JOIN public.provincia AS pro ON pro.id = it.id_provincia
+      INNER JOIN public.localidad AS loca ON loca.id = it.id_localidad
       WHERE ent.id = ${id}
       ;`;
     return sql;
@@ -247,7 +298,7 @@ class ItinerarioModel{
         act.id AS id_actividad, act.descripcion AS descripcion_actividad 
       FROM public.itinerario as it 
       INNER JOIN public.entidad as ent on it.id_entidad = ent.id 
-      INNER JOIN public.actividad AS act ON act.id = ent.id_actividad
+      INNER JOIN public.actividad AS act ON act.id = it.id_actividad
       WHERE validado = true AND finalizado = false
     `;
 

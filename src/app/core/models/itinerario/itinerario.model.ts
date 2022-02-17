@@ -17,7 +17,13 @@ export class ItinerarioModel{
         public viewed:boolean,
         public validado:boolean,
         public finalizado:boolean,
-        public rechazado : boolean
+        public rechazado : boolean,
+        public id_pais:number,
+        public id_provincia:number,
+        public id_actividad:number,
+        public id_localidad:number,
+        public email_consulta:string,
+        public telefono_consulta:string,
 
     ){
 

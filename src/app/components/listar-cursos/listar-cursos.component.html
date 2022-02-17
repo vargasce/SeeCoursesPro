@@ -20,6 +20,12 @@
                         <th>Fecha de Alta</th>
                         <th>Link</th>
                         <th>Disertantes/Profesores</th>
+                        <th>Tipo de Actividad</th>
+                        <th>Pais</th>
+                        <th>Provincia</th>
+                        <th>Localidad</th>
+                        <th>Telefono</th>
+                        <th>Email</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -34,6 +40,12 @@
                         <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.fecha_alta}} </td>
                         <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.link}} </td>
                         <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.instructor}} </td>
+                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.descripcion_actividad}} </td>
+                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.descripcion_pais}} </td>
+                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.descripcion_provincia}} </td>
+                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.descripcion_localidad}} </td>
+                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.telefono_consulta}} </td>
+                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.email_consulta}} </td>
                     </tr>
                 </tbody>
             </table>
@@ -52,31 +64,43 @@
             <table id="tabla-responsiva" *ngIf ="cursosPendientes.length > 0" class="table table-striped mt-2 tablaLab">
                 <thead>
                     <tr class="noHover">
-                        <th>Nombre</th>
-                        <th>Descripcion</th>
-                        <th>Actividad</th>
-                        <th>Observacion</th>
-                        <th>Fecha del Curso</th>
-                        <th>Hora inicio</th>
-                        <th>Hora final</th>
-                        <th>Fecha de Alta</th>
-                        <th>Link</th>
-                        <th>Disertantes/Profesores</th>
+                      <th>Nombre</th>
+                      <th>Descripcion</th>
+                      <th>Actividad</th>
+                      <th>Observacion</th>
+                      <th>Fecha del Curso</th>
+                      <th>Hora inicio</th>
+                      <th>Hora final</th>
+                      <th>Fecha de Alta</th>
+                      <th>Link</th>
+                      <th>Disertantes/Profesores</th>
+                      <th>Tipo de Actividad</th>
+                      <th>Pais</th>
+                      <th>Provincia</th>
+                      <th>Localidad</th>
+                      <th>Telefono</th>
+                      <th>Email</th>
                         
                     </tr>
                 </thead>
                 <tbody>
                     <tr  id="{{curso.id}}" *ngFor="let curso of cursosPendientes">
-                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.nombre}} </td>
-                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.descripcion}} </td>
-                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.descripcion_actividad}} </td>
-                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.observacion}} </td>
-                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.fecha_itinerario}} </td>
-                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.hora_itinerario}} </td>
-                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.hora_itinerario_fin}} </td>
-                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.fecha_alta}} </td>
-                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.link}} </td>
-                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.instructor}} </td>
+                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.nombre}} </td>
+                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.descripcion}} </td>
+                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.descripcion_actividad}} </td>
+                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.observacion}} </td>
+                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.fecha_itinerario}} </td>
+                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.hora_itinerario}} </td>
+                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.hora_itinerario_fin}} </td>
+                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.fecha_alta}} </td>
+                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.link}} </td>
+                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.instructor}} </td>
+                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.descripcion_actividad}} </td>
+                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.descripcion_pais}} </td>
+                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.descripcion_provincia}} </td>
+                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.descripcion_localidad}} </td>
+                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.telefono_consulta}} </td>
+                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.email_consulta}} </td>
                     </tr>
                 </tbody>
             </table>
@@ -92,30 +116,42 @@
             <table id="tabla-responsiva" *ngIf ="cursosRechazados.length > 0" class="table table-striped mt-2 tablaLab">
                 <thead>
                     <tr class="noHover">
-                        <th>Nombre</th>
-                        <th>Descripcion</th>
-                        <th>Actividad</th>
-                        <th>Observacion</th>
-                        <th>Fecha del Curso</th>
-                        <th>Hora inicio</th>
-                        <th>Hora final</th>
-                        <th>Fecha de Alta</th>
-                        <th>Link</th>
-                        <th>Disertantes/Profesores</th>                       
+                      <th>Nombre</th>
+                      <th>Descripcion</th>
+                      <th>Actividad</th>
+                      <th>Observacion</th>
+                      <th>Fecha del Curso</th>
+                      <th>Hora inicio</th>
+                      <th>Hora final</th>
+                      <th>Fecha de Alta</th>
+                      <th>Link</th>
+                      <th>Disertantes/Profesores</th>
+                      <th>Tipo de Actividad</th>
+                      <th>Pais</th>
+                      <th>Provincia</th>
+                      <th>Localidad</th>
+                      <th>Telefono</th>
+                      <th>Email</th>                     
                     </tr>
                 </thead>
                 <tbody>
                     <tr  id="{{curso.id}}" *ngFor="let curso of cursosRechazados">
-                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.nombre}} </td>
-                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.descripcion}} </td>
-                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.descripcion_actividad}} </td>
-                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.observacion}} </td>
-                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.fecha_itinerario}} </td>
-                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.hora_itinerario}} </td>
-                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.hora_itinerario_fin}} </td>
-                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.fecha_alta}} </td>
-                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.link}} </td>
-                        <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.instructor}} </td>
+                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.nombre}} </td>
+                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.descripcion}} </td>
+                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.descripcion_actividad}} </td>
+                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.observacion}} </td>
+                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.fecha_itinerario}} </td>
+                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.hora_itinerario}} </td>
+                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.hora_itinerario_fin}} </td>
+                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.fecha_alta}} </td>
+                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.link}} </td>
+                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.instructor}} </td>
+                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.descripcion_actividad}} </td>
+                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.descripcion_pais}} </td>
+                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.descripcion_provincia}} </td>
+                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.descripcion_localidad}} </td>
+                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.telefono_consulta}} </td>
+                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.email_consulta}} </td>
                     </tr>
                 </tbody>
             </table>
@@ -131,30 +167,42 @@
           <table id="tabla-responsiva" *ngIf ="cursosFinalizados.length > 0" class="table table-striped mt-2 tablaLab">
               <thead>
                   <tr class="noHover">
-                      <th>Nombre</th>
-                      <th>Descripcion</th>
-                      <th>Actividad</th>
-                      <th>Observacion</th>
-                      <th>Fecha del Curso</th>
-                      <th>Hora inicio</th>
-                      <th>Hora final</th>
-                      <th>Fecha de Alta</th>
-                      <th>Link</th>
-                      <th>Disertantes/Profesores</th>                      
+                    <th>Nombre</th>
+                    <th>Descripcion</th>
+                    <th>Actividad</th>
+                    <th>Observacion</th>
+                    <th>Fecha del Curso</th>
+                    <th>Hora inicio</th>
+                    <th>Hora final</th>
+                    <th>Fecha de Alta</th>
+                    <th>Link</th>
+                    <th>Disertantes/Profesores</th>
+                    <th>Tipo de Actividad</th>
+                    <th>Pais</th>
+                    <th>Provincia</th>
+                    <th>Localidad</th>
+                    <th>Telefono</th>
+                    <th>Email</th>                     
                   </tr>
               </thead>
               <tbody>
                   <tr  id="{{curso.id}}" *ngFor="let curso of cursosFinalizados">
-                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.nombre}} </td>
-                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.descripcion}} </td>
-                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.descripcion_actividad}} </td>
-                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.observacion}} </td>
-                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.fecha_itinerario}} </td>
-                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.hora_itinerario}} </td>
-                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.hora_itinerario_fin}} </td>
-                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.fecha_alta}} </td>
-                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.link}} </td>
-                      <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.instructor}} </td>
+                    <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.nombre}} </td>
+                    <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.descripcion}} </td>
+                    <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.descripcion_actividad}} </td>
+                    <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.observacion}} </td>
+                    <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.fecha_itinerario}} </td>
+                    <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.hora_itinerario}} </td>
+                    <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.hora_itinerario_fin}} </td>
+                    <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.fecha_alta}} </td>
+                    <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.link}} </td>
+                    <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.instructor}} </td>
+                    <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.descripcion_actividad}} </td>
+                    <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.descripcion_pais}} </td>
+                    <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.descripcion_provincia}} </td>
+                    <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.descripcion_localidad}} </td>
+                    <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.telefono_consulta}} </td>
+                    <td (click)="[openPopup(curso.id)]" style="cursor: pointer;"> {{curso.email_consulta}} </td>
                   </tr>
               </tbody>
           </table>
@@ -179,7 +227,13 @@
             <p> <b>Hora final: </b>{{curso.hora_itinerario_fin}}</p>
             <p> <b>Fecha de alta: </b>{{curso.fecha_alta}}</p>
             <p> <b>Link: </b>{{curso.link}}</p>
-            <p> <b>Disertantes/Profesores: </b>{{curso.instructor}}</p>
+            <p> <b>Disertantes/Profesores: </b>{{curso.instructor}}</p>    
+            <p> <b>Tipo de actividad: </b>{{curso.descripcion_actividad}}</p>
+            <p> <b>Pais: </b>{{curso.descripcion_pais}}</p>
+            <p> <b>Provincia: </b>{{curso.descripcion_provincia}}</p>
+            <p> <b>Localidad: </b>{{curso.descripcion_localidad}}</p>
+            <p> <b>Telefono: </b>{{curso.telefono_consulta}}</p>
+            <p> <b>Email: </b>{{curso.email_consulta}}</p>
             <img src="{{getStringImg(curso.imagen)}}"  class="card-img-top"alt="">
           </div>
           <div class="modal-footer">
@@ -208,6 +262,12 @@
             <p> <b>Fecha de alta: </b>{{curso.fecha_alta}}</p>
             <p> <b>Link: </b>{{curso.link}}</p>
             <p> <b>Disertantes/Profesores: </b>{{curso.instructor}}</p>
+            <p> <b>Tipo de actividad: </b>{{curso.descripcion_actividad}}</p>
+            <p> <b>Pais: </b>{{curso.descripcion_pais}}</p>
+            <p> <b>Provincia: </b>{{curso.descripcion_provincia}}</p>
+            <p> <b>Localidad: </b>{{curso.descripcion_localidad}}</p>
+            <p> <b>Telefono: </b>{{curso.telefono_consulta}}</p>
+            <p> <b>Email: </b>{{curso.email_consulta}}</p>
             <img src="{{getStringImg(curso.imagen)}}"  class="card-img-top"alt="">
           </div>
           <div class="modal-footer">
@@ -237,6 +297,12 @@
             <p> <b>Fecha de alta: </b>{{curso.fecha_alta}}</p>
             <p> <b>Link: </b>{{curso.link}}</p>
             <p> <b>Disertantes/Profesores: </b>{{curso.instructor}}</p>
+            <p> <b>Tipo de actividad: </b>{{curso.descripcion_actividad}}</p>
+            <p> <b>Pais: </b>{{curso.descripcion_pais}}</p>
+            <p> <b>Provincia: </b>{{curso.descripcion_provincia}}</p>
+            <p> <b>Localidad: </b>{{curso.descripcion_localidad}}</p>
+            <p> <b>Telefono: </b>{{curso.telefono_consulta}}</p>
+            <p> <b>Email: </b>{{curso.email_consulta}}</p>
             <img src="{{getStringImg(curso.imagen)}}"  class="card-img-top"alt="">
           </div>
           <div class="modal-footer">
@@ -265,6 +331,12 @@
             <p> <b>Fecha de alta: </b>{{curso.fecha_alta}}</p>
             <p> <b>Link: </b>{{curso.link}}</p>
             <p> <b>Disertantes/Profesores: </b>{{curso.instructor}}</p>
+            <p> <b>Tipo de actividad: </b>{{curso.descripcion_actividad}}</p>
+            <p> <b>Pais: </b>{{curso.descripcion_pais}}</p>
+            <p> <b>Provincia: </b>{{curso.descripcion_provincia}}</p>
+            <p> <b>Localidad: </b>{{curso.descripcion_localidad}}</p>
+            <p> <b>Telefono: </b>{{curso.telefono_consulta}}</p>
+            <p> <b>Email: </b>{{curso.email_consulta}}</p>
             <p> <b>Motivo de Rechazo: </b>{{curso.observacion_notificacion}}</p>
             <img src="{{getStringImg(curso.imagen)}}"  class="card-img-top"alt="">
           </div>

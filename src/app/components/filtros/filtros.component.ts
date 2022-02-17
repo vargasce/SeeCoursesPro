@@ -33,7 +33,7 @@ export class FiltrosComponent implements OnInit {
       titulo:[''],
       id_entidad:['']
     });
-    this.itinerarioModel = new ItinerarioModel(0,0,"","","","","","","","","","","",false,false,false,false);
+    this.itinerarioModel = new ItinerarioModel(0,0,"","","","","","","","","","","",false,false,false,false,0,0,0,0,"","");
   }
 
   ngOnInit(): void {

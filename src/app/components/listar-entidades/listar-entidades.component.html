@@ -9,23 +9,35 @@
                 <thead>
                     <tr class="noHover">
                         <th>Nombre</th>
+                        <th>Direccion</th>
+                        <th>Teléfono</th>
+                        <th>Web</th>
+                        <th>Email</th>
+                        <th>Pais</th>
+                        <th>Provincia</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let entidad of entidades">
                         <td> {{entidad.nombre}} </td>
+                        <td> {{entidad.direccion}} </td>
+                        <td> {{entidad.telefono}} </td>
+                        <td> {{entidad.web}} </td>
+                        <td> {{entidad.email}} </td>
+                        <td> {{entidad.pais_entidad}} </td>
+                        <td> {{entidad.provincia_entidad}} </td>
                     </tr>
                 </tbody>
-                <nav aria-label="Page navigation example" style="align-content: center;">
-                    <ul class="pagination">
-                      <li class="page-item"><a class="page-link" (click)="previous()">Previous</a></li>
-                      <li class="page-item" *ngFor="let item of vector" (click)="indexPagina(item)">
-                         <a class="page-link">{{item}}</a>
-                     </li>
-                      <li class="page-item"><a class="page-link" (click)="next()">Next</a></li>
-                    </ul>
-                  </nav>
             </table>
         </div>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination" style="margin-left: 15px;">
+              <li class="page-item"><a class="page-link" (click)="previous()">Previous</a></li>
+              <li class="page-item" *ngFor="let item of vector" (click)="indexPagina(item)">
+                 <a class="page-link">{{item}}</a>
+             </li>
+              <li class="page-item"><a class="page-link" (click)="next()">Next</a></li>
+            </ul>
+        </nav>
     </div>
 </div>
