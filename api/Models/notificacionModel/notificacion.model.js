@@ -235,7 +235,7 @@ ORDER BY noti.id DESC
       INNER JOIN pais AS pas ON pas.id = enti.id_pais
           INNER JOIN provincia AS prov ON prov.id = enti.id_provincia
       WHERE enti.verificado = false AND noti.pendiente = true AND noti.es_admin = true AND noti.es_curso = false
-          ORDER BY noti.id DESC;;`;
+          ORDER BY noti.id DESC;`;
     }
 
 

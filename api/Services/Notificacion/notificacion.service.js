@@ -270,7 +270,7 @@ const ItinerarioService = {
         await con.QueryAwait('BEGIN');
         const result = await con.QueryAwait( sql );
         let ok = await con.QueryAwait('COMMIT');
-        if( ok ) resolve( result );
+        if( ok ) resolve( result.rows );
 
       }catch( err ){
         await con.QueryAwait('ROLLBACK');

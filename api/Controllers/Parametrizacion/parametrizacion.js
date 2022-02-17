@@ -1,5 +1,6 @@
 'use strict'
 
+const { combineLatest } = require('rxjs');
 const con = require('../../DB-connect/connectDB');
 const envProperties = require("../../env.vars.json");
 const node_env = process.env.NODE_ENV || 'developmen';
@@ -7,7 +8,7 @@ const props = envProperties[node_env];
 const schema = props.DB.SCHEMA;
 
 const controller = {
-  parametrizacion : ( req, res ) =>{
+  parametrizacion : async ( req, res ) =>{
     
     let action = req.body.action;
 
@@ -186,6 +187,22 @@ const controller = {
             return res.status(500).send({ 'error' : `Error al obtener roles : ${error_roles}` });
           }
         });
+
+      break;
+
+      case 'getListFiles' :
+
+        try{
+          await con.QueryAwait('BEGIN');
+          let result = await con.QueryAwait(`SELECT * FROM files WHERE id_itinerario = ${res.body.id_itinerario}`)
+          let ok = await con.QueryAwait('COMMIT');
+          if( ok ){
+            return res.status(200).send({ 'error' : '', 'ResultSet' : result.rows });
+          }
+        }catch( _error ){
+          await con.QueryAwait('ROLLBACK');
+          return res.status(500).send({ 'error' : `Error al obtener lista de archivos : ${_error} .`, 'ResultSet' : ''});
+        }
 
       break;
 

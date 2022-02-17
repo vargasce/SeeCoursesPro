@@ -27,7 +27,7 @@ const uploadService = {
       
       let obj = splitFileObject( files );
 
-      if( obj.extension == 'jpg' || obj.extension == 'png' || obj.extension == 'gif' || obj.extension == 'icon' || obj.extension == 'jpeg' ){
+      if( obj.extension == 'jpg' || obj.extension == 'png' || obj.extension == 'gif' || obj.extension == 'icon' || obj.extension == 'jpeg' || obj.extension == 'pdf' ){
 
         let fecha = dt.getDateCurrentStringCustom();
         let sql = `UPDATE ${table} SET imagen = '_${table}_${id}_${fecha}_${obj.fileName}' WHERE id = ${id}`;
@@ -57,6 +57,65 @@ const uploadService = {
     return new Promise( ( resolve, reject ) =>{
       let image = req.params.image;      
       let image_path = `./File_up/${image}`;
+      fs.exists( image_path, ( exits ) =>{
+        if( exits ){
+          resolve( path.resolve(image_path) );
+        }else{
+          reject({ 'error' : true });
+        }
+      });
+    });
+  },
+
+  uploadFiles : ( req ) => {
+    return new Promise( async ( resolve, reject ) =>{
+  
+      let table = req.body.tabla;
+      let id = req.body.id;
+      let files = req.files;
+      let descripcion = req.body.descripcion;
+      let id_entidad = req.body.id_entidad;
+
+      try{
+        fn.validateType('object', files );
+        fn.validateType('string', table );
+        fn.validateType('string', id );
+      }catch( err ){
+        reject( new UploadError('Error Upload', 'Error files is not Obeject.') );
+      }
+      
+      let obj = splitFileObject( files );
+
+      if( obj.extension == 'pdf' || obj.extension == 'txt' ){
+
+        let fecha = dt.getDateCurrentStringCustom();
+        let sql = `INSERT INTO ${table} ( archivo, descripcion, id_itinerario, id_entidad ) VALUES('_${table}_${id}_${fecha}_${obj.fileName}', '${descripcion}', ${id}, ${id_entidad}) `;
+
+        try{
+
+          await con.QueryAwait('BEGIN');
+          let result = await con.QueryAwait( sql );
+          let ok = await con.QueryAwait('COMMIT');
+          if( ok ) {
+            saveFile( obj.fileName, obj.filePath, id, table );
+            resolve( result.rows );
+          }
+        }catch( err ){
+          await con.QueryAwait('ROLLBACK');
+          reject( new UploadError('Error Upload', `Error in insert file : ${err}`) );
+        }
+
+      }else{
+        reject(`Error, type extension incorrect.`);
+      }
+
+    });
+  },
+
+  godownFile : ( req ) =>{
+    return new Promise( ( resolve, reject ) =>{
+      let file = req.params.file;      
+      let image_path = `./File_up/${file}`;
       fs.exists( image_path, ( exits ) =>{
         if( exits ){
           resolve( path.resolve(image_path) );

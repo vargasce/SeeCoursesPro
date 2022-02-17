@@ -2,6 +2,7 @@ import { Component, OnInit, OnChanges, Input, SimpleChange, Output, EventEmitter
 import {DomSanitizer} from '@angular/platform-browser';
 import {MatIconRegistry} from '@angular/material/icon';
 import { AdministradorService } from 'src/app/core/service/administrador/administrador.service';
+import { NotificacionService } from 'src/app/core/service/notificaciones/notificacion.service';
 import { environment } from 'src/environments/environment';
 
 
@@ -22,9 +23,10 @@ export class NavbarAdminComponent implements OnInit {
   @Output() updateGrid = new EventEmitter<void>();
 
   constructor(
-    iconRegistry: MatIconRegistry, 
-    sanitizer: DomSanitizer,
-    private _administradorService:AdministradorService
+      iconRegistry: MatIconRegistry, 
+      sanitizer: DomSanitizer,
+      private _administradorService:AdministradorService,
+      private _notificacionService: NotificacionService
     ) { 
     iconRegistry.addSvgIcon('notification', sanitizer.bypassSecurityTrustResourceUrl('assets/img/notification.svg'));
     iconRegistry.addSvgIcon('logout', sanitizer.bypassSecurityTrustResourceUrl('assets/img/logout.svg'));
@@ -60,20 +62,25 @@ export class NavbarAdminComponent implements OnInit {
     }
   }
   getNotificaciones() {
-    /*
-        this._administradorService.getNotificacionesEntidad().subscribe(
-      Response =>{
-        this.notificaciones=[];
-        Response.ResultSet.forEach((element:any) => {
-          if(element.pendiente && !element.visto && element.es_admin){
-            this.notificaciones.push({
-              ...element 
-            })
-          }
-        });
+
+    this._notificacionService.getNotificacionAdministrador().subscribe(
+
+      Response => {
+
+        for( let i = 0; i < Response.ResultSet.length; i++ ){
+          console.log( Response.ResultSet[i].descripcion );
+          this.notificaciones.push( Response.ResultSet[i] );
+        }
         this.contadorDeNotificaciones();
-      });
-      */
+
+      },
+      Error => {
+        //Notificar el error/
+        console.log(Error);
+      }
+
+    );
+      
   }
   contadorDeNotificaciones(){
     if(this.notificaciones.length==0){
