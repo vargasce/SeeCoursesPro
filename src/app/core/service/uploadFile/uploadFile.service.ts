@@ -57,7 +57,6 @@ export class UploadFileService {
 }
 
 makeFileRequestFile( data : any , name : string){
-    console.log(data);
   let files = <File> data.data.file;
   return new Promise(function(resolve, reject){
 

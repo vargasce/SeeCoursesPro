@@ -6,7 +6,6 @@ class ItinerarioModel{
 	
   constructor( data ){
     if( data ){
-      console.log(data);
       this.id = data.id;
       this.id_entidad = data.id_entidad;
       this.nombre = data.nombre;
@@ -140,8 +139,6 @@ class ItinerarioModel{
 
     ) RETURNING id ;
     `;
-
-    console.log(sql);
 
     return sql;
   }

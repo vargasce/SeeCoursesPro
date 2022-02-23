@@ -139,6 +139,7 @@ export class RegisterEntidadComponent implements OnInit {
 
 
   async registrarComoEntidad(){
+    (<HTMLInputElement>document.getElementById('btn-submit')).disabled=true;
     let data = {
       'data' : {
         'file' :this.imagenModel,
@@ -208,6 +209,7 @@ export class RegisterEntidadComponent implements OnInit {
           positionClass:'toast-bottom-right'
         });
       });
+      (<HTMLInputElement>document.getElementById('btn-submit')).disabled=false;
     })
   }
 

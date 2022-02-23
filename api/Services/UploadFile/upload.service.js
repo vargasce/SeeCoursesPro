@@ -91,7 +91,6 @@ const uploadService = {
         let fecha = dt.getDateCurrentStringCustom();
         let sql = `INSERT INTO ${table} ( archivo, descripcion, id_itinerario, id_entidad ) VALUES('_${table}_${id}_${fecha}_${obj.fileName}', '${descripcion}', ${id}, ${id_entidad}) `;
 
-        console.log( sql );
         try{
 
           await con.QueryAwait('BEGIN');
@@ -221,10 +220,6 @@ const saveFile = ( fileName, filePath, id, tabla ) =>{
 const splitFileObject2 = ( files ) =>{
 
   try{    
-
-    console.log(files.file);
-    console.log(files)
-    console.log(files.file.path)
 
     switch( os.platform()){
       case 'darwin':

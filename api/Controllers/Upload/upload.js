@@ -56,10 +56,8 @@ const controller = {
   },
 
   eliminarArchivo : async ( req, res ) =>{
-    console.log('paso');
     try{
       await con.QueryAwait('BEGIN');
-      console.log(`DELETE FROM files WHERE id = ${req.body.data.id}`);
       let result = await con.QueryAwait(`DELETE FROM files WHERE id = ${req.body.data.id} ;`);
       let ok = await con.QueryAwait('COMMIT');
       if( ok ){

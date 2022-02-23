@@ -169,14 +169,11 @@ const usuarioService = {
     verificaUsuarioEntidad : ( token ) =>{
       return new Promise( async ( resolve, reject ) =>{
 
-          console.log(token);
           try{
               fn.validateType( 'string', token );
           }catch( err ){
               reject( err );
           }
-
-          console.log("pase");
 
           try{
 
