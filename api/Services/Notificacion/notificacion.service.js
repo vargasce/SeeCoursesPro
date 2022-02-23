@@ -290,7 +290,7 @@ const ItinerarioService = {
       
       let noti = new Notificacion();
       let sql = noti.getSqlStringListNotiEntidad( req.body.data.id );
-      console.log( sql );
+
       try{
 
         await con.QueryAwait('BEGIN');

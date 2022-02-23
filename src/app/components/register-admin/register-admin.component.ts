@@ -74,17 +74,20 @@ export class RegisterAdminComponent implements OnInit {
     return  this.mailValido
   }
 
-  addAdmin() {
+  async addAdmin() {
     this.submitted = true;
     this.confirmarContrasena();
     this.validarRoles();
     this.isMailValid();
-    this.validarUserName();
-    if (!this.registrarAdmin.invalid && !this.registrarUsuario.invalid && this.validarPass && this.validarRol && this.mailValido &&!this.usuarioExistente) {
-      this.registrarAdministrador();
-    }else{
-      return
+     this.usuarioExistente = await this.validarUserName();
+    if(!this.usuarioExistente){
+      if (!this.registrarAdmin.invalid && !this.registrarUsuario.invalid && this.validarPass && this.validarRol && this.mailValido) {
+        this.registrarAdministrador();
+      }else{
+        return
+      }
     }
+
 
 
   }
@@ -152,18 +155,17 @@ export class RegisterAdminComponent implements OnInit {
     return new Promise( (resolve, reject ) =>{
 
       try{
-
         this._usuarioService.verifyUser(this.usuarioModel.usuario).subscribe(Response=>{
-          console.log(Response);
-          this.usuarioExistente = false;
+            resolve( false )
           },
           Error =>{
-            this.usuarioExistente = true;
-            resolve( false );
+            resolve( true );
           }
         );
       }catch( err ){
-        reject( false );
+        this.toastr.error(`Error validando el usuario`, "Ocurrio un error", {
+          positionClass: 'toast-bottom-right'
+        });
       }
     });
   }

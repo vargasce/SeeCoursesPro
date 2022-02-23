@@ -121,7 +121,7 @@ export class RegisterEntidadComponent implements OnInit {
 
   async addEntidad() {
     this.submitted = true;
-    this.validarUserName();
+   this.usuarioExistente = await this.validarUserName();
     //this.cuitValido = await this.isCuitValid();
     this.mailValido = this.isMailValid();
     this.validarPaises();
@@ -138,82 +138,88 @@ export class RegisterEntidadComponent implements OnInit {
   }
 
 
-  async registrarComoEntidad(){
-    (<HTMLInputElement>document.getElementById('btn-submit')).disabled=true;
+  async registrarComoEntidad() {
+    (<HTMLInputElement>document.getElementById('btn-submit')).disabled = true;
     let data = {
-      'data' : {
-        'file' :this.imagenModel,
-        'id'   : 0,
+      'data': {
+        'file': this.imagenModel,
+        'id': 0,
         'tabla': "entidad"
       }
     }
-    this.loading=true;
+    this.loading = true;
     sessionStorage.clear();
 
-    this._usuarioService.registrarUsuario(this.usuarioModel).subscribe(Response=>{
-      this.entidadModel.id_usuario= Response.ResultSet.id
-      let  emailObject = {
-      	  dataEmail : {
-      	  	TO      : this.adminMails, // get de todos los mails de admins
-      		  FROM    : this.entidadModel.nombre,
-      		  EMAIL   : this.entidadModel.email,
-      		  SUBJECT : "Solicitud de nueva Entidad",
-      		  TITULO  : "Solicitud de nueva Entidad",
-      		  MESSAGE : "Le informamos que se ha generado una nueva solicitud de incorporación de entidad, por favor verifique la misma en el sistema.",
-      		  OBS     : ""
-        	}
-        };
+    this._usuarioService.registrarUsuario(this.usuarioModel).subscribe(Response => {
+      this.entidadModel.id_usuario = Response.ResultSet.id
+      let emailObject = {
+        dataEmail: {
+          TO: this.adminMails, // get de todos los mails de admins
+          FROM: this.entidadModel.nombre,
+          EMAIL: this.entidadModel.email,
+          SUBJECT: "Solicitud de nueva Entidad",
+          TITULO: "Solicitud de nueva Entidad",
+          MESSAGE: "Le informamos que se ha generado una nueva solicitud de incorporación de entidad, por favor verifique la misma en el sistema.",
+          OBS: ""
+        }
+      };
       this.entidadModel.telefono = this.entidadModel.telefono.toString();
-      this._registrarEntidadService.registrarEntidad(this.entidadModel).subscribe(async Response =>{
-        this.loading=false
-        if(Response.error == ""){         
+      this._registrarEntidadService.registrarEntidad(this.entidadModel).subscribe(async Response => {
+        this.loading = false
+        if (Response.error == "") {
           try {
-            await this._envioNotificacionService.newEntidad(Response.ResultSet.id, this.entidadModel.nombre);  
-            this.toastr.success("La entidad fue registrada con exito!","Entidad Registrada",{
-              positionClass:'toast-bottom-right'
+            await this._envioNotificacionService.newEntidad(Response.ResultSet.id, this.entidadModel.nombre);
+            this.toastr.success("La entidad fue registrada con exito!", "Entidad Registrada", {
+              positionClass: 'toast-bottom-right'
             });
-            data.data.id =Response.ResultSet.id;
+            data.data.id = Response.ResultSet.id;
 
-            if(!this.imagenPorDefecto){
-              this._uploadFileService.makeFileRequest(data,"image").then(Result=>{}).catch(
-                error=>{
-                  this.toastr.error("Ocurrio un guardar la imagen","Ocurrio un error",{
-                    positionClass:'toast-bottom-right'
+            if (!this.imagenPorDefecto) {
+              this._uploadFileService.makeFileRequest(data, "image").then(Result => { }).catch(
+                error => {
+                  this.toastr.error("Ocurrio un guardar la imagen", "Ocurrio un error", {
+                    positionClass: 'toast-bottom-right'
                   });
                 }
               )
             }
             this.router.navigate(['/login']);
           } catch (error) {
-            this.toastr.error("Ocurrio un error al registrar la Entidad","Ocurrio un error",{
-              positionClass:'toast-bottom-right'
+            this.toastr.error("Ocurrio un error al registrar la Entidad", "Ocurrio un error", {
+              positionClass: 'toast-bottom-right'
             });
             this.router.navigate(['/login']);
           }
-            this._emailService.enviarMail(emailObject.dataEmail).subscribe(Response=>{
-              if(Response.error !=""){
-                this.toastr.error("Ocurrio un error al enviar el email al administrador","Ocurrio un error",{
-                  positionClass:'toast-bottom-right'
-                });
-              }
-            });
-            (<HTMLInputElement>document.getElementById('btn-submit')).disabled=false;
-        }else{
-          this.toastr.error("Ocurrio un error al registrar la Entidad","Ocurrio un error",{
-            positionClass:'toast-bottom-right'
+          this._emailService.enviarMail(emailObject.dataEmail).subscribe(Response => {
+            if (Response.error != "") {
+              this.toastr.error("Ocurrio un error al enviar el email al administrador", "Ocurrio un error", {
+                positionClass: 'toast-bottom-right'
+              });
+            }
           });
-          (<HTMLInputElement>document.getElementById('btn-submit')).disabled=false;
+
+        } else {
+          this.toastr.error("Ocurrio un error al registrar la Entidad", "Ocurrio un error", {
+            positionClass: 'toast-bottom-right'
+          });
+
           this.router.navigate(['/login']);
         }
       },
-      Error =>{
-        this.toastr.error(`Error interno, no se puede insertar la entidad`,"Ocurrio un error",{
-          positionClass:'toast-bottom-right'
+        Error => {
+          this.toastr.error(`Error interno, no se puede insertar la entidad`, "Ocurrio un error", {
+            positionClass: 'toast-bottom-right'
+          });
         });
-        (<HTMLInputElement>document.getElementById('btn-submit')).disabled=false;
-      });
-    })
-    
+      (<HTMLInputElement>document.getElementById('btn-submit')).disabled = false;
+    },
+      Error => {
+        this.toastr.error(`Error interno, no se puede insertar la entidad`, "Ocurrio un error", {
+          positionClass: 'toast-bottom-right'
+        });
+        (<HTMLInputElement>document.getElementById('btn-submit')).disabled = false;
+      })
+
   }
 
   confirmarContrasena(){
@@ -368,7 +374,9 @@ export class RegisterEntidadComponent implements OnInit {
         );
 
       }catch( err ){
-        reject( false );
+        this.toastr.error(`Error validando el usuario`, "Ocurrio un error", {
+          positionClass: 'toast-bottom-right'
+        });
       }
 
     });
@@ -381,15 +389,15 @@ export class RegisterEntidadComponent implements OnInit {
       try{
 
         this._usuarioService.verifyUser(this.usuarioModel.usuario).subscribe(Response=>{
-          this.usuarioExistente = false;
+          resolve( false );
           },
           Error =>{
             this.usuarioExistente = true;
-            resolve( false );
+            resolve( true );
           }
         );
       }catch( err ){
-        reject( false );
+        resolve( true );
       }
     });
   }
