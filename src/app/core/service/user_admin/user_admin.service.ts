@@ -73,4 +73,13 @@ export class Usuario_AdminService {
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }
 
+    verifyUser(username : string): Observable<any>{
+        let headers = { headers : environment.headers };
+        let send ={
+            'action' : "verifyUser",
+            'name' : username
+        }
+        return this.http.post<any>( environment.apiURL + this.controller , send, headers );
+    }
+
 }

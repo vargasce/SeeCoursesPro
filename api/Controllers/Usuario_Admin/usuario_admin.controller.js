@@ -74,6 +74,21 @@ const controller = {
 
             break;
 
+            case 'verifyUser' :
+
+                try{
+
+                let resultVerificacion = await _usuario_adminService.verifyUser( req.body.name );
+                if( resultVerificacion == 0 ) return res.status(200).send({ 'error' : '', 'ResultSet' : true });
+                return res.status(500).send({ 'error' : 'El usuario que se intenta ingresar ya existe.' });
+
+                }catch( err ){
+                return res.status(500).send({ 'error' : `${err}`});
+                }
+
+            break;
+
+
 
         }
     }

@@ -9,7 +9,7 @@ import { Observable } from "rxjs";
 })
 export class RolesService {
 
-    private controller : string = 'roles';
+    private controller : string = 'list';
 
     constructor (
         private http: HttpClient
@@ -20,7 +20,7 @@ export class RolesService {
     getRoles(){
         let headers = { headers : environment.headers };
         let send ={
-            'action' : "list-roles",
+            'action' : "listRoles",
         }
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }

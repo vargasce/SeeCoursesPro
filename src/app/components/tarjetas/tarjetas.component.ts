@@ -37,6 +37,7 @@ export class TarjetasComponent implements OnInit{
   openPopup(id:any) {
     this.displayStyle[id] = "block";
     this.color = "red;"
+    this.getFilesItinerario(id);
     this._itinerarioService.incrementViewed(Number(id)).subscribe(Response=>{
     },
     reject=>{
@@ -46,7 +47,6 @@ export class TarjetasComponent implements OnInit{
   }
   closePopup(id:any) {
     this.displayStyle[id] = "none";
-    this.getFilesItinerario(id);
   }
 
   public getStringImg(imagen:string):string{

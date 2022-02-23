@@ -10,6 +10,7 @@ import { RegistrarAdminService } from 'src/app/core/service/administrador/admin-
 import { fechas } from 'src/app/core/custom/fechas';
 import { Usuario_AdminModel } from 'src/app/core/models/usuario_admin/usuario_admin.model';
 import { RolesService } from 'src/app/core/service/roles/roles.service';
+import { Usuario_AdminService } from 'src/app/core/service/user_admin/user_admin.service';
 
 @Component({
   selector: 'app-register-admin',
@@ -40,7 +41,7 @@ export class RegisterAdminComponent implements OnInit {
     private router:Router,
     private location : Location,
     private toastr: ToastrService,
-    private _usuarioService: UsuarioService,
+    private _usuarioService: Usuario_AdminService,
     private _adminService : RegistrarAdminService,
     private _roles: RolesService,
     ) {
@@ -78,7 +79,8 @@ export class RegisterAdminComponent implements OnInit {
     this.confirmarContrasena();
     this.validarRoles();
     this.isMailValid();
-    if (!this.registrarAdmin.invalid && !this.registrarUsuario.invalid && this.validarPass && this.validarRol && this.mailValido) {
+    this.validarUserName();
+    if (!this.registrarAdmin.invalid && !this.registrarUsuario.invalid && this.validarPass && this.validarRol && this.mailValido &&!this.usuarioExistente) {
       this.registrarAdministrador();
     }else{
       return
@@ -98,6 +100,7 @@ export class RegisterAdminComponent implements OnInit {
  
   async registrarAdministrador(){
     this.loading=true;
+    (<HTMLInputElement>document.getElementById('btn-submit')).disabled=true;
       this._adminService.registrarAdmin_userAdmin(this.adminModel,this.usuarioModel).subscribe(async Response =>{
         if(Response.error == ""){         
           this.toastr.success("Administrador agregado correctamente","Administrador Agregado",{
@@ -111,34 +114,58 @@ export class RegisterAdminComponent implements OnInit {
           });
           this.router.navigate(['/admin']);
         }
+        (<HTMLInputElement>document.getElementById('btn-submit')).disabled=false;
       },
       error=>{
-        this.usuarioExistente=true;
+       // this.usuarioExistente=true;
         this.loading= false;
       });
   }
 
   getRoles(){
-    /*this._roles.getRoles().subscribe(
+   this._roles.getRoles().subscribe(
       response => {
+        console.log(response);
         this.roles = [];
-        response.Resultset.forEach((element:any) => {
+        response.ResultSet.forEach((element:any) => {
           this.roles.push({ 
             ...element 
           })
         });
-      });*/
+      });
+      /*
       this.roles = [
                     {id:1, descripcion:"Administrador General"},
                     {id:2, descripcion:"Administrador"}
-                  ];
+                  ];*/
   }
+
   validarRoles(){
     if(this.usuarioModel.id_rol==0){
       this.validarRol = false;
     }else{
       this.validarRol = true;
     }
+  }
+
+  public validarUserName():Promise<boolean> {
+    return new Promise( (resolve, reject ) =>{
+
+      try{
+
+        this._usuarioService.verifyUser(this.usuarioModel.usuario).subscribe(Response=>{
+          console.log(Response);
+          this.usuarioExistente = false;
+          },
+          Error =>{
+            this.usuarioExistente = true;
+            resolve( false );
+          }
+        );
+      }catch( err ){
+        reject( false );
+      }
+    });
   }
 
 }

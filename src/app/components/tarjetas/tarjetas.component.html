@@ -38,7 +38,7 @@
           <div *ngFor ="let file of fileList;">
             <a class="mt-1" href="{{getStringFile(file.archivo)}}" target="blank">{{file.descripcion}}</a>
           </div>
-          <img src="{{getStringImg(item.imagen)}}" class="imagen-tarjeta" alt="">
+          <img src="{{getStringImg(item.imagen)}}" class="imagen-tarjeta mt-1" alt="">
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-danger" (click)="[closePopup(item.id)]">Cerrar</button>

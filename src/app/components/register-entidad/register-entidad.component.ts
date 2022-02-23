@@ -163,6 +163,7 @@ export class RegisterEntidadComponent implements OnInit {
       		  OBS     : ""
         	}
         };
+      this.entidadModel.telefono = this.entidadModel.telefono.toString();
       this._registrarEntidadService.registrarEntidad(this.entidadModel).subscribe(async Response =>{
         this.loading=false
         if(Response.error == ""){         
@@ -203,13 +204,13 @@ export class RegisterEntidadComponent implements OnInit {
           });
           this.router.navigate(['/login']);
         }
+        (<HTMLInputElement>document.getElementById('btn-submit')).disabled=false;
       },
       Error =>{
         this.toastr.error(`Error interno, no se puede insertar la entidad`,"Ocurrio un error",{
           positionClass:'toast-bottom-right'
         });
       });
-      (<HTMLInputElement>document.getElementById('btn-submit')).disabled=false;
     })
   }
 

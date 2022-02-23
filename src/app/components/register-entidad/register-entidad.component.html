@@ -23,7 +23,7 @@
 
 
 
-<div class="container pt-4 mt-5">
+<div class="container pt-4 mt-2">
     <div class="row">
         <div class="col-lg-6 offset-lg-3">
             <div class="card">
@@ -67,7 +67,7 @@
 
                         <div class="row" style="margin-bottom:5px;">
                             <div class="col">
-                                <input #usuarioForm name="telefono"  [(ngModel)]="entidadModel.telefono" type="text" class="form-control mt-3" placeholder="Telefono" formControlName="telefono">
+                                <input #usuarioForm name="telefono"  [(ngModel)]="entidadModel.telefono" type="number" class="form-control mt-3" placeholder="Telefono" formControlName="telefono">
                             </div>
                             <div class="col">   
                                 <input id="mail" #emailForm name="email"  [(ngModel)]="entidadModel.email" type="text" class="form-control mt-3" placeholder="Email" formControlName="email">
