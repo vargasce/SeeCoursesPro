@@ -25,6 +25,7 @@ import { map } from 'rxjs/operators';
 import { Files } from 'src/app/core/global/imagenes/files/files';
 import { FileService } from 'src/app/core/service/files/files.service';
 import { DeleteFile } from 'src/app/core/service/files/deleteFile';
+import { ThrowStmt } from '@angular/compiler';
 
 
 
@@ -574,8 +575,8 @@ export class AgregarCursoComponent implements OnInit {
 
     this.renderer.listen(this.selectorDeImagen?.nativeElement,'change',event =>{
 
+      this.itinerarioModel.imagen="";
       if(event.target.value==1){
-
         this.imagenPropia=true;
         this.imagenPorDefecto=false;
         this.editImagen = false;
@@ -593,8 +594,17 @@ export class AgregarCursoComponent implements OnInit {
 
     this.renderer.listen(this.id_paisForm?.nativeElement,'change',event =>{
 
-      (<HTMLInputElement>document.getElementById('provincias')).disabled=false;
       this.getProvincias(Number(this.itinerarioModel.id_pais));
+      this.itinerarioModel.id_provincia = 0;
+      this.itinerarioModel.id_localidad = 0;
+      this.localidades.splice(0,this.localidades.length);
+
+    });
+
+    this.renderer.listen(this.id_paisForm?.nativeElement,'change',event =>{
+
+      (<HTMLInputElement>document.getElementById('provincias')).disabled=false;
+
 
     });
 
@@ -658,26 +668,35 @@ export class AgregarCursoComponent implements OnInit {
   }
 
   validarCargaImagen(){
-
-    if((this.imagenPorDefecto == false) && (this.imagenPropia == false)){
-      this.validarImagen=false;
+if(this.itinerarioModel.imagen != ""){
+  this.validarImagen=true;
+}else{
+  if((this.imagenPorDefecto == false) && (this.imagenPropia == false)){
+    this.validarImagen=false;
+  }else{
+    if(this.imagenPorDefecto){
+      if(this.itinerarioModel.imagen == ""){
+        this.validarImagen= false;
+      }else{
+        this.validarImagen=true;
+      }
     }else{
-      if(this.imagenPorDefecto){
-        if(this.itinerarioModel.imagen == ""){
+      if(this.imagenPropia){
+        if(this.imagenModel.length == 0){
           this.validarImagen= false;
         }else{
           this.validarImagen=true;
         }
       }else{
-        if(this.imagenPropia){
-          if(this.imagenModel.length == 0){
-            this.validarImagen= false;
-          }else{
-            this.validarImagen=true;
-          }
+        if(this.imagenPropia && this.itinerarioModel.imagen ==""){
+          this.validarImagen = false;
         }
       }
     }
+  }
+}
+
+
   }
 
    getMailsAdministrador():Promise<string[]>{ //retorna el mail de todos los administradores
@@ -713,8 +732,6 @@ export class AgregarCursoComponent implements OnInit {
 
   getProvincias(id_pais:number){
     this.provincias = [];
-    this.itinerarioModel.id_provincia = 0;
-    this.itinerarioModel.id_localidad = 0;
     this._provinciasService.getProvinciasByIdPais(id_pais).subscribe(Response=>{
       Response.Resultset.forEach((element:any) => {
         this.provincias.push({ // guardo la lista de laboratorios en el array laboratorios
@@ -726,7 +743,6 @@ export class AgregarCursoComponent implements OnInit {
 
   getLocalidades(id_provincia:number){
     this.localidades = [];
-    this.itinerarioModel.id_localidad = 0;
     this._localidadesService.getLocalidadesByIdProvincia(id_provincia).subscribe(Response=>{
       Response.Resultset.forEach((element:any) => {
         this.localidades.push({ // guardo la lista de laboratorios en el array laboratorios
@@ -738,7 +754,6 @@ export class AgregarCursoComponent implements OnInit {
 
   eliminarFile(id:number){
       this._deleteFileService.deleteFile(id).subscribe(Response=>{
-      console.log(Response);
       if(Response.error==""){
 
         this.toastr.success("Se elimino el archivo exitosamente!","Archivo Eliminado!",{
@@ -746,7 +761,6 @@ export class AgregarCursoComponent implements OnInit {
         });
         
       }else{
-        console.log(Response.ResultSet.error);
         this.toastr.error("Ocurrio un error al eliminar el archivo","Ocurrio un error",{
           positionClass:'toast-bottom-right'
         });
@@ -755,7 +769,6 @@ export class AgregarCursoComponent implements OnInit {
       this.getFilesItinerario();
     },
     error =>{
-      console.log(error);
       this.toastr.error("Ocurrio un error al eliminar el archivo","Ocurrio un error",{
         positionClass:'toast-bottom-right'
       });
