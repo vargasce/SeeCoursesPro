@@ -318,6 +318,7 @@ export class AgregarCursoComponent implements OnInit {
     let id_curso: number;
     this.loading=true
     this.itinerarioModel.id_entidad = Number(sessionStorage.getItem("id_entidad"));
+    this.itinerarioModel.telefono_consulta = this.itinerarioModel.telefono_consulta.toString(); 
     this._itinerarioService.guardarItinerario(this.itinerarioModel).subscribe(async Response =>{
 
       if(Response.error == ""){ // el response me tiene que devolver el id del curso que se creo, asi lo uso en el service de abajo
@@ -445,6 +446,7 @@ export class AgregarCursoComponent implements OnInit {
     this.itinerarioModel.fecha_alta = this.fechas.currentDateConGuionMedio();
     this.loading=true
     this.itinerarioModel.id_entidad = Number(sessionStorage.getItem("id_entidad"));
+    this.itinerarioModel.telefono_consulta = this.itinerarioModel.telefono_consulta.toString();
     this._itinerarioService.editarItinerario(id_curso,this.itinerarioModel).subscribe(async Response =>{
 
       if(Response.error == ""){ // el response me tiene que devolver el id del curso que se creo, asi lo uso en el service de abajo

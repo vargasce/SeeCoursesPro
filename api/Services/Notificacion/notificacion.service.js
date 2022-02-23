@@ -259,12 +259,38 @@ const ItinerarioService = {
    * @param   { Object } req => Request del controller.
    * @returns { Promise } => new Promise.
    */
-  getListNotificacionEntidad : ( ) =>{
+  getListNotificacionAdmin : ( req ) =>{
     return new Promise( async ( resolve, reject ) =>{
       
       let noti = new Notificacion();
-      let sql = noti.getSqlStringListNotiEntidad();
+      let sql = noti.getSqlStringListNotiAmin();
 
+      try{
+
+        await con.QueryAwait('BEGIN');
+        const result = await con.QueryAwait( sql );
+        let ok = await con.QueryAwait('COMMIT');
+        if( ok ) resolve( result.rows );
+
+      }catch( err ){
+        await con.QueryAwait('ROLLBACK');
+        reject( new NotificacionError( 'Error', `Error en la transaccion de list notificacion admin., ${err}` ) );
+      }
+
+    });
+  },
+
+  /** OBTENER LISTA DE NOTIFICAIONES PENDIENTES ENTIDAD.
+   * @Observations : Obtiene lista de notificaciones pendientes entidad.
+   * @param   { Object } req => Request del controller.
+   * @returns { Promise } => new Promise.
+   */
+  getListNotificacionEntidad : ( req ) =>{
+    return new Promise( async ( resolve, reject ) =>{
+      
+      let noti = new Notificacion();
+      let sql = noti.getSqlStringListNotiEntidad( req.body.data.id );
+      console.log( sql );
       try{
 
         await con.QueryAwait('BEGIN');
@@ -278,7 +304,7 @@ const ItinerarioService = {
       }
 
     });
-  },
+  }
 
 }
 

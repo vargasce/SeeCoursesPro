@@ -284,16 +284,32 @@ ORDER BY noti.id DESC
     return sql;
   }
 
-  /** OBTENER LISTA DE NOTIFICACIONES PARA ENTIDAD
+  /** OBTENER LISTA DE NOTIFICACIONES PARA Administrado
    * @Observations => Lista de notificaciones
    * @returns { string }
    */
-  getSqlStringListNotiEntidad(){
+  getSqlStringListNotiAmin(){
 
     let sql = `
       SELECT id, id_entidad, id_estado, visto, es_admin, pendiente, descripcion, observacion, fecha, es_curso, id_curso
 	    FROM public.notificacion
 	    WHERE visto = false AND pendiente = true AND es_admin = true
+      ORDER BY id ASC;
+    `;
+
+    return sql;
+  }
+
+/** OBTENER LISTA DE NOTIFICACIONES PARA ENTIDAD
+   * @Observations => Lista de notificaciones
+   * @returns { string }
+   */
+  getSqlStringListNotiEntidad( id ){
+
+    let sql = `
+      SELECT id, id_entidad, id_estado, visto, es_admin, pendiente, descripcion, observacion, fecha, es_curso, id_curso
+	    FROM public.notificacion
+	    WHERE visto = false AND pendiente = true AND es_admin = false AND id_entidad = ${id}
       ORDER BY id ASC;
     `;
 

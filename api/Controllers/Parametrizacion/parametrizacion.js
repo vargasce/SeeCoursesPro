@@ -4,9 +4,8 @@ const con = require('../../DB-connect/connectDB');
 
 const controller = {
   parametrizacion : async ( req, res ) =>{
-    console.log('Cosas raras');
+
     let action = req.body.action;
-    console.log( req.body)
 
     switch( action ){
 

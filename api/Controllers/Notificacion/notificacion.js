@@ -91,6 +91,18 @@ const controller = {
       case 'getListPendingNotificacion' :
 
         try{
+          let resultUpdatePending = await _notificacionService.getListNotificacionAdmin( req );
+          return res.status(200).send({ 'error' : '', 'ResultSet' : resultUpdatePending });
+        }catch( err ){
+  			  await log.addLog( { id : 0, descripcion : 'Error getListPendingNotificacion', fecha : dt.getDateCurrentStringCustom() , hora : dt.getHourMinuteCurrent(), observacion : `Error : ${err}` } );
+          return res.status(500).send({ 'error' : `Error : ${err}` });
+        }
+
+      break;
+
+      case 'getListPendingNotificacionEntidad' :
+
+        try{
           let resultUpdatePending = await _notificacionService.getListNotificacionEntidad( req );
           return res.status(200).send({ 'error' : '', 'ResultSet' : resultUpdatePending });
         }catch( err ){
@@ -99,6 +111,7 @@ const controller = {
         }
 
       break;
+
 
       default :
         return res.status(500).send({ 'error' : `Controlador no encontrado!!!` });

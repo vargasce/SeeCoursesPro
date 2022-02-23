@@ -197,21 +197,23 @@ export class RegisterEntidadComponent implements OnInit {
                 });
               }
             });
-
+            (<HTMLInputElement>document.getElementById('btn-submit')).disabled=false;
         }else{
           this.toastr.error("Ocurrio un error al registrar la Entidad","Ocurrio un error",{
             positionClass:'toast-bottom-right'
           });
+          (<HTMLInputElement>document.getElementById('btn-submit')).disabled=false;
           this.router.navigate(['/login']);
         }
-        (<HTMLInputElement>document.getElementById('btn-submit')).disabled=false;
       },
       Error =>{
         this.toastr.error(`Error interno, no se puede insertar la entidad`,"Ocurrio un error",{
           positionClass:'toast-bottom-right'
         });
+        (<HTMLInputElement>document.getElementById('btn-submit')).disabled=false;
       });
     })
+    
   }
 
   confirmarContrasena(){

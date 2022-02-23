@@ -20,8 +20,8 @@ export class EntidadService {
     getNotificaciones(id?:number): Observable<any>{
         let headers = { headers : environment.headers };
         let send ={
-            'action' : "getNotificacion",
-            'filtro' : {
+            'action' : "getListPendingNotificacionEntidad",
+            'data' : {
                 'id':id
             }
         }
