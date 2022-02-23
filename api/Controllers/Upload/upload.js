@@ -3,6 +3,7 @@
 const _uploadServices = require('../../Services/UploadFile/upload.service');
 const dt = require('../../Custom/dates/dates');
 const log = require('../../Services/Log/log.service');
+const con = require('../../DB-connect/connectDB');
 
 const controller = {
   
@@ -25,7 +26,7 @@ const controller = {
       return res.sendFile( resultAdd );
     }catch( err ){
       await log.addLog( { id : 0, descripcion : 'Error goDown file image', fecha : dt.getDateCurrentStringCustom() , hora : dt.getHourMinuteCurrent(), observacion : `Error : ${err}` } );
-      return res.status(500).send({ 'error': `Error al ralizar el insert : ${err}` });
+      return res.status(500).send({ 'error': `Error al ralizar la consulta : ${err}` });
     }
 
   },
@@ -45,14 +46,32 @@ const controller = {
   goDownFiles : async ( req, res ) =>{
 
     try{
-      let resultAdd = await _uploadServices.godown( req );
+      let resultAdd = await _uploadServices.godownFile( req );
       return res.sendFile( resultAdd );
     }catch( err ){
       await log.addLog( { id : 0, descripcion : 'Error goDown file image', fecha : dt.getDateCurrentStringCustom() , hora : dt.getHourMinuteCurrent(), observacion : `Error : ${err}` } );
       return res.status(500).send({ 'error': `Error al ralizar el insert : ${err}` });
     }
 
+  },
+
+  eliminarArchivo : async ( req, res ) =>{
+    console.log('paso');
+    try{
+      await con.QueryAwait('BEGIN');
+      console.log(`DELETE FROM files WHERE id = ${req.body.data.id}`);
+      let result = await con.QueryAwait(`DELETE FROM files WHERE id = ${req.body.data.id} ;`);
+      let ok = await con.QueryAwait('COMMIT');
+      if( ok ){
+        return res.status(200).send({ 'error' : '', 'ResultSet' : result });
+      }
+    }catch( _error ){
+      await con.QueryAwait('ROLLBACK');
+      return res.status(500).send({ 'error' : `Error al eliminar archivo : ${_error} .`, 'ResultSet' : ''});
+    }
+
   }
+
 
 }
 

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Files } from 'src/app/core/global/imagenes/files/files';
 import { Imagenes } from 'src/app/core/global/imagenes/imagenes';
 import { EntidadService } from 'src/app/core/service/entidad/entidad.service';
+import { FileService } from 'src/app/core/service/files/files.service';
 import { ItinerariosService } from 'src/app/core/service/home-service/home.service';
 import { UploadFileService } from 'src/app/core/service/uploadFile/uploadFile.service';
 import { environment } from 'src/environments/environment';
@@ -17,12 +19,16 @@ export class ListarCursosComponent implements OnInit {
   cursosPendientes:any[]=[];
   cursosRechazados:any[]=[];
   displayStyle: any[] = [];
+  fileList :any[]=[];
   img: Imagenes;
+  file :Files;
   constructor(
     private _itinerariosService: ItinerariosService,
-    private _uploadFileService : UploadFileService
+    private _uploadFileService : UploadFileService,
+    private _fileService:FileService,
   ) { 
     this.img  = new Imagenes(this._uploadFileService);
+    this.file  = new Files(this._uploadFileService);
   }
 
   ngOnInit(): void {
@@ -81,11 +87,28 @@ export class ListarCursosComponent implements OnInit {
           });
         }); 
     }
-   
       
+  }
+
+  getFilesItinerario(id:number){
+
+    this.fileList=[];
+
+    this._fileService.getFilesByIdItinerario(id).subscribe(Response =>{
+
+      Response.ResultSet.forEach((element:any) => {
+      
+        this.fileList.push({   
+          ...element
+
+        })
+      });
+    });
+  
   }
   openPopup(id:number) {
     this.displayStyle[id] = "block";
+    this.getFilesItinerario(id);
   }
   closePopup(id:number) {
     this.displayStyle[id] = "none";
@@ -95,4 +118,7 @@ export class ListarCursosComponent implements OnInit {
     return this.img.bajarImagen(imagen)
   }
   
+  public getStringFile(file:string):string{
+    return this.file.bajarFile(file)
+  }
 }

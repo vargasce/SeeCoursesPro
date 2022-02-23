@@ -4,11 +4,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { DialogoConfirmacionComponent } from 'src/app/components/dialogo-confirmacion/dialogo-confirmacion.component';
 import { fechas } from 'src/app/core/custom/fechas';
+import { Files } from 'src/app/core/global/imagenes/files/files';
 import { Imagenes } from 'src/app/core/global/imagenes/imagenes';
 import { NotificacionModel } from 'src/app/core/models/notificacion/notificacion.model';
 import { Usuario_AdminModel } from 'src/app/core/models/usuario_admin/usuario_admin.model';
 import { AdministradorService } from 'src/app/core/service/administrador/administrador.service';
 import { EmailService } from 'src/app/core/service/email/email.service';
+import { FileService } from 'src/app/core/service/files/files.service';
 import { PaisService } from 'src/app/core/service/paises/paises.service';
 import { UploadFileService } from 'src/app/core/service/uploadFile/uploadFile.service';
 import { Usuario_AdminService } from 'src/app/core/service/user_admin/user_admin.service';
@@ -25,6 +27,7 @@ export class AdministradorComponent implements OnInit {
   entidades:any[]=[];
   administrador:any[]=[];
   displayStyle: any[] = [];
+  fileList: any[] = [];
   displayStyleModal:string = "";
   img: Imagenes;
   emailAdministrador:string | null="";
@@ -35,6 +38,7 @@ export class AdministradorComponent implements OnInit {
   loading :boolean = false;
   submitted= false;
   rol:string|null="";
+  file :Files;
 
   constructor(
     private _administradorService:AdministradorService,
@@ -45,12 +49,14 @@ export class AdministradorComponent implements OnInit {
     public dialogo: MatDialog,
     private fb: FormBuilder,
     private _usuarioAdminService:Usuario_AdminService,
+    private _fileService:FileService,
     )
     { 
       this.registrarUsuario = this.fb.group({
         contrasenia:['',Validators.required],
       })
       this.img  = new Imagenes(this._uploadFileService);
+      this.file  = new Files(this._uploadFileService);
       this.usuarioModel = new Usuario_AdminModel(0,0,0,"","","",false,true);
       this.rol=sessionStorage.getItem('rol');
   }
@@ -128,8 +134,9 @@ export class AdministradorComponent implements OnInit {
       });
   }
 
-  openPopup(id:number) {
+  openPopup(id:number,id_itinerario:number) {
     this.displayStyle[id] = "block";
+    this.getFilesItinerario(id_itinerario);
   }
   closePopup(id:number) {
     this.displayStyle[id] = "none";
@@ -363,4 +370,26 @@ export class AdministradorComponent implements OnInit {
  public getStringImg(imagen:string):string{
   return this.img.bajarImagen(imagen)
 }
+
+public getStringFile(file:string):string{
+  return this.file.bajarFile(file)
+}
+
+getFilesItinerario(id:number){
+
+  this.fileList=[];
+
+  this._fileService.getFilesByIdItinerario(id).subscribe(Response =>{
+
+    Response.ResultSet.forEach((element:any) => {
+    
+      this.fileList.push({   
+        ...element
+
+      })
+    });
+  });
+
+}
+
 }

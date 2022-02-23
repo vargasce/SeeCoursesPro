@@ -46,10 +46,10 @@
                 </thead>
                 <tbody>
                     <tr  id="{{notificacion.id}}" *ngFor="let notificacion of notificaciones">
-                        <td (click)="[openPopup(notificacion.id)]" style="cursor: pointer;"> {{notificacion.nombre_itinerario}} </td>
-                        <td (click)="[openPopup(notificacion.id)]" style="cursor: pointer;"> {{notificacion.descripcion}} </td>
-                        <td (click)="[openPopup(notificacion.id)]" style="cursor: pointer;"> {{notificacion.observacion}} </td>
-                        <td (click)="[openPopup(notificacion.id)]" style="cursor: pointer;"> {{notificacion.fecha}} </td>
+                        <td (click)="[openPopup(notificacion.id,notificacion.id_itinerario)]" style="cursor: pointer;"> {{notificacion.nombre_itinerario}} </td>
+                        <td (click)="[openPopup(notificacion.id,notificacion.id_itinerario)]" style="cursor: pointer;"> {{notificacion.descripcion}} </td>
+                        <td (click)="[openPopup(notificacion.id,notificacion.id_itinerario)]" style="cursor: pointer;"> {{notificacion.observacion}} </td>
+                        <td (click)="[openPopup(notificacion.id,notificacion.id_itinerario)]" style="cursor: pointer;"> {{notificacion.fecha}} </td>
                         <th style="color: green; cursor: pointer; text-align: left;" (click)="aprobarSolicitudesDeCursos(notificacion.id,notificacion.id_entidad,notificacion.id_curso,notificacion.es_curso,notificacion.email_entidad)">✓</th>
                         <th style="color: red; cursor: pointer;  text-align: left;" (click)="rechazarCursosDialog(notificacion.id,notificacion.id_entidad,notificacion.id_curso,notificacion.es_curso,notificacion.email_entidad)">X</th>
                     </tr>
@@ -75,8 +75,8 @@
                 </thead>
                 <tbody>
                     <tr  id="{{entidad.id}}"  *ngFor="let entidad of entidades">
-                        <td (click)="[openPopup(entidad.id)]" style="cursor: pointer;"> {{entidad.descripcion}} </td>
-                        <td (click)="[openPopup(entidad.id)]" style="cursor: pointer;"> {{entidad.fecha}} </td>
+                        <td (click)="[openPopup(entidad.id,0)]" style="cursor: pointer;"> {{entidad.descripcion}} </td>
+                        <td (click)="[openPopup(entidad.id,0)]" style="cursor: pointer;"> {{entidad.fecha}} </td>
                         <th style="color: green; cursor: pointer;  text-align: left;" (click)="aprobarEntidades(entidad.id,entidad.id_entidad,entidad.id_curso,entidad.es_curso,entidad.email_entidad)">✓</th>
                         <th style="color: red; cursor: pointer;  text-align: left;" (click)="rechazarEntidadesDialog(entidad.id,entidad.id_entidad,entidad.id_curso,entidad.es_curso,entidad.email_entidad)">X</th>
                     </tr>
@@ -108,7 +108,12 @@
             <p> <b>Localidad: </b>{{notificacion.descripcion_localidad}}</p>
             <p> <b>Telefono: </b>{{notificacion.telefono_consulta}}</p>
             <p> <b>Email: </b>{{notificacion.email_consulta}}</p>
-            <img src="{{getStringImg(notificacion.imagen_itinerario)}}"  class="card-img-top"alt="">
+            <b>Archivos: </b>
+            <p *ngIf="fileList.length==0 " class="mt-1">No hay archivos subidos</p>
+            <div *ngFor ="let file of fileList;">
+              <a class="mt-1" href="{{getStringFile(file.archivo)}}" target="blank">{{file.descripcion}}</a>
+            </div>
+            <img src="{{getStringImg(notificacion.imagen_itinerario)}}"  class="card-img-top mt-1"alt="">
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" (click)="[closePopup(notificacion.id)]">Cerrar</button>

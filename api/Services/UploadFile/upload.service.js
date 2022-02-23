@@ -59,7 +59,7 @@ const uploadService = {
       let image_path = `./File_up/${image}`;
       fs.exists( image_path, ( exits ) =>{
         if( exits ){
-          resolve( path.resolve(image_path) );
+          resolve( path.resolve( image_path ) );
         }else{
           reject({ 'error' : true });
         }
@@ -84,13 +84,14 @@ const uploadService = {
         reject( new UploadError('Error Upload', 'Error files is not Obeject.') );
       }
       
-      let obj = splitFileObject( files );
+      let obj = splitFileObject2( files );
 
       if( obj.extension == 'pdf' || obj.extension == 'txt' ){
 
         let fecha = dt.getDateCurrentStringCustom();
         let sql = `INSERT INTO ${table} ( archivo, descripcion, id_itinerario, id_entidad ) VALUES('_${table}_${id}_${fecha}_${obj.fileName}', '${descripcion}', ${id}, ${id_entidad}) `;
 
+        console.log( sql );
         try{
 
           await con.QueryAwait('BEGIN');
@@ -115,10 +116,10 @@ const uploadService = {
   godownFile : ( req ) =>{
     return new Promise( ( resolve, reject ) =>{
       let file = req.params.file;      
-      let image_path = `./File_up/${file}`;
-      fs.exists( image_path, ( exits ) =>{
+      let file_path = `./File_up/${file}`;
+      fs.exists( file_path, ( exits ) =>{
         if( exits ){
-          resolve( path.resolve(image_path) );
+          resolve( path.resolve(file_path) );
         }else{
           reject({ 'error' : true });
         }
@@ -212,6 +213,70 @@ const saveFile = ( fileName, filePath, id, tabla ) =>{
 
   }catch( err ){
     console.log( err );
+    throw err;
+  }
+
+}
+
+const splitFileObject2 = ( files ) =>{
+
+  try{    
+
+    console.log(files.file);
+    console.log(files)
+    console.log(files.file.path)
+
+    switch( os.platform()){
+      case 'darwin':
+        
+        let filePath = files.file.path;
+        let fileSplit = filePath.split('/');
+        let fileName =  fileSplit[fileSplit.length - 1];
+        let extensionSplit = fileName.split('.');
+        let extension = extensionSplit[1];
+
+        return {
+          fileName,
+          filePath,
+          extension
+        }
+
+      break;
+
+      case 'linux' :
+
+        let filePathLi = files.file.path;
+        let fileSplitLi = filePathLi.split('/');
+        let fileNameLi =  fileSplitLi[fileSplitLi.length - 1];
+        let extensionSplitLi = fileNameLi.split('.');
+        let extensionLi = extensionSplitLi[1];
+        
+        return {
+          'fileName' : fileNameLi,
+          'filePath' : filePathLi,
+          'extension' : extensionLi
+        }
+
+      break;
+
+      default:
+
+        let filePathWi = files.file.path;
+        let fileSplitWi = filePathWi.split('\\');
+        let fileNameWi =  fileSplitWi[fileSplitWi.length - 1];
+        let extensionSplitWi = fileNameWi.split('.');
+        let extensionWi = extensionSplitWi[1];
+
+        return {
+          'fileName' : fileNameWi,
+          'filePath' : filePathWi,
+          'extension' : extensionWi
+        }
+
+      break;
+    }
+
+  }catch( err ){
     throw err;
   }
 

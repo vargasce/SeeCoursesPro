@@ -270,16 +270,38 @@ const itinerarioService = {
         reject( e.getMessage() );
       }
       
+
       let sql = `
-        SELECT it.id, it.nombre, it.titulo, it.descripcion, it.observacion, to_char( it.fecha_itinerario, 'yyyy-MM-DD' ) AS fecha_itinerario, it.hora_itinerario, it.hora_itinerario_fin, 
+        SELECT it.id, it.nombre, it.titulo, it.descripcion, it.observacion, to_char( it.fecha_itinerario, 'yyyy-MM-DD' ) AS fecha_itinerario, it.hora_itinerario, 
+              to_char( it.fecha_alta, 'yyyy-MM-DD' ) AS fecha_alta, it.imagen, it.link, it.instructor, it.viewed, it.validado, it.finalizado, it.rechazado, it.hora_itinerario_fin,
+              ent.id as id_entidad, ent.nombre as nombre_entidad,
+              ent.descripcion as descripcion_entidad, ent.telefono as telefono_entidad,
+              ent.director as director_entidad, ent.ciudad as ciudad_entidad,
+              noti.observacion AS observacion_notificacion, noti.pendiente AS noti_pendiente,
+              act.id AS id_actividad, act.descripcion AS descripcion_actividad,
+              pa.id AS id_pais, pa.descripcion AS descripcion_pais,
+              pro.id AS id_provincia, pro.descripcion AS descripcion_provincia,
+              loca.id AS id_localidad, loca.descripcion AS descripcion_localidad,
+              it.email_consulta, it.telefono_consulta
+        FROM public.itinerario as it 
+        INNER JOIN public.entidad as ent on it.id_entidad = ent.id
+        INNER JOIN public.notificacion AS noti ON noti.id_curso = it.id
+        INNER JOIN public.actividad AS act ON act.id = it.id_actividad
+        INNER JOIN public.pais AS pa ON pa.id = it.id_pais
+        INNER JOIN public.provincia AS pro ON pro.id = it.id_provincia
+        INNER JOIN public.localidad AS loca ON loca.id = it.id_localidad
+        WHERE it.id = ${id}
+	    ;`;
+
+
+ /*       SELECT it.id, it.nombre, it.titulo, it.descripcion, it.observacion, to_char( it.fecha_itinerario, 'yyyy-MM-DD' ) AS fecha_itinerario, it.hora_itinerario, it.hora_itinerario_fin, 
 	             to_char( it.fecha_alta, 'yyyy-MM-DD' ), it.imagen, it.link, it.instructor, it.viewed, ent.id as id_entidad, ent.nombre as nombre_entidad,
 	             ent.descripcion as descripcion_entidad, ent.telefono as telefono_entidad,
 	             ent.director as director_entidad, ent.ciudad as ciudad_entidad
 	      FROM public.itinerario as it 
 	      INNER JOIN public.entidad as ent on it.id_entidad = ent.id
 	      WHERE it.id = ${id}
-	      ;`;
-
+        */
       con.select( sql, ( error, result ) =>{
         if( !error ){
           if( result.rowCount > 0 ){

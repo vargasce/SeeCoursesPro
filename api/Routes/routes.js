@@ -30,6 +30,7 @@ router.post('/notificacion', Notificacion.notificacion );             // CONTROL
 router.post('/pais', Pais.paises );                                   // CONTROLLER PAISES
 router.post('/provincia', Provincia.provincias );                     // CONTROLLER PROVINCIAS
 router.post('/upload', Upload.upload );                               // CONTROLLER UPLOAD IMG
+router.post('/uploadFiles', Upload.uploadFiles );                     // CONTROLLER UPLOAD IMG
 router.get('/godownImg/:image', Upload.goDown );                      // CONTROLLER GODOWS IMG
 router.post('/email', Email.emailController );                        // CONTROLLER EMAIL
 router.post('/administrador', Administrador.administradorController ) // CONTROLLER ADMINISTRADOR
@@ -39,7 +40,8 @@ router.post('/imagen', Imagen.imagen );                               // CONTROL
 router.post('/archivos', Upload.uploadFiles )                         // CONTROLLER FILES 
 router.get('/getArchivo/:file', Upload.goDownFiles );                 // CONTROLLER GODOWS Files
 router.post('/localidad', Localidad.localidad );                      // CONTROLLER LOCALIDADES
-router.get('/list', Parametrizacion.parametrizacion );                // CONTROLLER PARAMETRIZACION
+router.post('/list', Parametrizacion.parametrizacion );               // CONTROLLER PARAMETRIZACION
+router.post('/deleteFile', Upload.eliminarArchivo );                  // METHOD DELET
 
 module.exports = router;
 

@@ -234,7 +234,12 @@
             <p> <b>Localidad: </b>{{curso.descripcion_localidad}}</p>
             <p> <b>Telefono: </b>{{curso.telefono_consulta}}</p>
             <p> <b>Email: </b>{{curso.email_consulta}}</p>
-            <img src="{{getStringImg(curso.imagen)}}"  class="card-img-top"alt="">
+            <b>Archivos: </b>
+            <p *ngIf="fileList.length==0 " class="mt-1">No hay archivos subidos</p>
+            <div *ngFor ="let file of fileList;">
+              <a class="mt-1" href="{{getStringFile(file.archivo)}}" target="blank">{{file.descripcion}}</a>
+            </div>
+            <img src="{{getStringImg(curso.imagen)}}"  class="card-img-top mt-1"alt="">
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" (click)="[closePopup(curso.id)]">Cerrar</button>
@@ -268,7 +273,12 @@
             <p> <b>Localidad: </b>{{curso.descripcion_localidad}}</p>
             <p> <b>Telefono: </b>{{curso.telefono_consulta}}</p>
             <p> <b>Email: </b>{{curso.email_consulta}}</p>
-            <img src="{{getStringImg(curso.imagen)}}"  class="card-img-top"alt="">
+            <b>Archivos: </b>
+            <p *ngIf="fileList.length==0 " class="mt-1">No hay archivos subidos</p>
+            <div *ngFor ="let file of fileList;">
+              <a class="mt-1" href="{{getStringFile(file.archivo)}}" target="blank">{{file.descripcion}}</a>
+            </div>
+            <img src="{{getStringImg(curso.imagen)}}"  class="card-img-top mt-1"alt="">
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" (click)="[closePopup(curso.id)]">Cerrar</button>
@@ -303,7 +313,12 @@
             <p> <b>Localidad: </b>{{curso.descripcion_localidad}}</p>
             <p> <b>Telefono: </b>{{curso.telefono_consulta}}</p>
             <p> <b>Email: </b>{{curso.email_consulta}}</p>
-            <img src="{{getStringImg(curso.imagen)}}"  class="card-img-top"alt="">
+            <b>Archivos: </b>
+            <p *ngIf="fileList.length==0 " class="mt-1">No hay archivos subidos</p>
+            <div *ngFor ="let file of fileList;">
+              <a class="mt-1" href="{{getStringFile(file.archivo)}}" target="blank">{{file.descripcion}}</a>
+            </div>
+            <img src="{{getStringImg(curso.imagen)}}"  class="card-img-top mt-1"alt="">
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" (click)="[closePopup(curso.id)]">Cerrar</button>
@@ -338,7 +353,12 @@
             <p> <b>Telefono: </b>{{curso.telefono_consulta}}</p>
             <p> <b>Email: </b>{{curso.email_consulta}}</p>
             <p> <b>Motivo de Rechazo: </b>{{curso.observacion_notificacion}}</p>
-            <img src="{{getStringImg(curso.imagen)}}"  class="card-img-top"alt="">
+            <b>Archivos: </b>
+            <p *ngIf="fileList.length==0 " class="mt-1">No hay archivos subidos</p>
+            <div *ngFor ="let file of fileList;">
+              <a class="mt-1" href="{{getStringFile(file.archivo)}}" target="blank">{{file.descripcion}}</a>
+            </div>
+            <img src="{{getStringImg(curso.imagen)}}"  class="card-img-top mt-1"alt="">
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-dark " [routerLink]="['/entidad/editCurso/', curso.id]">Modificar</button>

@@ -18,6 +18,13 @@ import { ActividadesService } from 'src/app/core/service/actividades/actividades
 import { PaisService } from 'src/app/core/service/paises/paises.service';
 import { ProvinciasService } from 'src/app/core/service/provincias/provincias.service';
 import { LocalidadesService } from 'src/app/core/service/localidades/localidades.service';
+import { MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
+import { pdfModel } from 'src/app/core/custom/pdfModel';
+import { map } from 'rxjs/operators';
+import { Files } from 'src/app/core/global/imagenes/files/files';
+import { FileService } from 'src/app/core/service/files/files.service';
+import { DeleteFile } from 'src/app/core/service/files/deleteFile';
 
 
 
@@ -49,8 +56,13 @@ export class AgregarCursoComponent implements OnInit {
   imagenPropia:boolean =false;
   imagenPorDefecto:boolean = false;
   imagenModel:Array<File> =[];
+  pdfModel:File[]=[];
+  fileList:any[]=[];
+  pdfModelArray: Array<pdfModel> = [];
+  pdfName:string="";
   img_foto:string="";
   img: Imagenes;
+  file :Files;
   imagenExist:boolean = false;
   validarImagen:boolean = true;
   today:string= this.fechas.currentDateConGuionMedio();
@@ -71,6 +83,8 @@ export class AgregarCursoComponent implements OnInit {
 
 
   constructor(
+    iconRegistry: MatIconRegistry,
+    sanitizer: DomSanitizer,
     private fb: FormBuilder,
     private aRoute: ActivatedRoute,
     private router:Router,
@@ -89,7 +103,10 @@ export class AgregarCursoComponent implements OnInit {
     private _paisesService: PaisService,
     private _provinciasService: ProvinciasService,
     private _localidadesService: LocalidadesService,
+    private _fileService:FileService,
+    private _deleteFileService : DeleteFile
     ) {
+      
     this.agregarCurso = this.fb.group({
       nombre:['',Validators.required],
       titulo:['',Validators.required],
@@ -107,10 +124,13 @@ export class AgregarCursoComponent implements OnInit {
       telefono_consulta:['',Validators.required],
       email_consulta:['',Validators.required],
     });
-    
+    iconRegistry.addSvgIcon('pdf', sanitizer.bypassSecurityTrustResourceUrl('assets/img/pdf.svg'));
+    iconRegistry.addSvgIcon('txt', sanitizer.bypassSecurityTrustResourceUrl('assets/img/txt.svg'));
+    iconRegistry.addSvgIcon('cross', sanitizer.bypassSecurityTrustResourceUrl('assets/img/cross.svg'));
     this.id = Number(sessionStorage.getItem('id_entidad')) //capturo el id del registro que quiero modificar
     this.itinerarioModel = new ItinerarioModel(0,Number(sessionStorage.getItem('id_entidad')),"","","","","","","",this.fechas.currentDate(),"","","",false,false,false,false,0,0,0,0,"","");
     this.img  = new Imagenes(this._uploadFileService);
+    this.file  = new Files(this._uploadFileService);
   }
 
   async ngOnInit(): Promise<void> {
@@ -132,12 +152,16 @@ export class AgregarCursoComponent implements OnInit {
 
   esEditar(){ 
 
-    //if(location.href.split("/",6)[5]==undefined){
     if( this.aRoute.snapshot.paramMap.get('id') == null ){
+
       this.id_curso = 0;
+
     }else{
+
       this.id_curso = Number( this.aRoute.snapshot.paramMap.get('id') );
-      //this.id_curso = Number(location.href.split("/",6)[5]);
+      (<HTMLInputElement>document.getElementById('provincias')).disabled=false;
+      (<HTMLInputElement>document.getElementById('localidades')).disabled=false;
+
     }
 
     if(this.id_curso !== 0){
@@ -151,7 +175,12 @@ export class AgregarCursoComponent implements OnInit {
         this.itinerarioModel = Response.ResultSet;
         this.loading= false;
         let split:number = this.itinerarioModel.imagen.indexOf("imagen");
-        console.log(split);
+
+        this.getProvincias(this.itinerarioModel.id_pais);
+        this.getLocalidades(this.itinerarioModel.id_provincia);
+
+        this.getFilesItinerario();
+
         if(split >0){ // verifico si la imagen que tenia guardada es una imagen por defecto
 
           (<HTMLInputElement>document.getElementById('selectorDeImagen')).value = "2";
@@ -264,6 +293,17 @@ export class AgregarCursoComponent implements OnInit {
         'tabla': "itinerario"
       }
     }
+
+    let dataFile = {
+      'data' : {
+        'descripcion':this.pdfName,
+        'file' : this.pdfModel[0],
+        'id'   : 0,
+        'id_entidad':sessionStorage.getItem('id_entidad'),
+        'tabla': "files"
+      }
+    }
+
     let  emailObject = {
       dataEmail : {
         TO      : this.adminMails, // get de todos los mails de admins
@@ -291,6 +331,7 @@ export class AgregarCursoComponent implements OnInit {
           } 
           
           data.data.id =Response.ResultSet.id;
+          dataFile.data.id =Response.ResultSet.id;
 
           try{
 
@@ -305,12 +346,50 @@ export class AgregarCursoComponent implements OnInit {
           if(!this.imagenPorDefecto){
             this._uploadFileService.makeFileRequest(data,"image").then(Result=>{}).catch(
               error=>{
-                this.toastr.error("Ocurrio un guardar la imagen","Ocurrio un error",{
+                this.toastr.error("Ocurrio un error al guardar la imagen","Ocurrio un error",{
                   positionClass:'toast-bottom-right'
                 });
               }
             )
           }
+
+          if(this.pdfModel!=[]){
+
+              try{
+
+               await Promise.all(this.pdfModel.map( async (value ) =>{
+                  
+                  dataFile.data.file = value;
+
+                  if(value.name.length >45){
+
+                    dataFile.data.descripcion = value.name.substring(0,45);
+
+                  }else{
+                    
+                    dataFile.data.descripcion = value.name;
+                  }
+
+                  await this._uploadFileService.makeFileRequestFile( dataFile, "file" ).then( response =>{
+                    
+                  }).catch( _error =>{ 
+
+                      console.log( _error );
+
+                      this.toastr.error("Ocurrio un error al guardar el archivo","Ocurrio un error",{
+                        positionClass:'toast-bottom-right'
+                    });
+                  });
+                }));
+
+              }catch( err ){
+                console.log(err);
+                this.toastr.error("Ocurrio un error al guardar el archivo","Ocurrio un error",{
+                  positionClass:'toast-bottom-right'
+                });
+              }
+          }
+
           this.router.navigate(['/entidad/listarCursos']);
 
         } catch (error) {
@@ -339,6 +418,18 @@ export class AgregarCursoComponent implements OnInit {
         'tabla': "itinerario"
       }
     }
+
+    let dataFile = {
+      'data' : {
+        'descripcion':this.pdfName,
+        'file' : this.pdfModel[0],
+        'id'   : 0,
+        'id_entidad':sessionStorage.getItem('id_entidad'),
+        'tabla': "files"
+      }
+    }
+
+
     let  emailObject = {
       dataEmail : {
         TO      : this.adminMails, // get de todos los mails de admins
@@ -367,6 +458,7 @@ export class AgregarCursoComponent implements OnInit {
           } 
           
           data.data.id =id_curso;
+          dataFile.data.id =this.id_curso;
 
           try{
 
@@ -387,7 +479,45 @@ export class AgregarCursoComponent implements OnInit {
               }
             )
           }
-          this.router.navigate(['/entidad/listarCursos']);
+
+          if(this.pdfModel!=[]){
+
+            try{
+
+             await Promise.all(this.pdfModel.map( async (value ) =>{
+                
+                dataFile.data.file = value;
+
+                if(value.name.length >100){
+
+                  dataFile.data.descripcion = value.name.substring(0,100);
+
+                }else{
+                  
+                  dataFile.data.descripcion = value.name;
+                }
+
+                await this._uploadFileService.makeFileRequestFile( dataFile, "file" ).then( response =>{
+                  
+                }).catch( _error =>{ 
+
+                    console.log( _error );
+
+                    this.toastr.error("Ocurrio un error al guardar el archivo","Ocurrio un error",{
+                      positionClass:'toast-bottom-right'
+                  });
+                });
+              }));
+
+            }catch( err ){
+              console.log(err);
+              this.toastr.error("Ocurrio un error al guardar el archivo","Ocurrio un error",{
+                positionClass:'toast-bottom-right'
+              });
+            }
+        }
+
+        this.router.navigate(['/entidad/listarCursos']);
 
         } catch (error) {
           this.toastr.error("Ocurrio un error al registrar la solicitud de Actividad","Ocurrio un error",{
@@ -413,8 +543,6 @@ export class AgregarCursoComponent implements OnInit {
     this.location.back();
   }
 
-
-
   saveImagen(id_entidad:number){
     let send = {
       'file' : this.imagenFile,
@@ -425,31 +553,51 @@ export class AgregarCursoComponent implements OnInit {
 
 
   fileChangeEventFoto(fileInput : any){
+
     this.imagenModel= <Array<File>> fileInput.target.files;
     this.previsualizer(this.imagenModel[0]);
+
+  }
+
+  fileChangeEventFile(fileInput : any){
+    
+    this.pdfModel = [];
+    for(let i = 0; i<  fileInput.target.files.length;i++ ){
+      this.pdfModel.push(fileInput.target.files[i]);
+    }
+
   }
 
   eventChange(){
+
     this.renderer.listen(this.selectorDeImagen?.nativeElement,'change',event =>{
+
       if(event.target.value==1){
+
         this.imagenPropia=true;
         this.imagenPorDefecto=false;
         this.editImagen = false;
+
       }else{
+
         this.img_foto="";
         this.imagenPropia=false;
         this.imagenPorDefecto=true;
         this.editImagen = false;
+
       }
+
     });
 
     this.renderer.listen(this.id_paisForm?.nativeElement,'change',event =>{
+
       (<HTMLInputElement>document.getElementById('provincias')).disabled=false;
       this.getProvincias(Number(this.itinerarioModel.id_pais));
 
     });
 
     this.renderer.listen(this.id_provinciasForm?.nativeElement,'change',event =>{
+
       (<HTMLInputElement>document.getElementById('localidades')).disabled=false;
       this.getLocalidades(Number(this.itinerarioModel.id_provincia));
 
@@ -458,15 +606,18 @@ export class AgregarCursoComponent implements OnInit {
 
   
   getImagenes(){ 
+
     this.imagenDefault = [];
-    this._imagenService.getImagenes().subscribe( response =>{
-      console.log(response) 
+    this._imagenService.getImagenes().subscribe( response =>{ 
       this.imagenDefault.push( ... response.ResultSet ) });     
+
   }
 
   onChangeSelect(event: any) {
+
     this.imagenExist = true;
-   this.itinerarioModel.imagen = event.target.value;
+    this.itinerarioModel.imagen = event.target.value;
+
   }
 
   onChangeHora(event:any){
@@ -498,6 +649,10 @@ export class AgregarCursoComponent implements OnInit {
 
   public getStringImg(imagen:string):string{
     return this.img.bajarImagen(imagen)
+  }
+
+  public getStringFile(file:string):string{
+    return this.file.bajarFile(file)
   }
 
   validarCargaImagen(){
@@ -551,13 +706,14 @@ export class AgregarCursoComponent implements OnInit {
           ...element
         })
       });
-      this.itinerarioModel.id_pais=0;
     })
   }
 
   getProvincias(id_pais:number){
+    this.provincias = [];
+    this.itinerarioModel.id_provincia = 0;
+    this.itinerarioModel.id_localidad = 0;
     this._provinciasService.getProvinciasByIdPais(id_pais).subscribe(Response=>{
-      this.provincias = [];
       Response.Resultset.forEach((element:any) => {
         this.provincias.push({ // guardo la lista de laboratorios en el array laboratorios
           ...element
@@ -567,14 +723,42 @@ export class AgregarCursoComponent implements OnInit {
   }
 
   getLocalidades(id_provincia:number){
+    this.localidades = [];
+    this.itinerarioModel.id_localidad = 0;
     this._localidadesService.getLocalidadesByIdProvincia(id_provincia).subscribe(Response=>{
-      this.localidades = [];
       Response.Resultset.forEach((element:any) => {
         this.localidades.push({ // guardo la lista de laboratorios en el array laboratorios
           ...element
         })
       });
     })
+  }
+
+  eliminarFile(id:number){
+      this._deleteFileService.deleteFile(id).subscribe(Response=>{
+      console.log(Response);
+      if(Response.error==""){
+
+        this.toastr.success("Se elimino el archivo exitosamente!","Archivo Eliminado!",{
+          positionClass:'toast-bottom-right'
+        });
+        
+      }else{
+        console.log(Response.ResultSet.error);
+        this.toastr.error("Ocurrio un error al eliminar el archivo","Ocurrio un error",{
+          positionClass:'toast-bottom-right'
+        });
+
+      }
+      this.getFilesItinerario();
+    },
+    error =>{
+      console.log(error);
+      this.toastr.error("Ocurrio un error al eliminar el archivo","Ocurrio un error",{
+        positionClass:'toast-bottom-right'
+      });
+    })
+
   }
 
   validarPaises(){
@@ -606,6 +790,20 @@ export class AgregarCursoComponent implements OnInit {
     }else{
       this.validarLocalidad = true;
     }
+  }
+
+  getFilesItinerario(){
+    this.fileList=[];
+    this._fileService.getFilesByIdItinerario(this.itinerarioModel.id).subscribe(Response =>{
+
+      Response.ResultSet.forEach((element:any) => {
+      
+        this.fileList.push({   
+          ...element
+
+        })
+      });
+    });
   }
     
 }

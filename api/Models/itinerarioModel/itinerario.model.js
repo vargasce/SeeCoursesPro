@@ -169,7 +169,7 @@ class ItinerarioModel{
         validado = false,
         finalizado = false,
         rechazado = false,
-        hora_itinerario_fin = '${this.getHoraItinerarioFin()}'
+        hora_itinerario_fin = '${this.getHoraItinerarioFin()}',
         id_actividad = ${this.getId_Actividad()},
         id_localidad = ${this.getId_Localidad()},
         id_pais = ${this.getId_Pais()},
