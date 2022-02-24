@@ -9,7 +9,7 @@ const controller = {
     usuario_admin : async ( req, res ) => {
 
         let action = req.body.action;
-        
+    
         switch( action ){
 
             case 'update_password' :
@@ -88,8 +88,26 @@ const controller = {
 
             break;
 
+            case 'verifyDni' :
 
+                try{
 
+                let resultVerificaciondni = await _usuario_adminService.verifyDny( req.body.dni );
+                console.log(resultVerificaciondni);
+
+                if( resultVerificaciondni == 0 ) return res.status(200).send({ 'error' : '', 'ResultSet' : true });
+
+                return res.status(500).send({ 'error' : 'El dni que se intenta ingresar ya existe.' });
+
+                }catch( err ){
+                    return res.status(500).send({ 'error' : `${err}`});
+                }
+
+            break;
+
+            default:
+                return res.status(500).send({ 'error' : 'Controller no definido.' });
+            break;
         }
     }
 

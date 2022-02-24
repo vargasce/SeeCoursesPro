@@ -19,59 +19,61 @@ import { Usuario_AdminService } from 'src/app/core/service/user_admin/user_admin
 })
 export class RegisterAdminComponent implements OnInit {
 
-  registrarAdmin : FormGroup;
-  submitted= false;
+  registrarAdmin: FormGroup;
+  submitted = false;
   adminModel: AdministradorModel
-  loading :boolean = false;
+  loading: boolean = false;
   usuarioModel: Usuario_AdminModel;
-  registrarUsuario:FormGroup;
-  validarPass=true;
+  registrarUsuario: FormGroup;
+  validarPass = true;
   fecha = new fechas();
   today = this.fecha.currentDate();
-  roles:any[]=[];
-  validarRol:boolean = true;
-  mailValido:boolean = true;
-  usuarioExistente=false;
+  roles: any[] = [];
+  dniValido: boolean = true;
+  validarRol: boolean = true;
+  mailValido: boolean = true;
+  usuarioExistente = false;
+  dniExistente = false;
 
 
 
   constructor(
     private fb: FormBuilder,
     private aRoute: ActivatedRoute,
-    private router:Router,
-    private location : Location,
+    private router: Router,
+    private location: Location,
     private toastr: ToastrService,
     private _usuarioService: Usuario_AdminService,
-    private _adminService : RegistrarAdminService,
+    private _adminService: RegistrarAdminService,
     private _roles: RolesService,
-    ) {
+  ) {
     this.registrarAdmin = this.fb.group({
-      nombre:['',Validators.required],
-      apellido:['',Validators.required],
-      email:['',Validators.required],
-      dni:['',Validators.required],
+      nombre: ['', Validators.required],
+      apellido: ['', Validators.required],
+      email: ['', Validators.required],
+      dni: ['', Validators.required],
 
     })
 
     this.registrarUsuario = this.fb.group({
-      usuario:['',Validators.required],
-      contrasenia:['',Validators.required],
-      id_rol:['',Validators.required],
+      usuario: ['', Validators.required],
+      contrasenia: ['', Validators.required],
+      id_rol: ['', Validators.required],
     })
 
-    this.adminModel = new AdministradorModel(0,this.today,true,"","","","");
-    this.usuarioModel = new Usuario_AdminModel(0,0,0,"","","",false,true);
-   }
+    this.adminModel = new AdministradorModel(0, this.today, true, "", "", "", "");
+    this.usuarioModel = new Usuario_AdminModel(0, 0, 0, "", "", "", false, true);
+  }
 
   ngOnInit(): void {
     this.getRoles();
   }
 
-  isMailValid():boolean {
-    let mail= (<HTMLInputElement>document.getElementById('mail')).value;
+  isMailValid(): boolean {
+    let mail = (<HTMLInputElement>document.getElementById('mail')).value;
     const regexp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-    this.mailValido=regexp.test(mail);
-    return  this.mailValido
+    this.mailValido = regexp.test(mail);
+    return this.mailValido
   }
 
   async addAdmin() {
@@ -79,11 +81,12 @@ export class RegisterAdminComponent implements OnInit {
     this.confirmarContrasena();
     this.validarRoles();
     this.isMailValid();
-     this.usuarioExistente = await this.validarUserName();
-    if(!this.usuarioExistente){
-      if (!this.registrarAdmin.invalid && !this.registrarUsuario.invalid && this.validarPass && this.validarRol && this.mailValido) {
+    this.validarDni(Number(this.adminModel.dni));
+    this.usuarioExistente = await this.validarUserName();
+    if (!this.usuarioExistente) {
+      if (!this.registrarAdmin.invalid && !this.registrarUsuario.invalid && this.validarPass && this.validarRol && this.mailValido && this.dniValido && !this.dniExistente) {
         this.registrarAdministrador();
-      }else{
+      } else {
         return
       }
     }
@@ -92,78 +95,108 @@ export class RegisterAdminComponent implements OnInit {
 
   }
 
-  confirmarContrasena(){
-    if((<HTMLInputElement>document.getElementById('contrasenia')).value!=(<HTMLInputElement>document.getElementById('confirm_pass')).value){
+  confirmarContrasena() {
+    if ((<HTMLInputElement>document.getElementById('contrasenia')).value != (<HTMLInputElement>document.getElementById('confirm_pass')).value) {
       this.validarPass = false;
-    }else{
+    } else {
       this.validarPass = true;
     }
   }
 
- 
-  async registrarAdministrador(){
-    this.loading=true;
-    (<HTMLInputElement>document.getElementById('btn-submit')).disabled=true;
-      this._adminService.registrarAdmin_userAdmin(this.adminModel,this.usuarioModel).subscribe(async Response =>{
-        if(Response.error == ""){         
-          this.toastr.success("Administrador agregado correctamente","Administrador Agregado",{
-            positionClass:'toast-bottom-right'
-          });
-          this.loading=false;
-          this.router.navigate(['/admin']);
-        }else{
-          this.toastr.error("Ocurrio un error al registrar el administrador","Ocurrio un error",{
-            positionClass:'toast-bottom-right'
-          });
-          this.router.navigate(['/admin']);
-        }
-        (<HTMLInputElement>document.getElementById('btn-submit')).disabled=false;
-      },
-      error=>{
-       // this.usuarioExistente=true;
-        this.loading= false;
+
+  async registrarAdministrador() {
+    this.loading = true;
+    this.adminModel.dni = this.adminModel.dni.toString();
+    (<HTMLInputElement>document.getElementById('btn-submit')).disabled = true;
+    this._adminService.registrarAdmin_userAdmin(this.adminModel, this.usuarioModel).subscribe(async Response => {
+      if (Response.error == "") {
+        this.toastr.success("Administrador agregado correctamente", "Administrador Agregado", {
+          positionClass: 'toast-bottom-right'
+        });
+        this.loading = false;
+        this.router.navigate(['/admin']);
+      } else {
+        this.toastr.error("Ocurrio un error al registrar el administrador", "Ocurrio un error", {
+          positionClass: 'toast-bottom-right'
+        });
+        this.router.navigate(['/admin']);
+      }
+      (<HTMLInputElement>document.getElementById('btn-submit')).disabled = false;
+    },
+      error => {
+        // this.usuarioExistente=true;
+        this.loading = false;
       });
   }
 
-  getRoles(){
-   this._roles.getRoles().subscribe(
+  getRoles() {
+    this._roles.getRoles().subscribe(
       response => {
         console.log(response);
         this.roles = [];
-        response.ResultSet.forEach((element:any) => {
-          this.roles.push({ 
-            ...element 
+        response.ResultSet.forEach((element: any) => {
+          this.roles.push({
+            ...element
           })
         });
       });
-      /*
-      this.roles = [
-                    {id:1, descripcion:"Administrador General"},
-                    {id:2, descripcion:"Administrador"}
-                  ];*/
+    /*
+    this.roles = [
+                  {id:1, descripcion:"Administrador General"},
+                  {id:2, descripcion:"Administrador"}
+                ];*/
   }
 
-  validarRoles(){
-    if(this.usuarioModel.id_rol==0){
+  validarRoles() {
+    if (this.usuarioModel.id_rol == 0) {
       this.validarRol = false;
-    }else{
+    } else {
       this.validarRol = true;
     }
   }
 
-  public validarUserName():Promise<boolean> {
-    return new Promise( (resolve, reject ) =>{
+  public validarUserName(): Promise<boolean> {
+    return new Promise((resolve, reject) => {
 
-      try{
-        this._usuarioService.verifyUser(this.usuarioModel.usuario).subscribe(Response=>{
-            resolve( false )
-          },
-          Error =>{
-            resolve( true );
+      try {
+        this._usuarioService.verifyUser(this.usuarioModel.usuario).subscribe(Response => {
+          resolve(false)
+        },
+          Error => {
+            resolve(true);
           }
         );
-      }catch( err ){
+      } catch (err) {
         this.toastr.error(`Error validando el usuario`, "Ocurrio un error", {
+          positionClass: 'toast-bottom-right'
+        });
+      }
+    });
+  }
+
+  public async validarDni(dni: number) {
+    if (dni > 99999999) {
+      this.dniValido = false;
+    } else {
+      //llamar al metodo que valida uniq
+     this.dniExistente = await this.validarDniExistente(dni);
+      this.dniValido = true;
+    }
+  }
+
+  public validarDniExistente(dni:number): Promise<boolean>{
+    return new Promise((resolve, reject) => {
+
+      try {
+        this._usuarioService.validarDni(dni).subscribe(Response => {
+          resolve(false)
+        },
+          Error => {
+            resolve(true);
+          }
+        );
+      } catch (err) {
+        this.toastr.error(`Error validando el dni`, "Ocurrio un error", {
           positionClass: 'toast-bottom-right'
         });
       }

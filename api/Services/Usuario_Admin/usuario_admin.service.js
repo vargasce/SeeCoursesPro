@@ -208,6 +208,26 @@ class UsuarioAdmin{
         });
     }
 
+    async verifyDny ( dni ){
+        return new Promise( async ( resolve, reject ) =>{
+
+            let sql = `SELECT * FROM administrador WHERE dni = '${dni}' ;`;
+            console.log( sql );
+
+            try{
+
+                await QueryAwait('BEGIN');
+                let result = await QueryAwait( sql );
+                let ok = await QueryAwait('COMMIT');
+                if( ok ) resolve( result.rows.length );
+
+            }catch( err ){
+                await QueryAwait('ROLLBACK');
+                reject( new UsuarioError( 'Error Usuario Admin', `Erro al actualizar nuevas credenciales : ${err}` ) );
+            }
+
+        });
+    }
 
 }
 

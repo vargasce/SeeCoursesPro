@@ -82,4 +82,14 @@ export class Usuario_AdminService {
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }
 
+
+    validarDni(dni:number){
+        let headers = { headers : environment.headers };
+        let send ={
+            'action' : "verifyDni",
+            'dni': dni
+        }
+        return this.http.post<any>( environment.apiURL + this.controller , send, headers );
+    }
+
 }
