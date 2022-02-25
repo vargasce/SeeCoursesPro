@@ -272,7 +272,7 @@ export class AdministradorComponent implements OnInit {
        0,
        id_entidad,
        1,
-       id_curso,
+       0,
        false,
        false,
        false,

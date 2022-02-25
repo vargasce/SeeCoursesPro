@@ -76,6 +76,7 @@ export class AdministradorService {
     }
 
     enviarNotificacionEntidad(notificacion: NotificacionModel){
+        console.log(notificacion);
         let headers = { headers : environment.headers };
         let send ={
             'action' : "addNotificacion",

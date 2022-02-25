@@ -98,7 +98,6 @@ const entidadService = {
       }
 
       let sql = getSqlUpdateValidadoEntidad( id_entidad, verificado );
-
       try{
 
         await con.QueryAwait('BEGIN');

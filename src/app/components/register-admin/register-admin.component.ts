@@ -81,7 +81,7 @@ export class RegisterAdminComponent implements OnInit {
     this.confirmarContrasena();
     this.validarRoles();
     this.isMailValid();
-    this.validarDni(Number(this.adminModel.dni));
+     //await this.validarDni(Number(this.adminModel.dni));
     this.usuarioExistente = await this.validarUserName();
     if (!this.usuarioExistente) {
       if (!this.registrarAdmin.invalid && !this.registrarUsuario.invalid && this.validarPass && this.validarRol && this.mailValido && this.dniValido && !this.dniExistente) {
@@ -140,11 +140,6 @@ export class RegisterAdminComponent implements OnInit {
           })
         });
       });
-    /*
-    this.roles = [
-                  {id:1, descripcion:"Administrador General"},
-                  {id:2, descripcion:"Administrador"}
-                ];*/
   }
 
   validarRoles() {

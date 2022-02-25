@@ -28,6 +28,7 @@ const ItinerarioService = {
       
       let notificacion = new Notificacion( data );
       let sql = notificacion.getSqlString();
+
       try{
 
         await con.QueryAwait('BEGIN');
@@ -237,6 +238,7 @@ const ItinerarioService = {
         await con.QueryAwait('BEGIN');
         await con.QueryAwait( sql );
         const response = await con.QueryAwait( sqlGetNotificacion );
+
         if( es_curso ){
           await _itinerarioService.updateValidateId( response.rows[0].id_curso, false );
         }else{

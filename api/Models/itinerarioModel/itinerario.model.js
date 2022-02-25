@@ -264,7 +264,7 @@ class ItinerarioModel{
     if( data ){
 
       sql = `
-        SELECT id, id_entidad, nombre, titulo, descripcion, observacion, fecha_itinerario, hora_itinerario, fecha_alta, imagen, link, instructor, validado, finalizado, rechazado, viewed, hora_itinerario_fin
+        SELECT id, id_entidad, nombre, titulo, descripcion, observacion, to_char( fecha_itinerario, 'yyyy-MM-DD' ) AS fecha_itinerario, hora_itinerario, to_char( fecha_alta, 'yyyy-MM-DD' ) AS fecha_alta, imagen, link, instructor, validado, finalizado, rechazado, viewed, hora_itinerario_fin
           FROM public.itinerario	
           WHERE fecha_itinerario = '${data.fecha_itinerario}'
 		  ;`;

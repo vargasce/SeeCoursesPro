@@ -77,7 +77,7 @@
                     <tr  id="{{entidad.id}}"  *ngFor="let entidad of entidades">
                         <td (click)="[openPopup(entidad.id,0)]" style="cursor: pointer;"> {{entidad.descripcion}} </td>
                         <td (click)="[openPopup(entidad.id,0)]" style="cursor: pointer;"> {{entidad.fecha}} </td>
-                        <th style="color: green; cursor: pointer;  text-align: left;" (click)="aprobarEntidades(entidad.id,entidad.id_entidad,entidad.id_curso,entidad.es_curso,entidad.email_entidad)">✓</th>
+                        <th style="color: green; cursor: pointer;  text-align: left;" (click)="aprobarEntidades(entidad.id,entidad.id_entidad_table,entidad.id_curso,entidad.es_curso,entidad.email_entidad)">✓</th>
                         <th style="color: red; cursor: pointer;  text-align: left;" (click)="rechazarEntidadesDialog(entidad.id,entidad.id_entidad,entidad.id_curso,entidad.es_curso,entidad.email_entidad)">X</th>
                     </tr>
                 </tbody>
