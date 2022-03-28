@@ -1,5 +1,5 @@
 export const environment = {
-  production: false,
+  production: true,
   apiURL : 'http://181.170.104.151:3700/api/',
   headers : { 'Content-Type' : 'application/json' },
   token : sessionStorage.getItem('token') ,
