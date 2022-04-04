@@ -81,6 +81,7 @@ export class AgregarCursoComponent implements OnInit {
   validarProv:boolean = true;
   validarActividad:boolean = true;
   validarLocalidad:boolean = true;
+  mailValido: boolean = true;
 
 
   constructor(
@@ -264,8 +265,9 @@ export class AgregarCursoComponent implements OnInit {
       this.validarProvincias();
       this.validarLocalidades();
       this.validarActividades();
+      this.isMailValid();
     
-      if (!this.agregarCurso.invalid && this.validarImagen && !this.errorFechas &&this.validarProv && this.validarPais && this.validarActividad && this.validarLocalidad) {
+      if (!this.agregarCurso.invalid && this.validarImagen && !this.errorFechas &&this.validarProv && this.validarPais && this.validarActividad && this.validarLocalidad && this.mailValido) {
         let fechasVerificadas = await this.verificarFechaCurso();
         if(fechasVerificadas && this.conservarHorario){
           if (this.id_curso == 0) { // si el id es 0 agrego un nuevo laboratorio, sino lo edito
@@ -819,6 +821,14 @@ if(this.itinerarioModel.imagen != ""){
         })
       });
     });
+  }
+
+  isMailValid(): boolean {
+    alert("hola")
+    let mail = (<HTMLInputElement>document.getElementById('mail')).value;
+    const regexp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+    this.mailValido = regexp.test(mail);
+    return this.mailValido
   }
     
 }
