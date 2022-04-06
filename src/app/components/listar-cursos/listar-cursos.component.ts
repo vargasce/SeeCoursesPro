@@ -121,4 +121,8 @@ export class ListarCursosComponent implements OnInit {
   public getStringFile(file:string):string{
     return this.file.bajarFile(file)
   }
+
+  MostrarAlerta(){
+    alert("Al modificar la actividad pasará automaticamente al estado 'Pendiente' para que un administrador pueda revisarla.")
+  }
 }
