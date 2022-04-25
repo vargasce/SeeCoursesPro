@@ -337,15 +337,19 @@ export class AgregarCursoComponent implements OnInit {
           data.data.id =Response.ResultSet.id;
           dataFile.data.id =Response.ResultSet.id;
 
-          try{
+/*
+    try{
 
-            await this._emailService.enviarMail( emailObject.dataEmail ).toPromise();   
+      await this._emailService.enviarMail( emailObject.dataEmail ).toPromise();   
 
-          }catch( err ){
-            this.toastr.error("Ocurrio un error al enviar el email al administrador","Ocurrio un error",{
-              positionClass:'toast-bottom-right'
-            });            
-          }
+    }catch( err ){
+      this.toastr.error("Ocurrio un error al enviar el email al administrador","Ocurrio un error",{
+        positionClass:'toast-bottom-right'
+      });            
+    }
+*/
+
+
 
           if(!this.imagenPorDefecto){
             this._uploadFileService.makeFileRequest(data,"image").then(Result=>{}).catch(
@@ -396,6 +400,20 @@ export class AgregarCursoComponent implements OnInit {
 
           this.router.navigate(['/entidad/listarCursos']);
 
+          //SEND EMAIL.
+          this._emailService.enviarMail( emailObject.dataEmail ).subscribe(
+            Response => {
+              this.toastr.success("Email con solicitud de Actividad enviada con exito!","Envio de Email",{
+                positionClass:'toast-bottom-right'
+              });
+            },
+            Error =>{
+              this.toastr.error("Ocurrio un error al enviar el email al administrador","Ocurrio un error",{
+                positionClass:'toast-bottom-right'
+              });            
+            }
+          );
+
         } catch (error) {
           this.toastr.error("Ocurrio un error al registrar la solicitud de Actividad","Ocurrio un error",{
             positionClass:'toast-bottom-right'
@@ -408,7 +426,7 @@ export class AgregarCursoComponent implements OnInit {
         });
         (<HTMLInputElement>document.getElementById('btn-submit')).disabled=false;
       }
-    })
+    });
 
   }
 

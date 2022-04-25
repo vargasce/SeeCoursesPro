@@ -74,6 +74,7 @@ export class AdministradorComponent implements OnInit {
   this.entidades=[];
    this._administradorService.getNotificacionesEntidad().subscribe(
       Response =>{
+        console.log(Response);
         Response.ResultSet.forEach((element:any) => {
               this.entidades.push({
                 ...element 

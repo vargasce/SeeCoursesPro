@@ -190,13 +190,20 @@ export class RegisterEntidadComponent implements OnInit {
             });
             this.router.navigate(['/login']);
           }
-          this._emailService.enviarMail(emailObject.dataEmail).subscribe(Response => {
-            if (Response.error != "") {
-              this.toastr.error("Ocurrio un error al enviar el email al administrador", "Ocurrio un error", {
-                positionClass: 'toast-bottom-right'
+
+          //SEND EMAIL.
+          this._emailService.enviarMail( emailObject.dataEmail ).subscribe(
+            Response => {
+              this.toastr.success("Email con solicitud de Actividad enviada con exito!","Envio de Email",{
+                positionClass:'toast-bottom-right'
               });
+            },
+            Error =>{
+              this.toastr.error("Ocurrio un error al enviar el email al administrador","Ocurrio un error",{
+                positionClass:'toast-bottom-right'
+              });            
             }
-          });
+          );
 
         } else {
           this.toastr.error("Ocurrio un error al registrar la Entidad", "Ocurrio un error", {
