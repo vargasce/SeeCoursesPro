@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpHandler, HttpHeaders } from "@angular/common/http";
 import { environment } from '../../../../environments/environment';
 import { ProvinciasModel } from "../../models/provincias/provincias.model";
+import { Localidad_ProcedenciaModel } from "../../models/localidad_procedencia/localidad_procedencia.model";
 
 @Injectable({
     providedIn: 'root'

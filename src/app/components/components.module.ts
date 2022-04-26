@@ -36,6 +36,8 @@ import { ChangeEmailComponent } from './change-email/change-email.component';
 import { AgregarImagenesComponent } from './agregar-imagenes/agregar-imagenes.component';
 import { DialogEliminarCursoComponent } from './dialog-eliminar-curso/dialog-eliminar-curso.component';
 import { ListarEntidadesComponent } from './listar-entidades/listar-entidades.component';
+import { AbmLocalidadesComponent } from './abm-localidades/abm-localidades.component';
+import { AgregarLocalidadesComponent } from './agregar-localidades/agregar-localidades.component';
 
 
 
@@ -70,6 +72,8 @@ import { ListarEntidadesComponent } from './listar-entidades/listar-entidades.co
         AgregarImagenesComponent,
         DialogEliminarCursoComponent,
         ListarEntidadesComponent,
+        AbmLocalidadesComponent,
+        AgregarLocalidadesComponent,
         
 
        
@@ -108,7 +112,9 @@ import { ListarEntidadesComponent } from './listar-entidades/listar-entidades.co
         ImagenesPorDefectoComponent,
         ChangeEmailComponent,
         ListarEntidadesComponent,
-        DeleteCursosComponent
+        DeleteCursosComponent,
+        AbmLocalidadesComponent,
+        AgregarLocalidadesComponent
 
     ],
     entryComponents: [

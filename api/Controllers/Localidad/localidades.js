@@ -102,9 +102,9 @@ module.exports = controller;
  * @return sql : String => String con la consulta a enviar a la base de datos.
  */
 const listSqlstrById = ( id_provincia  ) =>{
-  let sql = `SELECT loca.id AS id, loca.descripcion AS descr_localidad, pro.id AS id_provincia, pro.descripcion AS descr_provincia
+  let sql = `SELECT loca.id AS id, loca.localidad AS descr_localidad, pro.id AS id_provincia, pro.descripcion AS descr_provincia
              FROM localidad as loca
-             INNER JOIN provincia as pro ON pro.id = loca.id_provincia
+             INNER JOIN dasmi.provincias as pro ON pro.id = loca.id_provincia
              WHERE loca.id_provincia = ${id_provincia}
              ORDER BY descr_localidad ASC ;`;
 
@@ -117,10 +117,10 @@ const listSqlstrById = ( id_provincia  ) =>{
  * @return sql : String => String con la consulta a enviar a la base de datos.
  */
 const searchSqlstrById = ( id_provincia  ) =>{
-  let sql = `SELECT loca.id AS id, loca.descripcion AS descr_localidad, pro.id AS id_provincia, pro.descripcion AS descr_provincia
+  let sql = `SELECT loca.id AS id, loca.localidad AS descr_localidad, pro.id AS id_provincia, pro.descripcion AS descr_provincia
              FROM localidad as loca
-             INNER JOIN provincia as pro ON pro.id = loca.id_provincia
-             WHERE pro.id_provincia = ${id_provincia} ANS loca.descripcion ILIKE '%${data}%'
+             INNER JOIN dasmi.provincias as pro ON pro.id = loca.id_provincia
+             WHERE pro.id_provincia = ${id_provincia} AND loca.localidad ILIKE '%${data}%'
              ORDER BY descr_localidad ASC ;`;
 
     return sql;
@@ -170,9 +170,9 @@ const deleteSqlStr = ( id ) =>{
 }
 
 const listSqlList = () =>{
-  let sql = `SELECT loca.id AS id, loca.descripcion AS descr_localidad, pro.id AS id_provincia, pro.descripcion AS descr_provincia
+  let sql = `SELECT loca.id AS id, loca.localidad AS descr_localidad, pro.id AS id_provincia, pro.descripcion AS descr_provincia
              FROM localidad as loca 
-             INNER JOIN provincia as pro 
+             INNER JOIN dasmi.provincias as pro 
              ON loca.id_provincia = pro.id
              ORDER BY descr_localidad ASC 
             ;`;

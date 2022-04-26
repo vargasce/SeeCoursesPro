@@ -15,6 +15,8 @@ import { EmailComponent } from '../email/email.component';
 import { EliminarCursosComponent } from '../eliminar-cursos/eliminar-cursos.component';
 import { AgregarImagenesComponent } from 'src/app/components/agregar-imagenes/agregar-imagenes.component';
 import { EntidadesListComponent } from '../entidades-list/entidades-list.component';
+import { LocalidadesComponent } from '../localidades/localidades.component';
+import { AgregarLocalidadesComponent } from 'src/app/components/agregar-localidades/agregar-localidades.component';
 
 
 
@@ -24,11 +26,14 @@ const routes: Routes = [
         { path : '', component : AdministradorComponent },
         { path : 'paises', component: PaisesComponent },
         { path : 'provincias', component: ProvinciasComponent },
+        { path : 'localidades', component: LocalidadesComponent },
         { path : 'actividades', component: ActividadesComponent },
         { path : 'agregarPaises', component : AgregarPaisesComponent },
         { path : 'paises/editarPaises/:id', component : AgregarPaisesComponent },
         { path : 'agregarProvincias', component : AgregarProvinciasComponent },
         { path : 'provincias/editarProvincias/:id', component : AgregarProvinciasComponent },
+        { path : 'agregarLocalidades', component : AgregarLocalidadesComponent },
+        { path : 'localidades/editarLocalidades/:id', component : AgregarLocalidadesComponent },
         { path : 'agregarActividades', component : AgregarActividadesComponent },
         { path : 'actividades/editarActividades/:id', component : AgregarActividadesComponent },
         { path : 'programadorActualizarClave', component : ActualizarClaveProgramadorComponent },

@@ -33,6 +33,7 @@ import { EmailComponent } from './email/email.component';
 import { EliminarCursosComponent } from './eliminar-cursos/eliminar-cursos.component';
 import { AddImagenComponent } from './add-imagen/add-imagen.component';
 import { EntidadesListComponent } from './entidades-list/entidades-list.component';
+import { LocalidadesComponent } from './localidades/localidades.component';
 
 
 //IMPORTS YOUR PAGES MAIN FOR SYSTEM 
@@ -61,6 +62,7 @@ import { EntidadesListComponent } from './entidades-list/entidades-list.componen
         EliminarCursosComponent,
         AddImagenComponent,
         EntidadesListComponent,
+        LocalidadesComponent,
 
 
     ],
