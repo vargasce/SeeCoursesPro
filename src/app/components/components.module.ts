@@ -1,6 +1,6 @@
 import { NgModule, ModuleWithProviders, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TarjetasComponent } from './tarjetas/tarjetas.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -16,6 +16,28 @@ import { ListarCursosComponent } from './listar-cursos/listar-cursos.component';
 import { RegisterAdminComponent } from './register-admin/register-admin.component';
 import { RegisterEntidadComponent } from './register-entidad/register-entidad.component';
 import { ImgTestComponent } from './img-test/img-test.component';
+import { AbmPaisesComponent } from './abm-paises/abm-paises.component';
+import { AbmProvinciasComponent } from './abm-provincias/abm-provincias.component';
+import { NavbarAdminGeneralComponent } from './navbar-admin-general/navbar-admin-general.component';
+import { AgregarPaisesComponent } from './agregar-paises/agregar-paises.component';
+import { AgregarProvinciasComponent } from './agregar-provincias/agregar-provincias.component';
+import { DialogoConfirmacionComponent } from './dialogo-confirmacion/dialogo-confirmacion.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DialogoFechasComponent } from './dialogo-fechas/dialogo-fechas.component';
+import { AbmActividadesComponent } from './abm-actividades/abm-actividades.component';
+import { AgregarActividadesComponent } from './agregar-actividades/agregar-actividades.component';
+import { FiltrosComponent } from './filtros/filtros.component';
+import { ActualizarClaveComponent } from './actualizar-clave/actualizar-clave.component';
+import { ImagenesPorDefectoComponent } from './imagenes-por-defecto/imagenes-por-defecto.component';
+import { DeleteCursosComponent } from './delete-cursos/delete-cursos.component';
+import { ChangeEmailComponent } from './change-email/change-email.component';
+import { AgregarImagenesComponent } from './agregar-imagenes/agregar-imagenes.component';
+import { DialogEliminarCursoComponent } from './dialog-eliminar-curso/dialog-eliminar-curso.component';
+import { ListarEntidadesComponent } from './listar-entidades/listar-entidades.component';
+import { AbmLocalidadesComponent } from './abm-localidades/abm-localidades.component';
+import { AgregarLocalidadesComponent } from './agregar-localidades/agregar-localidades.component';
 
 
 
@@ -33,6 +55,25 @@ import { ImgTestComponent } from './img-test/img-test.component';
         RegisterAdminComponent,
         RegisterEntidadComponent,
         ImgTestComponent,
+        AbmPaisesComponent,
+        AbmProvinciasComponent,
+        NavbarAdminGeneralComponent,
+        AgregarPaisesComponent,
+        AgregarProvinciasComponent,
+        DialogoConfirmacionComponent,
+        DialogoFechasComponent,
+        AbmActividadesComponent,
+        AgregarActividadesComponent,
+        FiltrosComponent,
+        ActualizarClaveComponent,
+        ImagenesPorDefectoComponent,
+        DeleteCursosComponent,
+        ChangeEmailComponent,
+        AgregarImagenesComponent,
+        DialogEliminarCursoComponent,
+        ListarEntidadesComponent,
+        AbmLocalidadesComponent,
+        AgregarLocalidadesComponent,
         
 
        
@@ -43,6 +84,9 @@ import { ImgTestComponent } from './img-test/img-test.component';
         ReactiveFormsModule,
         MatIconModule,
         MatBadgeModule,
+        MatDialogModule,
+        MatButtonModule,
+        FormsModule
     ],
     exports : [
         NavbarComponent,
@@ -55,9 +99,28 @@ import { ImgTestComponent } from './img-test/img-test.component';
         AgregarCursoComponent,
         RegisterAdminComponent,
         RegisterEntidadComponent,
-        ImgTestComponent
+        ImgTestComponent,
+        AbmPaisesComponent,
+        AbmProvinciasComponent,
+        NavbarAdminGeneralComponent,
+        AgregarPaisesComponent,
+        AgregarProvinciasComponent,
+        DialogoConfirmacionComponent,
+        AbmActividadesComponent,
+        AgregarActividadesComponent,
+        FiltrosComponent,
+        ActualizarClaveComponent,
+        ImagenesPorDefectoComponent,
+        ChangeEmailComponent,
+        ListarEntidadesComponent,
+        DeleteCursosComponent,
+        AbmLocalidadesComponent,
+        AgregarLocalidadesComponent
 
     ],
+    entryComponents: [
+        DialogoConfirmacionComponent// <--- Aquí
+      ],
     schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 

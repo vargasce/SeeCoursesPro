@@ -4,6 +4,7 @@ const con = require('../../DB-connect/connectDB');
 const User = require('../../Models/usuario/usuario.model');
 const fn = require('../../Custom/function_custom/custom');
 const UserError = require('../../Error/usuario/usuarioError');
+const usr = require('../../Custom/userSession/session');
 
 const usuarioService = {
 
@@ -17,25 +18,38 @@ const usuarioService = {
       
       let data = req.body.data;
 
-      //try{
+      try{
         fn.validateType( 'object', data );
-      //}catch( e ){
+      }catch( error ){
+        throw error;
         //reject( e.getMessage() );
-      //}
+      }
 
       let Usuario = new User( data );
       let sqlAdd = Usuario.getSqlString();
-      //try{
+      try{
 
-      await con.QueryAwait('BEGIN').catch( error => { throw error; } );
+        con.select( sqlAdd, ( error, result ) =>{
+          if( !error ){
+            if( result.rowCount > 0 ){
+              resolve( result.rows[0] );
+            }else{
+              resolve('There is not data!!!');
+            }
+          }else{
+            reject( `Error al realizar la consulta : ${error}` );
+          }
+        });
+/*
+        await con.QueryAwait('BEGIN').catch( error => { throw error; } );
         let resultUser = await con.QueryAwait( sqlAdd ).catch( error => { throw error; } );
         let ok = await con.QueryAwait('COMMIT').catch( error => { throw error; } );
         if( ok ) resolve( resultUser.rows[0] );
-
-      //}catch( err ){
+*/
+      }catch( err ){
         //await con.QueryAwait('ROLLBACK');
-        //throw err;
-      //}
+        throw err;
+      }
 
     }).catch( error => { throw error; } );
   },
@@ -117,6 +131,65 @@ const usuarioService = {
       });
 
     });
+  },
+
+  /** VERIFY USER UNIQUE
+   * @Observations => Verifica que los nombres de usuario no se repitan.
+   * @param { string } name => Nombre a verificar.
+   * @return { Promise } => new Promise.
+   */
+  verifyUser : ( name ) => {
+    return new Promise( async ( resolve, reject ) =>{
+
+      try{
+        fn.validateType('string', name);
+      }catch( err ){
+        reject( err );
+      }
+      let Usuario = new User();
+      let sql = Usuario.getSqlStringValidateUser( name );
+
+      try{
+
+        let resultUser = await con.QueryAwait( sql );
+        if( resultUser ) resolve( resultUser.rows.length );
+
+      }catch( err ){
+        reject( `Error al intentar validar el usuario : ${err}` );
+      }
+
+    });
+  },
+
+    /** VALIDAR USUARIO ENTIDAD
+     * @Observations => Verifica auth access del usuario.
+     * @param { string } token => Token control de usuario.
+     * @returns { Promise } => new Prmise boolean.
+     */
+    verificaUsuarioEntidad : ( token ) =>{
+      return new Promise( async ( resolve, reject ) =>{
+
+          try{
+              fn.validateType( 'string', token );
+          }catch( err ){
+              reject( err );
+          }
+
+          try{
+
+              usr.getUserValidete( token, ( error, decode ) =>{
+                  if( decode ){
+                      resolve( true );
+                  }else{
+                      reject( false );
+                  }
+              });
+
+          }catch( err ){
+              reject( new UserError( 'Error Usuario Admin', `Error usuario no valido : ${err}` ) );
+          }
+          
+      });
   }
 
 };

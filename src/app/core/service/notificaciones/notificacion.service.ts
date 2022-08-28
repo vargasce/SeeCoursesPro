@@ -21,7 +21,19 @@ export class NotificacionService {
         let headers = { headers : environment.headers };
         let send ={
             'action' : "addNotificacion",
-            'data'   : notificacion
+            'data'   : notificacion,
+            'token'  : sessionStorage.getItem('token')
+        }
+        return this.http.post<any>( environment.apiURL + this.controller , send, headers );
+    }
+
+
+    getNotificacionAdministrador(){ //envio notificacion al admin de que cree una entidad
+        let headers = { headers : environment.headers };
+        let send ={
+            'action' : "getListPendingNotificacion",
+            'data'   : '',
+            'token'  : sessionStorage.getItem('token')
         }
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }

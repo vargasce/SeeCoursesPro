@@ -20,12 +20,41 @@ export class RegistrarEntidadService {
         let headers = { headers : environment.headers };
         let send ={
             'action' : "addEntidad",
+            'token'  : sessionStorage.getItem('token'),  
             'data'   : entidad
         }
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }
 
+    validarCuitUnique( cuit : string ){
+        let headers = { headers : environment.headers };
+        let send ={
+            'action' : "verifyCuit",
+            'cuit'   : cuit
+        }
 
+        return this.http.post<any>( environment.apiURL + this.controller, send, headers  );
+    }
+
+    getNombres(){
+        let headers = { headers : environment.headers };
+        let send ={
+            'action' : "getEntidadSelect",
+        }
+        return this.http.post<any>( environment.apiURL + this.controller , send, headers );
+    }
+
+    getEntidades(skip:number,take:number){
+        let headers = { headers : environment.headers };
+        let send ={
+            'action' : "listEntidadPaginado",
+            'data'   : {
+                Skip:skip,
+                Take:take
+            }
+        }
+        return this.http.post<any>( environment.apiURL + this.controller , send, headers ); 
+    }
     
 
 }

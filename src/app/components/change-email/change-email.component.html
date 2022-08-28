@@ -1,0 +1,24 @@
+<app-navbar-admin></app-navbar-admin>
+<div class="container pt-4">
+    <div class="row">
+        <div class="col-lg-6 offset-lg-3">
+            <div class="card">
+                <div class="card-body">
+                    <h1 style="text-align: center;">{{titulo}}
+                        <div *ngIf ="loading"class="spinner-border" role="status" style="float: right;"></div>
+                    </h1>
+                    <h4 class="text-danger text-center mt-3" *ngIf="submitted && datosPersonales.invalid">TODOS LOS CAMPOS SON OBLIGATORIOS</h4>
+                    <form name ="datosPersonalesDataForm"  #agregarPaisesDataForm="ngForm" class="mt-4"[formGroup]="datosPersonales" (ngSubmit)="addEditDatosPersonales()" >   
+                        <input id="email"#descripcionForm name="email"  [(ngModel)]="email" type="text" class="form-control mt-3" placeholder="Email"  formControlName="email">            
+                        <h5 class="text-danger text-center mt-0" *ngIf="!mailValido">Ingrese un Email valido</h5>
+                        <div class="mt-3 text-center">
+                            <button type="text" class="btn btn-secundary mr-3" [routerLink]="['/adminGeneral']"
+                                routerLinkActive="active"> Volver </button>
+                            <button type="sumbit" class="btn btn-dark"> Agregar </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

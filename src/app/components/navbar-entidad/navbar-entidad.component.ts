@@ -43,12 +43,12 @@ export class NavbarEntidadComponent implements OnInit {
   refreshNotificacion(){
     setTimeout(() => {
       this.getNotificaciones(); 
-      //localStorage.clear();
+      //sessionStorage.clear();
      }, 60000);//3600000ms = 1hs
   }
   
   getNotificaciones() {
-    let id_entidad = localStorage.getItem("id_entidad");
+   let id_entidad = sessionStorage.getItem("id_entidad");
     this._entidadService.getNotificaciones(Number(id_entidad)).subscribe(
       Response =>{
         this.notificaciones=[];
@@ -96,7 +96,7 @@ export class NavbarEntidadComponent implements OnInit {
   }
 
   cerrarSesion(){
-    localStorage.clear();
+    sessionStorage.clear();
     environment.id_entidad = null;
     environment.token = null;
   }

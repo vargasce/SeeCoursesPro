@@ -1,11 +1,28 @@
 
     <div class="container mt-5">
-        <input #termino type="text" (keyup)="buscar(termino.value)" class="form-control " placeholder="Buscar Cursos...">
+        <h3 class="mt-3" style="text-align: left;" (click)="ocultarMostrarFiltros()"><u>Buscar por filtros</u></h3>
+        <input id="buscador" #termino type="text"  (keyup)="buscar(termino.value)" class="form-control " placeholder="Buscar Actividades...">
     </div>
 
+    <div class="container mt-5" *ngIf="filtros">
+        <div class="card">
+            <div class="card-body" >
+                <h2 class="card-title mt-2">Filtros</h2>
+                <app-filtros (CursosFiltro)="getCursosFiltro($event)"></app-filtros>
+            </div>
+        </div>  
+    </div>
 
 <div class="container">
+    <h1 *ngIf="cursos.length>0" class="mt-5">Resultados de la Busqueda</h1>
+    <h3 *ngIf="sinResultados" class="text-center mt-3">No se encontraron actividades</h3>
     <app-tarjetas [items]= "cursos"></app-tarjetas> 
+</div>
+
+<div class="container">
+    <h1 *ngIf="cursosFiltro.length>0">Resultados de la Busqueda</h1>
+    <h3 *ngIf="sinResultadosFiltro" class="text-center mt-3">No se encontraron actividades</h3>
+    <app-tarjetas [items]= "cursosFiltro"></app-tarjetas> 
 </div>
 
 

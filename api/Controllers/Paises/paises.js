@@ -5,7 +5,7 @@ const envProperties = require("../../env.vars.json");
 const node_env = process.env.NODE_ENV || 'developmen';
 const props = envProperties[node_env];
 const schema = props.DB.SCHEMA;
-const funciones = require('../../Custom/function_custom/custom');
+const fn = require('../../Custom/function_custom/custom');
 
 const controller = {
 
@@ -23,7 +23,28 @@ const controller = {
           let result_list = await con.QueryAwait( sql_list );
           return res.status(200).send({ 'error' : '', 'Resultset' : result_list.rows });
         }catch( err ){
-          return res.status(500).send({ 'error' : `Eror al listar paises, paises.js : ${error}` });
+          return res.status(500).send({ 'error' : `Eror al listar paises, paises.js : ${err}` });
+        }
+
+      break;
+
+      case 'list-paisesById' :
+        
+        let id_pais = req.body.data.id;
+
+        try{
+          fn.validateType( 'number', id_pais );
+        }catch( err ){
+          return res.status(200).send({ 'error' : `${err}`});
+        }
+
+        let sql_list_ById = getSqlStringByIb( id_pais );
+
+        try{
+          let result_list_ById = await con.QueryAwait( sql_list_ById );
+          return res.status(200).send({ 'error' : '', 'ResultSet' : result_list_ById.rows });
+        }catch( err ){
+          return res.status(500).send({ 'error' : `Error en obtener paises : ${err}`});
         }
 
       break;
@@ -60,14 +81,14 @@ const controller = {
 
       case 'delete-paises' :
 
-        let id_delete = req.body.id;
+        let id_delete = req.body.data.id;
         let sql_delete = deleteSqlStr( id_delete );
 
         con.delete( sql_delete, ( error_delete, result_delete  ) => {
           if( !error_delete ){
             return res.status(200).send({ 'error' : '', 'Resultset' : result_delete.rows });
           }else{
-            return res.statu(500).send({ 'error' : `Error al intentar eliminar paises : ${error_delete}` });
+            return res.status(500).send({ 'error' : `Error al intentar eliminar paises : ${error_delete}` });
           }
         });  
 
@@ -100,7 +121,7 @@ module.exports = controller;
  */
 const listSqlstr = () =>{
   let sql = '';
-  sql = `SELECT * FROM paises ;`;
+  sql = `SELECT * FROM pais ORDER BY descripcion ASC ;`;
   return sql;
 }
 
@@ -112,7 +133,7 @@ const listSqlstr = () =>{
  */
 const addSqlStr = ( data ) =>{
 
-  let sql = `INSERT INTO ${schema}.paises (
+  let sql = `INSERT INTO pais (
     descripcion
     )
     VALUES(
@@ -129,7 +150,7 @@ const addSqlStr = ( data ) =>{
  * @return sql : String => String con la consulta a enviar a la base de datos.
  */
 const updateSqlStr = ( data ) =>{
-  let sql = `UPDATE ${schema}.paises SET descripcion = '${data.descripcion}' WHERE id = ${data.id} ;`;
+  let sql = `UPDATE pais SET descripcion = '${data.data.descripcion}' WHERE id = ${data.id} ;`;
   return sql;
 }
 
@@ -140,6 +161,17 @@ const updateSqlStr = ( data ) =>{
  * @return sql : String => String con la consulta a enviar a la base de datos.
  */
 const deleteSqlStr = ( id ) =>{
-  let sql = `DELETE FROM ${schema}.paises WHERE id = ${id} ;`;
+  let sql = `DELETE FROM pais WHERE id = ${id} ;`;
+  return sql;
+}
+
+
+/**   GET PAISES BY ID
+ * @Observations : Sql string obtener paises por id.
+ * @param id : String => id del registro.
+ * @return sql : String => String con la consulta a enviar a la base de datos.
+ */
+const getSqlStringByIb = ( id ) =>{
+  let sql = `SELECT * FROM pais WHERE id = ${id} ;`;
   return sql;
 }

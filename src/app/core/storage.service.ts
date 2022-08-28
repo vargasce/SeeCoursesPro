@@ -6,14 +6,14 @@ import {Injectable} from "@angular/core";
 })
 export class StorageService {
 
-  private localStorageService: any;
+  private sessionStorageService: any;
   private currentSession :any = null;
   private data :any=null;
              
 
   constructor(           
   ) {
-    this.localStorageService = localStorage;
+    this.sessionStorageService = sessionStorage;
     this.currentSession = this.loadSessionData();
   }
 
@@ -27,7 +27,7 @@ export class StorageService {
    */
   setCurrentSession(session: any): void {
     this.currentSession = session;
-    this.localStorageService.setItem('currentUser', JSON.stringify(session));
+    this.sessionStorageService.setItem('currentUser', JSON.stringify(session));
   }
 
   /** RETORNA DATOS DE SESION DE USUARIO ACTUAL
@@ -37,7 +37,7 @@ export class StorageService {
    * @returns null -si no existe data.
    */
   loadSessionData(): any{
-    let sessionStr = this.localStorageService.getItem('currentUser');
+    let sessionStr = this.sessionStorageService.getItem('currentUser');
     if(sessionStr == null || sessionStr === "undefined"){
       return null;
     }else{
@@ -54,7 +54,7 @@ export class StorageService {
    */
   setDataAny(data:any,name: string):void{
     this.data = data;
-    this.localStorageService.setItem(name,JSON.stringify(this.data));
+    this.sessionStorageService.setItem(name,JSON.stringify(this.data));
   }
 
   /** OBTENER DATOS DEL LOCAL STORAGE
@@ -64,7 +64,7 @@ export class StorageService {
    * @returns any.
    */
   loadData(name:string):any {
-    this.data = this.localStorageService.getItem(name);
+    this.data = this.sessionStorageService.getItem(name);
     if (this.data == null) {
       return null
     }
@@ -79,7 +79,7 @@ export class StorageService {
    * @returns TRUE OR FALSE.
    */
   existData(name:string):boolean{
-    this.data = this.localStorageService.getItem(name);
+    this.data = this.sessionStorageService.getItem(name);
     if(this.data == null) {
       return false;
     }else{
@@ -94,7 +94,7 @@ export class StorageService {
    * @param name  @typedef string
    */
   removeData(name:string):void{
-    this.localStorageService.removeItem(name);
+    this.sessionStorageService.removeItem(name);
     this.data=null;
   }
 
@@ -125,7 +125,7 @@ export class StorageService {
    * @returns VOID
    */
   removeCurrentSession(): void {
-    this.localStorageService.removeItem('currentUser');
+    this.sessionStorageService.removeItem('currentUser');
     this.currentSession = null;
   }
 

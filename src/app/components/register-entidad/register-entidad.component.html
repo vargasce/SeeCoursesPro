@@ -8,6 +8,7 @@
                     <h3 class="text-danger text-center mt-3" *ngIf="submitted && registrarUsuario.invalid">TODOS LOS CAMPOS SON OBLIGATORIOS</h3>
                     <form name ="registrarUsuarioDataForm"  #registrarUsuarioDataForm="ngForm"  class="mt-4" [formGroup]="registrarUsuario" (ngSubmit)="addEntidad()">
                         <input #usuarioForm name="usuario"  [(ngModel)]="usuarioModel.usuario" type="text" class="form-control mt-3" placeholder="Usuario" formControlName="usuario">                          
+                        <h5 class="text-danger text-center mt-0" *ngIf="usuarioExistente">El usuario ingresado ya existe.</h5>
                         <input id="pass" #passForm name="pass"  [(ngModel)]="usuarioModel.pass" type="password" class="form-control mt-3" placeholder="Constraseña" formControlName="pass">  
                         <input id="confirm_pass" type="password" class="form-control mt-3" placeholder="Confirmar Constraseña" (keyup)="confirmarContrasena()">                              
                         <h4 class="text-danger mt-3" *ngIf="!validarPass">Las contraseñas no son iguales</h4>
@@ -22,7 +23,7 @@
 
 
 
-<div class="container pt-4 mt-5">
+<div class="container pt-4 mt-2">
     <div class="row">
         <div class="col-lg-6 offset-lg-3">
             <div class="card">
@@ -36,9 +37,10 @@
                             <div class="col">
                                 <input #passForm name="nombre"  [(ngModel)]="entidadModel.nombre" type="text" class="form-control mt-3" placeholder="Nombre" formControlName="nombre">
                             </div>
-                            <div class="col">
-                                <input #cuitlForm name="cuit"  [(ngModel)]="entidadModel.cuit" type="text" class="form-control mt-3" placeholder="Cuit" formControlName="cuit">
-                            </div>
+                            <!--<div class="col">
+                                <input id="cuit"#cuitlForm name="cuit"  [(ngModel)]="entidadModel.cuit" type="text" class="form-control mt-3" placeholder="Cuit" formControlName="cuit">
+                                <h5 class="text-danger text-center mt-0" *ngIf="!cuitValido">Ingrese un cuit valido</h5>
+                            </div>-->
                         </div>
                         
                         <input #pass_extremoForm name="direccion"  [(ngModel)]="entidadModel.direccion" type="text" class="form-control mt-3" placeholder="Direccion" formControlName="direccion">
@@ -46,15 +48,17 @@
                         <div class="row" style="margin-bottom:3px;">
                             <div class="col">
                                 <select  #id_paisForm name="id_pais"  [(ngModel)]="entidadModel.id_pais" class="form-select mt-3" formControlName="id_pais">
-                                    <option value="0" disabled selected>Pais</option>
+                                    <option value="0" selected>Pais</option>
                                     <option value="{{pais.id}}" *ngFor ="let pais of paises;">{{pais.descripcion}}</option>
                                 </select>
+                                <h5 class="text-danger text-center mt-0"  *ngIf="!validarPais">Debe seleccionar al menos un pais</h5>
                             </div>
                             <div class="col">
-                                <select  #id_paisForm name="id_provincia"  [(ngModel)]="entidadModel.id_provincia" class="form-select mt-3" formControlName="id_provincia">
-                                    <option value="0" disabled selected>Pais</option>
-                                    <option value="{{prov.id}}" *ngFor ="let prov of provincias;">{{prov.descripcion}}</option>
+                                <select id="provincias" #id_paisForm name="id_provincia"  [(ngModel)]="entidadModel.id_provincia" class="form-select mt-3" formControlName="id_provincia">
+                                    <option value="0" disabled selected>Provincias</option>
+                                    <option value="{{prov.id}}" *ngFor ="let prov of provincias;">{{prov.descr_provincia}}</option>
                                 </select>
+                                <h5 class="text-danger text-center mt-0" *ngIf="!validarProv">Debe seleccionar al menos una provincia</h5>
                             </div>
                             <div class="col">
                                 <input #ciudadForm name="ciudad"  [(ngModel)]="entidadModel.ciudad" type="text" class="form-control mt-3" placeholder="Ciudad" formControlName="ciudad">
@@ -63,28 +67,38 @@
 
                         <div class="row" style="margin-bottom:5px;">
                             <div class="col">
-                                <input #usuarioForm name="telefono"  [(ngModel)]="entidadModel.telefono" type="text" class="form-control mt-3" placeholder="Telefono" formControlName="telefono">
+                                <input #usuarioForm name="telefono"  [(ngModel)]="entidadModel.telefono" type="number" class="form-control mt-3" placeholder="Telefono" formControlName="telefono">
                             </div>
-                            <div class="col">
-                                <input #emailForm name="email"  [(ngModel)]="entidadModel.email" type="text" class="form-control mt-3" placeholder="Email" formControlName="email">
+                            <div class="col">   
+                                <input id="mail" #emailForm name="email"  [(ngModel)]="entidadModel.email" type="text" class="form-control mt-3" placeholder="Email" formControlName="email">
+                                <h5 class="text-danger text-center mt-0" *ngIf="!mailValido">Ingrese un Email valido</h5>
                             </div>
                         </div>
                         
-                        <input #descripcionForm name="descripcion"  [(ngModel)]="entidadModel.descripcion" type="text" class="form-control mt-3" placeholder="Descripción" formControlName="descripcion">
+                       <!-- <input #descripcionForm name="descripcion"  [(ngModel)]="entidadModel.descripcion" type="text" class="form-control mt-3" placeholder="Descripción" formControlName="descripcion">-->
                         
                         <input #webForm name="web"  [(ngModel)]="entidadModel.web" type="text" class="form-control mt-3" placeholder="Web" formControlName="web">
-                          
-                        <!--<input #imagenForm name="imagen"   type="file" class="form-control mt-3" placeholder="Imagen" formControlName="imagen" (change)="fileChangeEventFoto($event)"> -->
+
+
+                        <!--<select  #id_actividadForm name="id_actividad"  [(ngModel)]="entidadModel.id_actividad" class="form-select mt-3" formControlName="id_actividad">
+                            <option value="0" selected>Actividad</option>
+                            <option value="{{actividad.id}}" *ngFor ="let actividad of actividades;">{{actividad.descripcion}}</option>
+                        </select>-->
+
+                        
+
+                        <!--<input #directorForm name="director"  [(ngModel)]="entidadModel.director" type="text" class="form-control mt-3" placeholder="Director" formControlName="director">-->
 
                         <select #selectorDeImagenEntidad class="form-select mt-3">
                             <option value="0" disabled selected>Subir imagen </option>
                             <option value="1">Subir imagen propia</option>
                             <option value="2">Subir imagen por defecto</option>
                         </select>
+                        <h5 class="text-danger text-center mt-0" *ngIf="!validarImagen">Debe seleccionar al menos una imagen</h5>
 
                         <select (change)="onChangeSelect($event)" *ngIf="imagenPorDefecto" id ="img-default"class="form-select mt-3">
                             <option value="0" disabled selected>Imagen</option>
-                            <option value="{{img.id}}" *ngFor ="let img of imagenDefault;">{{img.descripcion}}</option>
+                            <option value="{{img.imagen}}" *ngFor ="let img of imagenDefault;">{{img.descripcion}}</option>
                         </select>
 
                         <div *ngIf="imagenPropia" id ="img-propia" class="row" style="margin-bottom:5px;">
@@ -100,14 +114,11 @@
                         <div  *ngIf="!img_foto && imagenPorDefecto && imagenExist">
                             <img class="previewImagen mt-3" src="{{getStringImg(entidadModel.imagen)}}">
                         </div>
-                       
-                        <input #directorForm name="director"  [(ngModel)]="entidadModel.director" type="text" class="form-control mt-3" placeholder="Director" formControlName="director">
-
 
                         <div class="mt-3 text-center">
                             <button type="text" class="btn btn-secundary mr-3" 
                                 routerLinkActive="active" routerLink="/login"> Volver </button>
-                            <button type="sumbit" class="btn btn-dark"> Resgistrarse </button>
+                            <button id="btn-submit"type="sumbit" class="btn btn-dark"> Resgistrarse </button>
                         </div>
                     </form>
                 </div>

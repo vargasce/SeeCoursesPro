@@ -4,6 +4,8 @@ const con = require('../../DB-connect/connectDB');
 const itinerarioModel = require('../../Models/itinerarioModel/itinerario.model');
 const custon = require('../../Custom/function_custom/custom');
 const itinerarioError = require('../../Error/Itinerario/itinerarioError');
+const dt = require('../../Custom/dates/dates');
+const custom = require('../../Custom/function_custom/custom');
 
 const itinerarioService = {
 
@@ -25,8 +27,8 @@ const itinerarioService = {
       }
       
       let sql = `
-        SELECT it.id, it.nombre, it.titulo, it.descripcion, it.observacion, it.fecha_itinerario, it.hora_itinerario, 
-	             it.fecha_alta, it.imagen, it.link, it.instructor, it.viewed, it.validado, it.finalizado,
+        SELECT it.id, it.nombre, it.titulo, it.descripcion, it.observacion,to_char( it.fecha_itinerario, 'yyyy-MM-DD' ) AS fecha_itinerario, it.hora_itinerario, 
+               to_char( it.fecha_alta, 'yyyy-MM-DD' ) AS fecha_alta, it.imagen, it.link, it.instructor, it.viewed, it.validado, it.finalizado,
                ent.id as id_entidad, ent.nombre as nombre_entidad,
 	             ent.descripcion as descripcion_entidad, ent.telefono as telefono_entidad,
 	             ent.director as director_entidad, ent.ciudad as ciudad_entidad
@@ -70,18 +72,20 @@ const itinerarioService = {
       } 
 
       let sql = `
-        SELECT it.id AS id, it.nombre, it.titulo, it.descripcion, it.observacion, it.fecha_itinerario, it.hora_itinerario, 
-	             it.fecha_alta, it.imagen, it.link, it.instructor, it.viewed, it.validado, it.finalizado,
+        SELECT it.id AS id, it.nombre, it.countviewed, it.titulo, it.descripcion, it.observacion, to_char( it.fecha_itinerario, 'yyyy-MM-DD' ) AS fecha_itinerario, it.hora_itinerario, it.hora_itinerario_fin, 
+               to_char( it.fecha_alta, 'yyyy-MM-DD' ) AS fecha_alta, it.imagen, it.link, it.instructor, it.viewed, it.validado, it.finalizado,
                ent.id as id_entidad, ent.nombre as nombre_entidad,
 	             ent.descripcion as descripcion_entidad, ent.telefono as telefono_entidad,
-	             ent.director as director_entidad, ent.ciudad as ciudad_entidad
+	             ent.director as director_entidad, ent.ciudad as ciudad_entidad,
+               act.id AS id_actividad, act.descripcion AS descripcion_actividad
 	      FROM public.itinerario as it 
 	      INNER JOIN public.entidad as ent on it.id_entidad = ent.id
+        INNER JOIN public.actividad AS act ON act.id = ent.id_actividad
 	      WHERE it.validado = true
         AND it.finalizado = false
         AND ent.verificado = true
         AND it.rechazado = false
-	      ORDER BY it.viewed DESC
+	      ORDER BY it.countviewed DESC
         LIMIT ${limitCount}; 
       `;
 
@@ -96,7 +100,31 @@ const itinerarioService = {
           reject( `Error al obtener datos : ${error}` );
         }
       });
-    })
+    });
+  },
+
+  /** INCREMENT COUNT VIEWES.
+   * @Observations : Incrementar contador de vistos.
+   * @param { number } id => Identificador para realizar la actualizacion.
+   * @returns { Promise } => new Promise.
+   */
+  incrementViewed : async ( id )=>{
+    return new Promise( async ( resolve, reject ) =>{
+
+      try{
+        custom.validateType('number', id );
+      }catch( err ){
+        reject( err );
+      }
+
+      try{
+        let result = await con.QueryAwait( `UPDATE itinerario SET countviewed = countviewed + 1 WHERE id = ${id} ;`);
+        if( result ) resolve( result );
+      }catch( err ){
+          reject( new itinerarioError('Error in Itinerario',`Error get query itinerario by entidad : ${err}`) );
+      }
+
+    });
   },
 
   /** ADD NUEVO ITINERARIO.
@@ -140,7 +168,7 @@ const itinerarioService = {
   updateItinerario : ( req ) =>{
     return new Promise( ( resolve, reject ) =>{
 
-      let data = req.body.data;
+      let data = req.body.data.data;
 
       try{
         custon.validateType( 'object', data );
@@ -242,16 +270,38 @@ const itinerarioService = {
         reject( e.getMessage() );
       }
       
+
       let sql = `
-        SELECT it.id, it.nombre, it.titulo, it.descripcion, it.observacion, it.fecha_itinerario, it.hora_itinerario, 
-	             it.fecha_alta, it.imagen, it.link, it.instructor, it.viewed, ent.id as id_entidad, ent.nombre as nombre_entidad,
+        SELECT it.id, it.nombre, it.titulo, it.descripcion, it.observacion, to_char( it.fecha_itinerario, 'yyyy-MM-DD' ) AS fecha_itinerario, it.hora_itinerario, 
+              to_char( it.fecha_alta, 'yyyy-MM-DD' ) AS fecha_alta, it.imagen, it.link, it.instructor, it.viewed, it.validado, it.finalizado, it.rechazado, it.hora_itinerario_fin,
+              ent.id as id_entidad, ent.nombre as nombre_entidad,
+              ent.descripcion as descripcion_entidad, ent.telefono as telefono_entidad,
+              ent.director as director_entidad, ent.ciudad as ciudad_entidad,
+              noti.observacion AS observacion_notificacion, noti.pendiente AS noti_pendiente,
+              act.id AS id_actividad, act.descripcion AS descripcion_actividad,
+              pa.id AS id_pais, pa.descripcion AS descripcion_pais,
+              pro.id AS id_provincia, pro.descripcion AS descripcion_provincia,
+              loca.id AS id_localidad, loca.descripcion AS descripcion_localidad,
+              it.email_consulta, it.telefono_consulta
+        FROM public.itinerario as it 
+        INNER JOIN public.entidad as ent on it.id_entidad = ent.id
+        INNER JOIN public.notificacion AS noti ON noti.id_curso = it.id
+        INNER JOIN public.actividad AS act ON act.id = it.id_actividad
+        INNER JOIN public.pais AS pa ON pa.id = it.id_pais
+        INNER JOIN public.provincia AS pro ON pro.id = it.id_provincia
+        INNER JOIN public.localidad AS loca ON loca.id = it.id_localidad
+        WHERE it.id = ${id}
+	    ;`;
+
+
+ /*       SELECT it.id, it.nombre, it.titulo, it.descripcion, it.observacion, to_char( it.fecha_itinerario, 'yyyy-MM-DD' ) AS fecha_itinerario, it.hora_itinerario, it.hora_itinerario_fin, 
+	             to_char( it.fecha_alta, 'yyyy-MM-DD' ), it.imagen, it.link, it.instructor, it.viewed, ent.id as id_entidad, ent.nombre as nombre_entidad,
 	             ent.descripcion as descripcion_entidad, ent.telefono as telefono_entidad,
 	             ent.director as director_entidad, ent.ciudad as ciudad_entidad
 	      FROM public.itinerario as it 
 	      INNER JOIN public.entidad as ent on it.id_entidad = ent.id
 	      WHERE it.id = ${id}
-	      ;`;
-
+        */
       con.select( sql, ( error, result ) =>{
         if( !error ){
           if( result.rowCount > 0 ){
@@ -310,26 +360,171 @@ const itinerarioService = {
     return new Promise( async ( resolve, reject ) =>{
       
       try{
-        fn.validateType( 'object', data );
+        custon.validateType( 'object', data );
       }catch( err ){
         reject( new itinerarioError( 'Error itinerarioService', `${err}` ) );
       }
 
       let objItinerario = new itinerarioModel();
-			let sqlString = objItinerario.getSqlAvailable( data );
+			let sqlString = objItinerario.getSqlAvailabilityDate( data );
 
 			try{
+
 				let result = await con.QueryAwait( sqlString );
-				resolve( result );
+        let dataArray = new Array();
+        dataArray.push(  ... result.rows );
+
+        let resultSend = dataArray.reduce( ( previus, current ) => {
+
+          if( !dt.belongsRangeTime( data.fecha_itinerario, current.hora_itinerario, current.hora_itinerario_fin, data.hora_itinerario, data.hora_itinerario_fin )){
+            previus.push( current );
+            return previus;
+          }else{
+            return previus;
+          }
+
+        }, []);
+
+				resolve( resultSend );
+
 			}catch( err ){
-				throw new intinerarioError( 'Error in Itinerario', `Error get query getAvailabilityDate() : ${err} `);
+        reject( err );
+				//reject( new itinerarioError( 'Error in Itinerario', `Error get query getAvailabilityDate() : ${err} `) );
 			}
 
     });
-  }
-	
-	//Por ahora dejo esto por aca.
-	// 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
+
+  },
+
+  /** OBTENER LOS ITINERARIOS POR FECHA.
+   * @Observations => Retorna todos los itineraios de una fecha determinada.
+   * @param { string } fecha => Fecha a consultar.
+   * @returns { Promise } => new Promise<Object> 
+   */
+  getItinerarioForDate : ( fecha ) => {
+    return new Promise( async ( resolve, reject ) =>{
+
+      try{
+        custom.validateType( 'string', fecha );
+      }catch( err ){
+        reject( new itinerarioError('Error itinerario service', `${err}`));
+      }
+
+      try{
+        let resultDate = await con.QueryAwait(`SELECT * FROM itinerario WHERE fecha_itinerario = '${fecha}' ;`);
+        resolve( resultDate );
+      }catch( err ){
+ 				reject( new intinerarioError( 'Error in Itinerario', `Error get query get fecha for date : ${err} `) );
+      }
+
+    });
+
+  },
+
+  /** OBTENER LOS ITINERARIOS POR FILTRO.
+   * @Observations => Retorna todos los itineraios por filtro.
+   * @param { object } filtro => Fecha a consultar.
+   * @returns { Promise } => new Promise<Object> 
+   */
+  getItinerarioByFilter : ( filter ) =>{
+    return new Promise( async ( resolve, reject ) =>{
+
+      try{
+        custom.validateType('object',filter);
+      }catch( err ){
+        reject( err );
+      }
+
+      let itiModel = new itinerarioModel();
+      let sql = itiModel.getSqlStringFilter( filter );
+
+      try{
+
+        await con.QueryAwait('BEGIN');
+        let result = con.QueryAwait( sql );
+        let ok = con.QueryAwait('COMMIT');
+        if( ok ) resolve( result );
+
+      }catch( err ){
+        await con.QueryAwait('ROLLBACK');
+        reject( new itinerarioError('Error Itinerario', `Error al obtener la consulta : ${err}` ) );
+      }
+
+    });
+  },
+
+  /** FINALIZAR ITINERARIO FORZADO
+   * @Observations => Forzar finalizacion de curso para que se muestre en el home.
+   * @param { numbre } id => identificador del itinerario.
+   * @returns { Promise } => new Promise<string> 
+   */
+  finalizarItinerario : ( id ) =>{
+    return new Promise( async ( resolve, reject ) =>{
+
+      try{
+        custom.validateType('number', id);
+      }catch( err ){
+        reject( err );
+      }
+
+      let itiModel = new itinerarioModel();
+      let sql = itiModel.finalizarItinerarioSqlStrin( id );
+
+      try{
+
+        await con.QueryAwait('BEGIN');
+        let result = con.QueryAwait( sql );
+        let ok = con.QueryAwait('COMMIT');
+        if( ok ) resolve( result );
+
+      }catch( err ){
+        await con.QueryAwait('ROLLBACK');
+        reject( new itinerarioError('Error Itinerario', `Error al finalizar itinerario: ${err}` ) );
+      }
+
+    });
+  },
+
+   /** GET LIST ITINERARIO TOTAL
+   * @Observations : Obtiene todos las actividades.
+   * @param   { Object } req => Request controller.
+   * @returns { Promise } => new Promise.
+   */
+  getTotalList : ( ) => {
+    return new Promise( ( resolve, reject ) =>{
+
+      let sql = `
+        SELECT it.id AS id, it.nombre, it.countviewed, it.titulo, it.descripcion, it.observacion, to_char( it.fecha_itinerario, 'yyyy-MM-DD' ) AS fecha_itinerario, it.hora_itinerario, it.hora_itinerario_fin, 
+               to_char( it.fecha_alta, 'yyyy-MM-DD' ) AS fecha_alta, it.imagen, it.link, it.instructor, it.viewed, it.validado, it.finalizado,
+               ent.id as id_entidad, ent.nombre as nombre_entidad,
+	             ent.descripcion as descripcion_entidad, ent.telefono as telefono_entidad,
+	             ent.director as director_entidad, ent.ciudad as ciudad_entidad,
+               act.id AS id_actividad, act.descripcion AS descripcion_actividad
+	      FROM public.itinerario as it 
+	      INNER JOIN public.entidad as ent on it.id_entidad = ent.id
+        INNER JOIN public.actividad AS act ON act.id = ent.id_actividad
+	      WHERE it.validado = true
+        AND it.finalizado = false
+        AND ent.verificado = true
+        AND it.rechazado = false
+	      ORDER BY it.countviewed DESC
+      `;
+
+      con.select( sql, ( error, result ) =>{
+        if( !error ){
+          if( result.rows ){
+            resolve( result.rows );
+          }else{
+            reject(`There is no data.`);
+          }
+        }else{
+          reject( `Error al obtener datos : ${error}` );
+        }
+      });
+    });
+
+  },
+
 
 };
 

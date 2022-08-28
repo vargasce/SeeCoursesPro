@@ -1,8 +1,9 @@
 'use strict'
 
-const con = require('../../DB-connect/connectDB');
 const usr = require('../../Custom/userSession/session');
 const _loginService = require('../../Services/Login/login.service');
+const log = require('../../Services/Log/log.service');
+const dt = require('../../Custom/dates/dates');
 
 
 const controller = {
@@ -20,13 +21,29 @@ const controller = {
 					return res.status(200).send({ 'error' : '', 'Resultset' : decode });
 
 				}catch( error ){
+  			    	await log.addLog( { id : 0, descripcion : 'Error login', fecha : dt.getDateCurrentStringCustom() , hora : dt.getHourMinuteCurrent(), observacion : error } );
+					return res.status(500).send({ 'error': `${error}` });
+				}
+
+			break;
+
+			case 'loginAdmin' :
+
+				try{
+
+					let resultLoginAdmin = await _loginService.loginAdmin( req.body.data );
+					let decode = usr.getSession( resultLoginAdmin );
+					return res.status(200).send({ 'error' : '', 'Resultset' : decode });
+
+				}catch( error ){
+      			    await log.addLog( { id : 0, descripcion : 'Error loginAdmin', fecha : dt.getDateCurrentStringCustom() , hora : dt.getHourMinuteCurrent(), observacion : error } );
 					return res.status(500).send({ 'error': `${error}` });
 				}
 
 			break;
 
 			case 'close' : 
-				
+
 			break;
 
 			default :

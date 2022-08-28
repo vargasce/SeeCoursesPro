@@ -1,36 +1,44 @@
 <div class="row row-cols-1 row-cols-md-4 g-4 m-5 mt-1">
-    <div *ngFor= "let item of items" class="col">
-      <div class="card h-100">
-        <div class="card-body">
-          <img src="{{getStringImg(item.imagen)}}"  class="imagen-tarjeta"alt="">
-          <h2 class="card-title mt-2">{{item.titulo}}</h2>
-          <h4>{{item.descripcion}}</h4>
-          <button id="{{item.id}}" type="button" class="btn btn-dark" (click)="[openPopup(item.id)]">Ver mas</button>
-        </div>
+  <div *ngFor="let item of items" class="col">
+    <div class="card">
+      <img class="card-img-top" src="{{getStringImg(item.imagen)}}" alt="Card image cap">
+      <div class="card-body">
+        <h2 class="card-title">{{item.nombre}}</h2>
+        <h4>{{item.descripcion}}</h4>
+        <button id="{{item.id}}" type="button" class="btn btn-dark" (click)="[openPopup(item.id)]">Ver mas</button>
       </div>
     </div>
+  </div>
 </div>
 
 
 
-<div *ngFor= "let item of items ">
-  <div  id="{{item.id}}" class="modal" role="dialog" [ngStyle]="{'display':displayStyle[item.id]}" style="font-size: 16px;">
+<div *ngFor="let item of items ">
+  <div id="{{item.id}}" class="modal" role="dialog" [ngStyle]="{'display':displayStyle[item.id]}"
+    style="font-size: 16px;">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title mt-2">{{item.titulo}}</h1>
+          <h1 class="modal-title mt-2">{{item.nombre}}</h1>
         </div>
         <div class="modal-body">
           <p><b>Nombre Entidad: </b>{{item.nombre_entidad}}</p>
           <p><b>Nombre: </b>{{item.nombre}}</p>
           <p><b>Descripcion: </b>{{item.descripcion}}</p>
+          <p><b>Actividad: </b>{{item.descripcion_actividad}}</p>
           <p><b>Observacion: </b>{{item.observacion}}</p>
           <p><b>Fecha Itinerario: </b>{{item.fecha_itinerario}}</p>
           <p><b>Hora Itinerario: </b>{{item.hora_itinerario}}</p>
+          <p><b>Hora de Finalizacion: </b>{{item.hora_itinerario_fin}}</p>
           <p><b>Fecha de Alta: </b>{{item.fecha_alta}}</p>
-          <p><b>Link: </b>{{item.link}}</p>
-          <p><b>Profesores/Disertantes: </b></p>
-          <img src="{{getStringImg(item.imagen)}}"  class="card-img-top"alt="">
+          <p><b>Link: </b><a href="{{item.link}}" target="_blank" rel="noreferrer noopener"> {{item.link}}</a></p>
+          <p><b>Profesores/Disertantes: </b>{{item.instructor}}</p>
+          <b>Archivos: </b>
+          <p *ngIf="fileList.length==0 " class="mt-1">No hay archivos subidos</p>
+          <div *ngFor ="let file of fileList;">
+            <a class="mt-1" href="{{getStringFile(file.archivo)}}" target="blank">{{file.descripcion}}</a>
+          </div>
+          <img src="{{getStringImg(item.imagen)}}" class="imagen-tarjeta mt-1" alt="">
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-danger" (click)="[closePopup(item.id)]">Cerrar</button>

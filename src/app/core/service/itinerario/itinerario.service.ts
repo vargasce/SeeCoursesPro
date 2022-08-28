@@ -30,7 +30,20 @@ export class ItinerarioEntidadService {
         let headers = { headers : environment.headers };
         let send ={
             'action' : "getItinerarioByIdEntidad",
-            'data'   : environment.id_entidad
+            'data'   : sessionStorage.getItem('id_entidad')
+        }
+        return this.http.post<any>( environment.apiURL + this.controller , send, headers );
+    }
+
+    editarItinerario(id:number,data:ItinerarioModel):  Observable<any>{ 
+        let headers = { headers : environment.headers };
+        let send ={
+            'action' : "updateItinerario",
+            'token'  : sessionStorage.getItem('token'),  
+            'data'   : {
+                'id' : id,
+                'data': data
+            }
         }
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }
@@ -39,7 +52,7 @@ export class ItinerarioEntidadService {
         let headers = { headers : environment.headers };
         let send ={
             'action' : "addItinerario",
-            'token'  : environment.token,  
+            'token'  : sessionStorage.getItem('token'),  
             'data'   : data
         }
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
@@ -49,6 +62,30 @@ export class ItinerarioEntidadService {
         let headers = { headers : environment.headers };
         let send ={
             'action' : "getItinerarioList"
+        }
+        return this.http.post<any>( environment.apiURL + this.controller , send, headers );
+    }
+
+    getAvailabilityDate(itinerario:ItinerarioModel):  Observable<any>{ 
+        let headers = { headers : environment.headers };
+        let send ={
+            'action' : "getAvailabilityDate",
+            'data'   : {
+                'fecha_itinerario': itinerario.fecha_itinerario,
+                'hora_itinerario' : itinerario.hora_itinerario,
+                'hora_itinerario_fin': itinerario.hora_itinerario_fin
+            }
+        }
+        return this.http.post<any>( environment.apiURL + this.controller , send, headers );
+    }
+
+    incrementViewed(id:number):  Observable<any>{ 
+        let headers = { headers : environment.headers };
+        let send ={
+            'action' : "incrementViewed",
+            'data'   : {
+                'id': id
+            }
         }
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }

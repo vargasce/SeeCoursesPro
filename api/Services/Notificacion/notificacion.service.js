@@ -28,6 +28,7 @@ const ItinerarioService = {
       
       let notificacion = new Notificacion( data );
       let sql = notificacion.getSqlString();
+
       try{
 
         await con.QueryAwait('BEGIN');
@@ -237,6 +238,7 @@ const ItinerarioService = {
         await con.QueryAwait('BEGIN');
         await con.QueryAwait( sql );
         const response = await con.QueryAwait( sqlGetNotificacion );
+
         if( es_curso ){
           await _itinerarioService.updateValidateId( response.rows[0].id_curso, false );
         }else{
@@ -253,6 +255,58 @@ const ItinerarioService = {
 
     });
   },
+
+  /** OBTENER LISTA DE NOTIFICAIONES PENDIENTES.
+   * @Observations : Obtiene lista de notificaciones pendientes.
+   * @param   { Object } req => Request del controller.
+   * @returns { Promise } => new Promise.
+   */
+  getListNotificacionAdmin : ( req ) =>{
+    return new Promise( async ( resolve, reject ) =>{
+      
+      let noti = new Notificacion();
+      let sql = noti.getSqlStringListNotiAmin();
+
+      try{
+
+        await con.QueryAwait('BEGIN');
+        const result = await con.QueryAwait( sql );
+        let ok = await con.QueryAwait('COMMIT');
+        if( ok ) resolve( result.rows );
+
+      }catch( err ){
+        await con.QueryAwait('ROLLBACK');
+        reject( new NotificacionError( 'Error', `Error en la transaccion de list notificacion admin., ${err}` ) );
+      }
+
+    });
+  },
+
+  /** OBTENER LISTA DE NOTIFICAIONES PENDIENTES ENTIDAD.
+   * @Observations : Obtiene lista de notificaciones pendientes entidad.
+   * @param   { Object } req => Request del controller.
+   * @returns { Promise } => new Promise.
+   */
+  getListNotificacionEntidad : ( req ) =>{
+    return new Promise( async ( resolve, reject ) =>{
+      
+      let noti = new Notificacion();
+      let sql = noti.getSqlStringListNotiEntidad( req.body.data.id );
+
+      try{
+
+        await con.QueryAwait('BEGIN');
+        const result = await con.QueryAwait( sql );
+        let ok = await con.QueryAwait('COMMIT');
+        if( ok ) resolve( result.rows );
+
+      }catch( err ){
+        await con.QueryAwait('ROLLBACK');
+        reject( new NotificacionError( 'Error', `Error en la transaccion de list notificacion entidad., ${err}` ) );
+      }
+
+    });
+  }
 
 }
 

@@ -5,3 +5,13 @@
     max-width: 300px;
     max-height: 250px;
 }
+
+.icon-display {
+    transform: scale(1.4);
+    margin-left: 15px;
+} 
+
+.cross {
+    transform: scale(0.4);
+    cursor: pointer;
+}

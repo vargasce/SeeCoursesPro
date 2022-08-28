@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>Elminar Actividad</h1>
+<div mat-dialog-content>
+    <p>{{mensaje}}</p>
+</div>
+<div>
+    <h5 class="text-danger text-center" *ngIf="!completarObservacion">Debe completar el motivo del rechazo antes de continuar</h5>
+    <input id="observacion" type="text" class="form-control mt-3" placeholder="Escriba el motivo">
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="cerrarDialogo()">No</button>
+    <button mat-button (click)="confirmado()" cdkFocusInitial>Sí</button>
+</div>

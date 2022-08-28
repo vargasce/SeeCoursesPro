@@ -1,0 +1,38 @@
+<app-navbar-admin></app-navbar-admin>
+<div class="container pt-4">
+    <div class="row">
+        <div class="col-lg-6 offset-lg-3">
+            <div class="card">
+                <div class="card-body">
+                    <h1 style="text-align: center;">{{titulo}}
+                        <div *ngIf ="loading"class="spinner-border" role="status" style="float: right;"></div>
+                    </h1>
+                    <h4 class="text-danger text-center mt-3" *ngIf="submitted && agregarLocalidades.invalid">TODOS LOS CAMPOS SON OBLIGATORIOS</h4>
+                    <form name ="agregarLocalidadesDataForm"  #agregarLocalidadDataForm="ngForm" class="mt-4"[formGroup]="agregarLocalidades" (ngSubmit)="addEditLocalidades()" >   
+                        
+                        <select  id="id_pais"  #id_paisForm name="id_pais"  *ngIf="!esEdicion" class="form-select mt-3">
+                            <option value="0" selected >Pais</option>
+                            <option value="{{pais.id}}" *ngFor ="let pais of paises;">{{pais.descripcion}}</option>
+                        </select>
+
+                        <select  id="id_provincia"  #id_provinciaForm name="id_provincia" *ngIf="!esEdicion"  [(ngModel)]="localidadModel.id_provincia" class="form-select mt-3" formControlName="id_provincia">
+                            <option value="0" selected >Provincia</option>
+                            <option value="{{prov.id}}" *ngFor ="let prov of provincias;">{{prov.descr_provincia}}</option>
+                        </select>
+
+                        <input id="provincia_descripcion" #descripcionProvForm name="provincia_descripcion" *ngIf="esEdicion"  [(ngModel)]="localidadModel.provincia_descripcion" type="text" class="form-control mt-3"   formControlName="provincia_descripcion" >
+                        <input id="id_provincia" #descripcionProvForm name="id_provincia" *ngIf="esEdicion"  [(ngModel)]="localidadModel.provincia_descripcion" type="text" class="form-control mt-3"   formControlName="id_provincia" style="display:none;">
+                        <input id="pais_descripcion"  #descripcionPaisForm name="pais_descripcion"  *ngIf="esEdicion" [(ngModel)]="localidadModel.pais_descripcion" type="text" class="form-control mt-3"   formControlName="pais_descripcion">
+                        <input #descripcionForm name="localidad_descripcion"  [(ngModel)]="localidadModel.localidad_descripcion" type="text" class="form-control mt-3"   formControlName="localidad_descripcion">            
+                        
+                        <div class="mt-3 text-center">
+                            <button type="text" class="btn btn-secundary mr-3" [routerLink]="['/adminGeneral/localidades']"
+                                routerLinkActive="active"> Volver </button>
+                            <button type="sumbit" class="btn btn-dark"> Agregar </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

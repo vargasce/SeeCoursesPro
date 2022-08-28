@@ -81,6 +81,11 @@ class usuario {
     return sql;
   }
 
+  getSqlStringValidateUser( name ){
+    let sql = `SELECT * FROM usuario WHERE usuario = '${name}' ;`;
+    return sql;
+  }
+
 }
 
 module.exports = usuario;

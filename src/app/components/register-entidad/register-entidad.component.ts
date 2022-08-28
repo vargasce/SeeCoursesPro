@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild, ɵCodegenComponentFactoryResolver } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AdministradorModel } from 'src/app/core/models/administrador/administrador.model';
@@ -17,6 +17,11 @@ import { NotificacionModel } from 'src/app/core/models/notificacion/notificacion
 import { UploadFileService } from 'src/app/core/service/uploadFile/uploadFile.service';
 import { EmailService } from 'src/app/core/service/email/email.service';
 import { Imagenes } from 'src/app/core/global/imagenes/imagenes';
+import { ActividadesService } from 'src/app/core/service/actividades/actividades.service';
+import { Usuario_AdminService } from 'src/app/core/service/user_admin/user_admin.service';
+import { RegistrarAdminService } from 'src/app/core/service/administrador/admin-registrar.service';
+import { ImagenesService } from 'src/app/core/service/imagenes/imagenes.service';
+
 
 
 @Component({
@@ -28,9 +33,11 @@ export class RegisterEntidadComponent implements OnInit {
 
   @ViewChild('selectorDeImagenEntidad') selectorDeImagenEntidad:ElementRef | undefined;
   @ViewChild('selectorDeImagenPorDefecto') selectorDeImagenPorDefecto:ElementRef | undefined;
+  @ViewChild('id_paisForm') id_paisForm:ElementRef | undefined;
 
   paises: any[]=[];
   provincias: any[]=[];
+  actividades:any[]=[];
   registrarEntidad : FormGroup;
   registrarUsuario :FormGroup;
   submitted= false;
@@ -48,6 +55,13 @@ export class RegisterEntidadComponent implements OnInit {
   img_foto:string="";
   img: Imagenes;
   imagenExist:boolean = false;
+  cuitValido:boolean = true;
+  mailValido:boolean = true;
+  validarPais:boolean = true;
+  validarProv:boolean = true;
+  validarImagen:boolean = true;
+  usuarioExistente:boolean= false;
+  adminMails:string[]=[];
 
   constructor(
     private fb: FormBuilder,
@@ -56,140 +70,163 @@ export class RegisterEntidadComponent implements OnInit {
     private location : Location,
     private _paisesService: PaisService,
     private _provinciasService: ProvinciasService,
+    private _actividadesService : ActividadesService,
     private _usuarioService: UsuarioService,
+    private _usuarioAdminService :Usuario_AdminService,
+    private _adminService: RegistrarAdminService,
     private _registrarEntidadService : RegistrarEntidadService,
     private _uploadFileService : UploadFileService,
     private toastr: ToastrService,
     private _envioNotificacionService: EnvioNotificaciones,
     private _emailService: EmailService,
-    public renderer:Renderer2
+    public renderer:Renderer2,
+    public _imagenService:ImagenesService
     ) {
 
     this.registrarEntidad = this.fb.group({
       id_provincia:['',Validators.required],
       id_pais:['',Validators.required],
-      descripcion:['',Validators.required],
+     // descripcion:['',Validators.required],
       web:['',Validators.required],
       email:['',Validators.required],
       nombre:['',Validators.required],
       direccion:['',Validators.required],
       telefono:['',Validators.required],
-      cuit:['',Validators.required],
+     // cuit:['',Validators.required],
       ciudad:['',Validators.required],
-      director:['',Validators.required],
-
+     // director:['',Validators.required],
+     // id_actividad:['', Validators.required]
     });
-    this.imagenDefault=[
-      {id:'0',descripcion:'imagen default 0'},
-      {id:'1',descripcion:'imagen default 1'},
-      {id:'2',descripcion:'imagen default 3'},
-  ];
 
     this.registrarUsuario = this.fb.group({
       usuario:['',Validators.required],
       pass:['',Validators.required],
     })
-    this.entidadModel = new EntidadModel(0,0,1,1,"","","",false,"","","","","","","");
+    this.entidadModel = new EntidadModel(0,0,0,0,"","","",false,"","","","","","","",1);
     this.usuarioModel = new UsuarioModel(0,"","","",true);
     this.img  = new Imagenes(this._uploadFileService);
    }
 
-  ngOnInit(): void {
-    //this.getPaises();
-    //this.getProvincias();
+  async ngOnInit(): Promise<void> {
+    this.getPaises();
+    this.getActividades();
+    this.getImagenes();
+    this.adminMails= await this.getMailsAdministrador();
+    (<HTMLInputElement>document.getElementById('provincias')).disabled=true;
   }
 
   ngAfterViewInit(): void{
     this.eventChange();
   }
 
-  addEntidad() {
+  async addEntidad() {
     this.submitted = true;
-    console.log(this.usuarioModel);
-    console.log(this.entidadModel);
-    if (!this.registrarEntidad.invalid && !this.registrarUsuario.invalid && this.validarPass) {
-      this.registrarComoEntidad();
-    }else{
-      return
+   this.usuarioExistente = await this.validarUserName();
+    //this.cuitValido = await this.isCuitValid();
+    this.mailValido = this.isMailValid();
+    this.validarPaises();
+    this.validarProvincias();
+    this.validarCargaImagen();
+    this.confirmarContrasena();
+    if (/*this.cuitValido &&*/ this.mailValido &&this.validarProv && this.validarPais && this.validarImagen &&!this.usuarioExistente){
+      if (!this.registrarEntidad.invalid && !this.registrarUsuario.invalid && this.validarPass) {
+        this.registrarComoEntidad();
+      } else {
+        return
+      }
     }
-
-
   }
 
-  async registrarComoEntidad(){
+
+  async registrarComoEntidad() {
+    (<HTMLInputElement>document.getElementById('btn-submit')).disabled = true;
     let data = {
-      'data' : {
-        'file' :this.imagenModel,
-        'id'   : 0,
+      'data': {
+        'file': this.imagenModel,
+        'id': 0,
         'tabla': "entidad"
       }
     }
-    this.loading=true;
-    localStorage.clear();
+    this.loading = true;
+    sessionStorage.clear();
 
-    this._usuarioService.registrarUsuario(this.usuarioModel).subscribe(Response=>{
-      this.entidadModel.id_usuario= Response.ResultSet.id
-      let  emailObject = {
-      	  dataEmail : {
-      	  	TO      : ["cristian.ema_91@hotmail.com"], // get de todos los mails de admins
-      		  FROM    : this.entidadModel.nombre,
-      		  EMAIL   : this.entidadModel.email,
-      		  SUBJECT : "Solicitud de nueva Entidad",
-      		  TITULO  : "Solicitud de nueva Entidad",
-      		  MESSAGE : "Le informamos que se ha generado una nueva solicitud de incorporación de entidad, por favor verifique la misma en el sistema.",
-      		  OBS     : ""
-        	}
-        };
-      this._registrarEntidadService.registrarEntidad(this.entidadModel).subscribe(async Response =>{
-        this.loading=false
-        if(Response.error == ""){         
+    this._usuarioService.registrarUsuario(this.usuarioModel).subscribe(Response => {
+      this.entidadModel.id_usuario = Response.ResultSet.id
+      let emailObject = {
+        dataEmail: {
+          TO: this.adminMails, // get de todos los mails de admins
+          FROM: this.entidadModel.nombre,
+          EMAIL: this.entidadModel.email,
+          SUBJECT: "Solicitud de nueva Entidad",
+          TITULO: "Solicitud de nueva Entidad",
+          MESSAGE: "Le informamos que se ha generado una nueva solicitud de incorporación de entidad, por favor verifique la misma en el sistema.",
+          OBS: ""
+        }
+      };
+      this.entidadModel.telefono = this.entidadModel.telefono.toString();
+      this._registrarEntidadService.registrarEntidad(this.entidadModel).subscribe(async Response => {
+        this.loading = false
+        if (Response.error == "") {
           try {
-            await this._envioNotificacionService.newEntidad(Response.ResultSet.id, this.entidadModel.nombre);  
-            this.toastr.success("La entidad fue registrada con exito!","Entidad Registrada",{
-              positionClass:'toast-bottom-right'
+            await this._envioNotificacionService.newEntidad(Response.ResultSet.id, this.entidadModel.nombre);
+            this.toastr.success("La entidad fue registrada con exito!", "Entidad Registrada", {
+              positionClass: 'toast-bottom-right'
             });
-            data.data.id =Response.ResultSet.id;
-            /*this._uploadFileService.makeFileRequest(data,"image").then(Result=>{
+            data.data.id = Response.ResultSet.id;
 
-            }).catch(
-              error=>{
-                
-              }
-            )*/
-            if(!this.imagenPorDefecto){
-              this._uploadFileService.makeFileRequest(data,"image").then(Result=>{}).catch(
-                error=>{
-                  this.toastr.error("Ocurrio un guardar la imagen","Ocurrio un error",{
-                    positionClass:'toast-bottom-right'
+            if (!this.imagenPorDefecto) {
+              this._uploadFileService.makeFileRequest(data, "image").then(Result => { }).catch(
+                error => {
+                  this.toastr.error("Ocurrio un guardar la imagen", "Ocurrio un error", {
+                    positionClass: 'toast-bottom-right'
                   });
                 }
               )
             }
             this.router.navigate(['/login']);
           } catch (error) {
-            this.toastr.error("Ocurrio un error al registrar la Entidad","Ocurrio un error",{
-              positionClass:'toast-bottom-right'
+            this.toastr.error("Ocurrio un error al registrar la Entidad", "Ocurrio un error", {
+              positionClass: 'toast-bottom-right'
             });
             this.router.navigate(['/login']);
           }
-            this._emailService.enviarMail(emailObject.dataEmail).subscribe(Response=>{
-              console.log(Response);
-              if(Response.error !=""){
-                this.toastr.error("Ocurrio un error al enviar el email al administrador","Ocurrio un error",{
-                  positionClass:'toast-bottom-right'
-                });
-              }
-            });
 
-        }else{
-          this.toastr.error("Ocurrio un error al registrar la Entidad","Ocurrio un error",{
-            positionClass:'toast-bottom-right'
+          //SEND EMAIL.
+          this._emailService.enviarMail( emailObject.dataEmail ).subscribe(
+            Response => {
+              this.toastr.success("Email con solicitud de Actividad enviada con exito!","Envio de Email",{
+                positionClass:'toast-bottom-right'
+              });
+            },
+            Error =>{
+              this.toastr.error("Ocurrio un error al enviar el email al administrador","Ocurrio un error",{
+                positionClass:'toast-bottom-right'
+              });            
+            }
+          );
+
+        } else {
+          this.toastr.error("Ocurrio un error al registrar la Entidad", "Ocurrio un error", {
+            positionClass: 'toast-bottom-right'
           });
+
           this.router.navigate(['/login']);
         }
+      },
+        Error => {
+          this.toastr.error(`Error interno, no se puede insertar la entidad`, "Ocurrio un error", {
+            positionClass: 'toast-bottom-right'
+          });
+        });
+      (<HTMLInputElement>document.getElementById('btn-submit')).disabled = false;
+    },
+      Error => {
+        this.toastr.error(`Error interno, no se puede insertar la entidad`, "Ocurrio un error", {
+          positionClass: 'toast-bottom-right'
+        });
+        (<HTMLInputElement>document.getElementById('btn-submit')).disabled = false;
       })
-    })
-    console.log(this.entidadModel);
+
   }
 
   confirmarContrasena(){
@@ -202,19 +239,34 @@ export class RegisterEntidadComponent implements OnInit {
 
   getPaises(){
     this._paisesService.getPaises().subscribe(Response=>{
-      console.log(Response)
+      this.paises = [];
+      Response.Resultset.forEach((element:any) => {
+        this.paises.push({ // guardo la lista de laboratorios en el array laboratorios
+          ...element
+        })
+      });
+      this.entidadModel.id_pais=0;
     })
   }
 
-  getProvincias(){
-    this._provinciasService.getProvincias().subscribe(Response=>{
-      console.log(Response)
+  getProvincias(id_provincia:number){
+    this._provinciasService.getProvinciasByIdPais(id_provincia).subscribe(Response=>{
+      this.provincias = [];
+      Response.Resultset.forEach((element:any) => {
+        this.provincias.push({ // guardo la lista de laboratorios en el array laboratorios
+          ...element
+        })
+      });
     })
   }
 
- /*  fileChangeEventFoto(fileInput : any){
-    this.entidadModel.imagen = <Array<File>> fileInput.target.files;
-  }*/
+  getActividades(){
+    this._actividadesService.getActividades().subscribe(Response=>{
+      this.actividades.push( ... Response.ResultSet.rows )
+    })
+  }
+ 
+
 
 
  fileChangeEventFoto(fileInput : any){
@@ -232,21 +284,63 @@ export class RegisterEntidadComponent implements OnInit {
         this.imagenPorDefecto=true;
       }
     });
+
+    this.renderer.listen(this.id_paisForm?.nativeElement,'change',event =>{
+      (<HTMLInputElement>document.getElementById('provincias')).disabled=false;
+      this.getProvincias(Number(this.entidadModel.id_pais));
+
+    });
+
+  }
+
+  getImagenes(){ 
+    this.imagenDefault = [];
+    this._imagenService.getImagenes().subscribe( response =>{
+      console.log(response) 
+      this.imagenDefault.push( ... response.ResultSet ) });     
   }
 
   onChangeSelect(event:any){
-    this.imagenExist=true;
-    switch (event.target.value){
-      case "0":
-        this.entidadModel.imagen= "imagen1.jpg";
-        break;
-      case "1":
-        this.entidadModel.imagen= "imagen2.jpg";
-        break;
-      case "2":
-        this.entidadModel.imagen= "imagen3.jpg";
-        break;
+    this.imagenExist = true;
+    this.entidadModel.imagen = event.target.value;
+    
+  }
+  validarCargaImagen(){
 
+    if((this.imagenPorDefecto == false) && (this.imagenPropia == false)){
+      this.validarImagen=false;
+    }else{
+      if(this.imagenPorDefecto){
+        if(this.entidadModel.imagen == ""){
+          this.validarImagen= false;
+        }else{
+          this.validarImagen=true;
+        }
+      }else{
+        if(this.imagenPropia){
+          if(this.imagenModel.length == 0){
+            this.validarImagen= false;
+          }else{
+            this.validarImagen=true;
+          }
+        }
+      }
+    }
+  }
+
+  validarPaises(){
+    if(this.entidadModel.id_pais==0){
+      this.validarPais = false;
+    }else{
+      this.validarPais = true;
+    }
+  }
+
+  validarProvincias(){
+    if(this.entidadModel.id_provincia==0){
+      this.validarProv = false;
+    }else{
+      this.validarProv = true;
     }
   }
 
@@ -264,5 +358,77 @@ export class RegisterEntidadComponent implements OnInit {
 
   public getStringImg(imagen:string):string{
     return this.img.bajarImagen(imagen)
+  }
+
+
+  public isCuitValid():Promise<boolean> {
+    return new Promise( (resolve, reject ) =>{
+
+      try{
+
+        this._registrarEntidadService.validarCuitUnique( this.entidadModel.cuit ).subscribe(
+          Response =>{
+
+            let cuit= (<HTMLInputElement>document.getElementById('cuit')).value;
+            const regexCuit = /^(20|23|27|30|33)([0-9]{9}|-[0-9]{8}-[0-9]{1})$/g;
+            this.cuitValido=regexCuit.test(cuit);
+            resolve( this.cuitValido );
+
+          },
+          Error =>{
+            resolve( false );
+          }
+        );
+
+      }catch( err ){
+        this.toastr.error(`Error validando el usuario`, "Ocurrio un error", {
+          positionClass: 'toast-bottom-right'
+        });
+      }
+
+    });
+  }
+
+  
+  public validarUserName():Promise<boolean> {
+    return new Promise( (resolve, reject ) =>{
+
+      try{
+
+        this._usuarioService.verifyUser(this.usuarioModel.usuario).subscribe(Response=>{
+          resolve( false );
+          },
+          Error =>{
+            this.usuarioExistente = true;
+            resolve( true );
+          }
+        );
+      }catch( err ){
+        resolve( true );
+      }
+    });
+  }
+
+  getMailsAdministrador():Promise<string[]>{ //retorna el mail de todos los administradores
+    return new Promise((resolve,reject)=>{
+      this._adminService.getEmailAdmin().subscribe(
+        Response=>{
+          resolve(Response.ResultSet)
+        },
+        error=>{
+          reject([])
+          this.toastr.error("Ocurrio un error al obtener los mails de administrador","Ocurrio un error",{
+            positionClass:'toast-bottom-right'
+          });
+        });
+    }) 
+  }
+
+
+  isMailValid():boolean {
+    let mail= (<HTMLInputElement>document.getElementById('mail')).value;
+    const regexp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+    this.mailValido=regexp.test(mail);
+    return  this.mailValido
   }
 }

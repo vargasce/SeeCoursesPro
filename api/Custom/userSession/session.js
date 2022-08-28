@@ -2,7 +2,7 @@
 
 const session = require('../../Models/userSessionModel/userSessionModel');
 const jwt = require('jsonwebtoken');
-const JWT_secret = 'billing';
+const JWT_secret = 'seecoursesentidad';
 
 const sessionUser = {
 	

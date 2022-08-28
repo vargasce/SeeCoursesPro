@@ -7,8 +7,7 @@ const controller = {
 
   usuario : async ( req, res ) => {
     
-    let action = req.body. action;
-
+    let action = req.body.action;
     try{
       fn.validateType( 'string', action );
     }catch( e ){
@@ -50,6 +49,33 @@ const controller = {
 
       break;
       
+      case 'verifyUser' :
+
+        try{
+
+          let resultVerificacion = await _usuarioService.verifyUser( req.body.name );
+          if( resultVerificacion == 0 ) return res.status(200).send({ 'error' : '', 'ResultSet' : resultVerificacion });
+          return res.status(500).send({ 'error' : 'El usuario que se intenta ingresar ya existe.' });
+
+        }catch( err ){
+          return res.status(500).send({ 'error' : `${err}`});
+        }
+
+      break;
+
+      case 'verifyUserToken' :
+
+          try{
+              let result = await _usuarioService.verificaUsuarioEntidad( req.body.token );
+              if( result ) res.status( 200 ).send({ 'error' : '', 'ResultSet' : result });
+              return res.status( 200 ).send({ 'error' : 'No se pudo Autenticar el usuario.', 'ResultSet' : result });
+
+          }catch( error ){
+              return res.status( 500 ).send({ 'error' : error });
+          }
+          
+      break;
+
       default :
         return res.status(500).send({ 'error': `Accion no definida.` });
     };

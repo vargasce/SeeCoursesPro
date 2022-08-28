@@ -1,0 +1,42 @@
+<app-navbar-admin></app-navbar-admin>
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-body">
+            <span class="h3">Actividades Vigentes
+            </span>
+            <h1 class="mt-3"  *ngIf="cursos.length==0">No hay Actividades vigentes que puedan ser eliminadas</h1>                
+            <table id="tabla-responsiva" *ngIf ="cursos.length > 0" class="table table-striped mt-2 tablaLab">
+                <thead>
+                    <tr class="noHover">
+                        <th></th>
+                        <th>Nombre</th>
+                        <th>Descripcion</th>
+                        <th>Actividad</th>
+                        <th>Observacion</th>
+                        <th>Fecha del Curso</th>
+                        <th>Hora inicio</th>
+                        <th>Hora final</th>
+                        <th>Fecha de Alta</th>
+                        <th>Link</th>
+                        <th>Disertantes/Profesores</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr id="{{curso.id}}" *ngFor="let curso of cursos">
+                        <td><i (click)="dialogFechaCurso(curso.id)" class="fas fa-trash-alt fa-lg text-danger"></i> </td>
+                        <td> {{curso.nombre}} </td>
+                        <td> {{curso.descripcion}} </td>
+                        <td> {{curso.descripcion_actividad}} </td>
+                        <td> {{curso.observacion}} </td>
+                        <td> {{curso.fecha_itinerario}} </td>
+                        <td> {{curso.hora_itinerario}} </td>
+                        <td> {{curso.hora_itinerario_fin}} </td>
+                        <td> {{curso.fecha_alta}} </td>
+                        <td> {{curso.link}} </td>
+                        <td> {{curso.instructor}} </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

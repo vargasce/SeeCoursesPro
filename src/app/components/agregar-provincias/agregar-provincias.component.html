@@ -1,0 +1,29 @@
+<app-navbar-admin></app-navbar-admin>
+<div class="container pt-4">
+    <div class="row">
+        <div class="col-lg-6 offset-lg-3">
+            <div class="card">
+                <div class="card-body">
+                    <h1 style="text-align: center;">{{titulo}}
+                        <div *ngIf ="loading"class="spinner-border" role="status" style="float: right;"></div>
+                    </h1>
+                    <h4 class="text-danger text-center mt-3" *ngIf="submitted && agregarProvincias.invalid">TODOS LOS CAMPOS SON OBLIGATORIOS</h4>
+                    <form name ="agregarProvinciasDataForm"  #agregarProvinciasDataForm="ngForm" class="mt-4"[formGroup]="agregarProvincias" (ngSubmit)="addEditProvincias()" >   
+                        
+                        <select  #id_paisForm name="id_pais"  [(ngModel)]="provinciasModel.id_pais" class="form-select mt-3" formControlName="id_pais">
+                            <option value="0" disabled selected>Pais</option>
+                            <option value="{{pais.id}}" *ngFor ="let pais of paises;">{{pais.descripcion}}</option>
+                        </select>
+
+                        <input #descripcionForm name="descripcion"  [(ngModel)]="provinciasModel.descripcion" type="text" class="form-control mt-3" placeholder="Descripcion"  formControlName="descripcion">            
+                        <div class="mt-3 text-center">
+                            <button type="text" class="btn btn-secundary mr-3" [routerLink]="['/adminGeneral/provincias']"
+                                routerLinkActive="active"> Volver </button>
+                            <button type="sumbit" class="btn btn-dark"> Agregar </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

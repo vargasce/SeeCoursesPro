@@ -2,6 +2,7 @@ import { Component, OnInit, OnChanges, Input, SimpleChange, Output, EventEmitter
 import {DomSanitizer} from '@angular/platform-browser';
 import {MatIconRegistry} from '@angular/material/icon';
 import { AdministradorService } from 'src/app/core/service/administrador/administrador.service';
+import { NotificacionService } from 'src/app/core/service/notificaciones/notificacion.service';
 import { environment } from 'src/environments/environment';
 
 
@@ -16,14 +17,16 @@ export class NavbarAdminComponent implements OnInit {
   verNotificaciones = false;
   notificaciones:any[]=[]
   notificacionVista:boolean[]=[];
+  adminGeneralRol:number = 0;
   
   @Input() id: number=0;
   @Output() updateGrid = new EventEmitter<void>();
 
   constructor(
-    iconRegistry: MatIconRegistry, 
-    sanitizer: DomSanitizer,
-    private _administradorService:AdministradorService
+      iconRegistry: MatIconRegistry, 
+      sanitizer: DomSanitizer,
+      private _administradorService:AdministradorService,
+      private _notificacionService: NotificacionService
     ) { 
     iconRegistry.addSvgIcon('notification', sanitizer.bypassSecurityTrustResourceUrl('assets/img/notification.svg'));
     iconRegistry.addSvgIcon('logout', sanitizer.bypassSecurityTrustResourceUrl('assets/img/logout.svg'));
@@ -39,21 +42,45 @@ export class NavbarAdminComponent implements OnInit {
 
   ngOnInit(): void {
     this.getNotificaciones();
+    this.verRol();
   }
 
+  verRol() {
+    switch (sessionStorage.getItem('rol')) {
+      
+      case '1':
+        this.adminGeneralRol = 1;
+        break;
+
+      case '2':
+        this.adminGeneralRol = 2;
+        break;
+
+      case '99':
+        this.adminGeneralRol = 99;
+        break;
+    }
+  }
   getNotificaciones() {
-        this._administradorService.getNotificaciones().subscribe(
-      Response =>{
-        this.notificaciones=[];
-        Response.ResultSet.forEach((element:any) => {
-          if(element.pendiente && !element.visto && element.es_admin){
-            this.notificaciones.push({
-              ...element 
-            })
-          }
-        });
+
+    this._notificacionService.getNotificacionAdministrador().subscribe(
+
+      Response => {
+
+        for( let i = 0; i < Response.ResultSet.length; i++ ){
+          console.log( Response.ResultSet[i].descripcion );
+          this.notificaciones.push( Response.ResultSet[i] );
+        }
         this.contadorDeNotificaciones();
-      });
+
+      },
+      Error => {
+        //Notificar el error/
+        console.log(Error);
+      }
+
+    );
+      
   }
   contadorDeNotificaciones(){
     if(this.notificaciones.length==0){
@@ -89,7 +116,7 @@ export class NavbarAdminComponent implements OnInit {
   }
 
   cerrarSesion(){
-    localStorage.clear();
+    sessionStorage.clear();
     environment.id_entidad = null;
     environment.token = null;
   }

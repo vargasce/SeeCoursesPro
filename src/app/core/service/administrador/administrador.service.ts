@@ -16,17 +16,29 @@ export class AdministradorService {
 
     }
 
-    getNotificaciones(): Observable<any>{
+    getNotificacionesEntidad(): Observable<any>{
         let headers = { headers : environment.headers };
         let send ={
             'action' : "getNotificacion",
             'filtro' : {
-                id:null
+                es_entidad:true
             }
         }
-        console.log("corriendo notificaciones service")
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }
+
+    getNotificacionesActividad(): Observable<any>{
+        let headers = { headers : environment.headers };
+        let send ={
+            'action' : "getNotificacion",
+            'filtro' : {
+                es_entidad:false
+            }
+        }
+        return this.http.post<any>( environment.apiURL + this.controller , send, headers );
+    }
+
+
 
     aprobarNotificacion(id:number,es_curso:boolean): Observable<any>{ //si la notificacion es de curso, la aprueba en la tabla de cursos, y si es de entidad la aprueba en la tabla de entidad
         let headers = { headers : environment.headers };
@@ -37,7 +49,6 @@ export class AdministradorService {
                 'es_curso': es_curso
             }
         }
-        console.log("corriendo aprobarNotificacion service")
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }
 
@@ -49,7 +60,8 @@ export class AdministradorService {
             'data'   : {
                 'id':id,
                 'es_curso': es_curso
-            }
+            },
+            'token': sessionStorage.getItem('token')
         }
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }
@@ -60,15 +72,16 @@ export class AdministradorService {
             'action' : "updateVistoNotificacion",
             'data'   : id
         }
-        console.log("corriendo updateVistoNotificacion service");
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }
 
     enviarNotificacionEntidad(notificacion: NotificacionModel){
+        console.log(notificacion);
         let headers = { headers : environment.headers };
         let send ={
             'action' : "addNotificacion",
-            'data'   : notificacion
+            'data'   : notificacion,
+            'token': sessionStorage.getItem('token')
         }
         return this.http.post<any>( environment.apiURL + this.controller , send, headers );
     }

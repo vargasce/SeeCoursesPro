@@ -22,6 +22,7 @@ class Entidad{
       this.cuit = data.cuit;
       this.ciudad = data.ciudad;
       this.director = data.director;
+      this.id_actividad = data.id_actividad;
     }
 
   }
@@ -41,6 +42,7 @@ class Entidad{
   getCuit(){ return this.cuit; }
   getCiudad(){ return this.ciudad; }
   getDirector(){ return this.director; }
+  getIdActividad(){ return this.id_actividad; }
 
   setId( id ){ this.id = id; }
   setIdUsuario( id_usuario ){ this.id_usuario = id_usuario; }
@@ -57,7 +59,7 @@ class Entidad{
   setCuit( cuit ){ this.cuit = cuit; }
   setCiudad( ciudad ){ this.ciudad = ciudad; }
   setDirector( director ){ this.director = director; }
-
+  setIdActividad( id_actividad ){ this.id_actividad = id_actividad; }
   getSqlStringUpdateVerificado(){
     let sql = `UPDATE entidad SET verificado = ${this.getVerificado()} WHERE id = ${this.getId()} ;`;
     return sql;
@@ -79,7 +81,8 @@ class Entidad{
 				imagen,
         cuit,
         ciudad,
-        director
+        director,
+        id_actividad
       )
       VALUES(
         ${this.getIdUsuario()},
@@ -95,7 +98,8 @@ class Entidad{
 				'${this.getImagen()}',
         '${this.getCuit()}',
         '${this.getCiudad()}',
-        '${this.getDirector()}'
+        '${this.getDirector()}',
+        ${this.getIdActividad()}
       ) RETURNING *;
     `;
 
@@ -118,7 +122,8 @@ class Entidad{
         imagen = '${this.getImagen()}',
         cuit = '${this.getCuit()}',
         ciudad = '${this.getCiudad()}',
-        director = '${this.getDirector()}'
+        director = '${this.getDirector()}',
+        id_actividad = ${this.getIdActividad()}
       WHERE id = ${this.getId()}
     ;`;
 
@@ -140,9 +145,28 @@ class Entidad{
       paginador : pag
     };
   }
+
+  getSqlStringListPaginado( pag ){
+    let sql = `SELECT 
+              ent.id, ent.nombre, ent.descripcion, ent.web, ent.email, ent.verificado, ent.direccion, ent.telefono, ent.ciudad, ent.director,
+              pa.descripcion AS pais_entidad,
+              pro.descripcion AS provincia_entidad
+              FROM entidad AS ent   
+              INNER JOIN pais AS pa ON pa.id = ent.id_pais 
+              INNER JOIN provincia AS pro ON pro.id = ent.id_provincia
+              WHERE verificado = true 
+              LIMIT ${pag.Take} OFFSET ${pag.Skip} ;`;
+    return sql;
+  }
+
   
   getSqlStringById(){
     let sql = `SELECT * FROM entidad WHERE id = ${this.getId()}`;
+    return sql;
+  }
+
+  getSqlStringValidateCuit( cuit ){
+    let sql = `SELECT * FROM entidad WHERE cuit = '${cuit}' ;`;
     return sql;
   }
 

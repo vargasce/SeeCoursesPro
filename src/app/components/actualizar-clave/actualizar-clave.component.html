@@ -1,0 +1,21 @@
+<app-navbar-admin></app-navbar-admin>
+<div class="row mt-5">
+    <div class="col-lg-4 offset-lg-4">
+        <div class="card">
+            <div class="card-body">
+                <h1 style="line-height: 1.2; font-size: 1.75rem; font-weight: 500;" class="text-center">Actualizar Contraseña
+                    <div *ngIf ="loading"class="spinner-border float-right" role="status"></div>
+                </h1>
+                <h3 class="text-danger text-center mt-3" *ngIf="submitted && registrarUsuario.invalid">TODOS LOS CAMPOS SON OBLIGATORIOS</h3>
+                <form name ="registrarUsuarioDataForm"  #registrarUsuarioDataForm="ngForm"  class="mt-4" [formGroup]="registrarUsuario" (ngSubmit)="validarPassword()">                       
+                    <input id="contrasenia" #contraseniaForm name="contrasenia"  [(ngModel)]="usuarioModel.contrasenia" type="password" class="form-control mt-3" placeholder="Constraseña" formControlName="contrasenia">                
+                    <input id="confirm_pass" type="password" class="form-control mt-3" placeholder="Confirmar Constraseña" (keyup)="confirmarContrasena()">                              
+                    <h4 class="text-danger mt-3" *ngIf="!validarPass">Las contraseñas no son iguales</h4>  
+                    <div class="mt-3 text-center">
+                      <button type="submit" class="btn btn-dark"> Aceptar </button>
+                  </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

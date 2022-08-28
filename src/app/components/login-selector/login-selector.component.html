@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/home"><img src="assets/img/SeeCoursesIco.png" alt="" width="40"> 
+        <a class="navbar-brand" [routerLink]="['/home']" ><img src="assets/img/SeeCoursesIco.png" alt="" width="40"> 
             SeeCourses
         </a>
         <button class="navbar-toggler float-left" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -14,17 +14,17 @@
 
 <div class="container" *ngIf="!login">
     <div class="row"  style="display: flex; align-items: center;  justify-content: center; margin-top: 20%;">
-        <div class="col-sm-3">
-            <div class="card" style="width: 18rem;"(click)="admin()">
-                <img class="card-img-top" src="../../../assets/img/administrador.png" alt="Card image cap">
+        <div  class="col-sm-3">
+            <div  id="sombreadoAdmin" class="card" style="width: 18rem;"(click)="admin()">
+                <img class="card-img-top" src="assets/img/administrador.png" alt="Card image cap">
                 <div class="card-body">
                   <h2 class="text-center mt-4"> Iniciar como Administrador</h2>
                 </div>
               </div>
         </div>
-        <div class="col-sm-3">
-            <div class="card" style="width: 18rem;" (click)="usuario()">
-                <img class="card-img-top" src="../../../assets/img/Curso.png" alt="Card image cap">
+        <div  class="col-sm-3">
+            <div id="sombreadoEntidad" class="card" style="width: 18rem;" (click)="usuario()">
+                <img class="card-img-top" src="assets/img/Curso.png" alt="Card image cap">
                 <div class="card-body">
                   <h2 class="text-center mt-4"> Iniciar como Entidad</h2>
                 </div>
