@@ -27,5 +27,17 @@
                 </tbody>
             </table>
         </div>
+        <div class="container">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination" style="margin-left: 15px; ">
+                    <li class="page-item"><a class="page-link" (click)="previous()" >Previous</a></li>
+                    <li class="page-item" *ngFor="let item of array" (click)="indexPagina(item)" style="min-width: 65px;">
+                        <a class="page-link">{{item}}</a>
+                    </li>
+                    <li class="page-item"><a class="page-link" (click)="next()" style="float:right;">Next</a></li>
+                </ul>        
+        </nav>
+        </div>
+       
     </div>
 </div>

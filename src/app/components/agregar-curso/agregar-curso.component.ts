@@ -21,11 +21,9 @@ import { LocalidadesService } from 'src/app/core/service/localidades/localidades
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { pdfModel } from 'src/app/core/custom/pdfModel';
-import { map } from 'rxjs/operators';
 import { Files } from 'src/app/core/global/imagenes/files/files';
 import { FileService } from 'src/app/core/service/files/files.service';
 import { DeleteFile } from 'src/app/core/service/files/deleteFile';
-import { ThrowStmt } from '@angular/compiler';
 
 
 

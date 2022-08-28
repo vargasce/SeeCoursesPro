@@ -32,7 +32,7 @@ export class Localidades_procedenciasService {
     getLocalidadById(id: number) {
         let headers = { headers: environment.headers };
         let send = {
-            'action': "get-provinciaById",
+            'action': "get-localidad-id",
             'data': {
                 'id': id
             }
@@ -45,7 +45,7 @@ export class Localidades_procedenciasService {
         let send = {
             'action': "add-localidad",
             'data': {
-                'localidad': localidad.localidad,
+                'localidad': localidad.localidad_descripcion,
                 'cod_postal': localidad.cod_postal,
                 'id_provincia': localidad.id_provincia,
             }
@@ -56,9 +56,11 @@ export class Localidades_procedenciasService {
     editarLocalidad(localidad: Localidad_ProcedenciaModel) {
         let headers = { headers: environment.headers };
         let send = {
-            'action': "get-provinciaById",
+            'action': "update-localidad",
             'data': {
-                'localidad': localidad
+                'id': localidad.id,
+                'localidad': localidad.localidad_descripcion,
+                'cod_postal': localidad.cod_postal
             }
         }
         return this.http.post<any>(environment.apiURL + this.controller, send, headers);

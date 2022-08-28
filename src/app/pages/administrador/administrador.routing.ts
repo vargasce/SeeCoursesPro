@@ -5,12 +5,7 @@ import { InitComponent } from '../init/init.component';
 
 
 const routes: Routes = [
-  { path : '', component : AdministradorComponent, 
-    children : [
-      { path : '', component : InitComponent },
-     //{ path : 'Solicitudes', component : HomeComponent },
-      //{ path : 'Entidades', component : SearchComponent }
-    ]}
+  { path : '', component : AdministradorComponent }
 ];
  
 @NgModule({

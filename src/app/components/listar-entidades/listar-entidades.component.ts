@@ -35,6 +35,7 @@ paginas:number = 0;
           })
 
         });
+      console.log(Response.ResultSet)
        this.paginas= Number(Response.ResultSet.count)/this.take;
        this.paginas = Math.ceil(this.paginas);
        this.paginar();
@@ -48,7 +49,6 @@ paginas:number = 0;
   }
 
   indexPagina(indice:number){
-    console.log(indice);
     this.skip = this.take * indice -this.take;
     this.indice = indice;
     this.getEntidadesGenerico(this.skip,this.take);

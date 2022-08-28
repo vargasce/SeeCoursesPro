@@ -15,49 +15,50 @@ import { ProvinciasService } from 'src/app/core/service/provincias/provincias.se
 })
 export class AgregarLocalidadesComponent implements OnInit {
 
-  @ViewChild('id_paisForm') id_paisForm:ElementRef | undefined;
-  @ViewChild('id_provinciaForm') id_provinciasForm:ElementRef | undefined;
-  
-  agregarLocalidades : FormGroup;
-  submitted= false;
-  loading :boolean = false;
+  @ViewChild('id_paisForm') id_paisForm: ElementRef | undefined;
+  @ViewChild('id_provinciaForm') id_provinciasForm: ElementRef | undefined;
+
+  agregarLocalidades: FormGroup;
+  submitted = false;
+  loading: boolean = false;
   titulo = 'Agregar Localidad'
   id: number = -1;
   paises: any[] = [];
   provincias: any[] = [];
   localidadModel: Localidad_ProcedenciaModel;
-
+  esEdicion: boolean = false;
   constructor(
     private fb: FormBuilder,
     private _localidadService: Localidades_procedenciasService,
     private _paisService: PaisService,
     private _provinciasService: ProvinciasService,
-    private router:Router,
+    private router: Router,
     private toastr: ToastrService,
     private aRoute: ActivatedRoute,
-    public renderer:Renderer2,
-  ) { 
+    public renderer: Renderer2,
+  ) {
     this.agregarLocalidades = this.fb.group({
-      id_provincia:['',Validators.required],
-      localidad:['',Validators.required]
+      id_provincia: ['', Validators.required],
+      localidad_descripcion: ['', Validators.required],
+      pais_descripcion: [''],
+      provincia_descripcion: ['']
     })
-    this.localidadModel = new Localidad_ProcedenciaModel(0,0,"","");
+    this.localidadModel = new Localidad_ProcedenciaModel(0, 0, "", "", "", "");
     this.id = Number(this.aRoute.snapshot.paramMap.get('id')); //capturo el id del registro que quiero modificar
   }
 
   ngOnInit(): void {
-    (<HTMLInputElement>document.getElementById('id_provincia')).disabled=true;
     this.esEditar();
     this.obtenerPaises();
   }
-  ngAfterViewInit(): void{
+  ngAfterViewInit(): void {
     this.eventChange();
   }
 
-  addEditLocalidades(){
+  addEditLocalidades() {
     this.submitted = true;
-    
-    if(this.agregarLocalidades.invalid){
+    console.log(this.agregarLocalidades)
+    if (this.agregarLocalidades.invalid) {
       return;
     }
     if (this.id == 0) { // si el id es 0 agrego un nuevo laboratorio, sino lo edito
@@ -67,90 +68,108 @@ export class AgregarLocalidadesComponent implements OnInit {
     }
   }
 
-  esEditar(){ // si el usuario selecciona editar, traigo el laboratorio en cuestion y lo muestro por pantalla
-    if(this.id !== 0){
+  esEditar() { // si el usuario selecciona editar, traigo el laboratorio en cuestion y lo muestro por pantalla
+    if (this.id !== 0) {
+
       this.titulo = 'Editar/Ver Localidad';
-      this.loading=true
-      this._localidadService.getLocalidadById(this.id).subscribe(Response =>{
-        this.localidadModel = Response.ResultSet[0];
-        this.loading=false
+      this.esEdicion = true;
+      this.loading = true;
+
+      this._localidadService.getLocalidadById(this.id).subscribe(Response => {
+        console.log(Response.ResultSet.rows[0])
+
+        this.localidadModel.localidad_descripcion = Response.ResultSet.rows[0].localidad_descripcion;
+        this.localidadModel.id_provincia = Response.ResultSet.rows[0].id_provincia;
+        this.localidadModel.pais_descripcion = Response.ResultSet.rows[0].pais_descripcion;
+        this.localidadModel.provincia_descripcion = Response.ResultSet.rows[0].provincia_descripcion;
+        this.localidadModel.id = this.id;
+        (<HTMLInputElement>document.getElementById('provincia_descripcion')).disabled = true;
+        (<HTMLInputElement>document.getElementById('pais_descripcion')).disabled = true;
+        console.log(this.localidadModel)
+        this.loading = false
       })
     }
   }
 
-  addLocalidad(){
-    this.loading=true;
-    this._localidadService.guardarLocalidad(this.localidadModel).subscribe(Response =>{
-      this.loading=false
-      if(Response.error == ""){
-        this.toastr.success("La Localidad fue agregada con exito!","Localidad Agregada",{
-          positionClass:'toast-bottom-right'
+  addLocalidad() {
+
+    this.loading = true;
+    (<HTMLInputElement>document.getElementById('id_provincia')).disabled = false;
+
+    this._localidadService.guardarLocalidad(this.localidadModel).subscribe(Response => {
+      this.loading = false
+      if (Response.error == "") {
+        this.toastr.success("La Localidad fue agregada con exito!", "Localidad Agregada", {
+          positionClass: 'toast-bottom-right'
         });
-      }else{
-        this.toastr.error("Ocurrio un error al agregar la Localidad","Ocurrio un error",{
-          positionClass:'toast-bottom-right'
+      } else {
+        this.toastr.error("Ocurrio un error al agregar la Localidad", "Ocurrio un error", {
+          positionClass: 'toast-bottom-right'
         });
       }
     })
     this.router.navigate(['/adminGeneral/localidades']);
-    
+
   }
 
-  editLocalidades(){
-    this.loading=true
-    this._localidadService.editarLocalidad(this.localidadModel).subscribe(Response =>{
-      this.loading=false
-      if(Response.error == ""){
-        this.toastr.success("La Localidad fue editada con exito!","Localidad Editada",{
-          positionClass:'toast-bottom-right'
+  editLocalidades() {
+    this.loading = true
+    this._localidadService.editarLocalidad(this.localidadModel).subscribe(Response => {
+      this.loading = false
+      if (Response.error == "") {
+        this.toastr.success("La Localidad fue editada con exito!", "Localidad Editada", {
+          positionClass: 'toast-bottom-right'
         });
-      }else{
-        this.toastr.error("Ocurrio un error al editar la Localidad","Ocurrio un error",{
-          positionClass:'toast-bottom-right'
+      } else {
+        this.toastr.error("Ocurrio un error al editar la Localidad", "Ocurrio un error", {
+          positionClass: 'toast-bottom-right'
         });
       }
     })
     this.router.navigate(['/adminGeneral/localidades']);
   }
 
-//Parametrizacion
-  obtenerPaises(){
-    this._paisService.getPaises().subscribe(Response =>{
+  //Parametrizacion
+  obtenerPaises() {
+    this._paisService.getPaises().subscribe(Response => {
       this.paises = []
-      Response.Resultset.forEach((element:any) => {
-        this.paises.push({ 
-          ...element 
-        })       
+      Response.Resultset.forEach((element: any) => {
+        this.paises.push({
+          ...element
+        })
       })
     });
   }
 
-  obtenerProvincias(id:number){
-    this._provinciasService.getProvinciasByIdPais(id).subscribe(Response =>{
+  obtenerProvincias(id: number) {
+    this._provinciasService.getProvinciasByIdPais(id).subscribe(Response => {
       this.provincias = []
-      Response.Resultset.forEach((element:any) => {
-        this.provincias.push({ 
-          ...element 
-        })       
+      Response.Resultset.forEach((element: any) => {
+        this.provincias.push({
+          ...element
+        })
       })
     });
   }
 
-  eventChange(){
+  eventChange() {
 
+    if (!this.esEdicion) {
 
-    this.renderer.listen(this.id_paisForm?.nativeElement,'change',event =>{
-      this.obtenerProvincias(Number((<HTMLInputElement>document.getElementById('id_pais')).value));
-      this.localidadModel.id_provincia = 0;
+      this.renderer.listen(this.id_paisForm?.nativeElement, 'change', event => {
+        this.obtenerProvincias(Number((<HTMLInputElement>document.getElementById('id_pais')).value));
+        this.localidadModel.id_provincia = 0;
 
-    });
+      });
 
-    this.renderer.listen(this.id_paisForm?.nativeElement,'change',event =>{
+      this.renderer.listen(this.id_paisForm?.nativeElement, 'change', event => {
 
-      (<HTMLInputElement>document.getElementById('id_provincia')).disabled=false;
+        (<HTMLInputElement>document.getElementById('id_provincia')).disabled = false;
 
-    });
+      });
 
+    }
   }
+
 
 }

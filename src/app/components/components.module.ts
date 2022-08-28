@@ -1,6 +1,6 @@
 import { NgModule, ModuleWithProviders, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TarjetasComponent } from './tarjetas/tarjetas.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -86,6 +86,7 @@ import { AgregarLocalidadesComponent } from './agregar-localidades/agregar-local
         MatBadgeModule,
         MatDialogModule,
         MatButtonModule,
+        FormsModule
     ],
     exports : [
         NavbarComponent,
